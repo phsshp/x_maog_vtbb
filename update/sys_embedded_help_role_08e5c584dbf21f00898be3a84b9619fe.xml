@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_embedded_help_role">
+    <sys_embedded_help_role action="INSERT_OR_UPDATE">
+        <order>1000</order>
+        <role display_value="x_maog_vtbb.board_groups_user" name="x_maog_vtbb.board_groups_user">4ce5c584dbf21f00898be3a84b9619fc</role>
+        <sys_class_name>sys_embedded_help_role</sys_class_name>
+        <sys_created_by>peter.smith</sys_created_by>
+        <sys_created_on>2018-06-14 20:22:57</sys_created_on>
+        <sys_id>08e5c584dbf21f00898be3a84b9619fe</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>4ce5c584dbf21f00898be3a84b9619fc</sys_name>
+        <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
+        <sys_update_name>sys_embedded_help_role_08e5c584dbf21f00898be3a84b9619fe</sys_update_name>
+        <sys_updated_by>peter.smith</sys_updated_by>
+        <sys_updated_on>2018-06-14 20:22:57</sys_updated_on>
+    </sys_embedded_help_role>
+</record_update>

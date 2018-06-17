@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Board Builder Group" max_length="40" name="x_maog_vtbb_board_builder_group" type="collection">
+        <element label="Board Builder" max_length="32" name="board_builder" reference="x_maog_vtbb_board_builder" reference_floats="true" reference_qual="active=true^EQ" reference_qual_condition="active=true^EQ" type="reference"/>
+        <element label="Group" max_length="32" name="group" reference="sys_user_group" reference_floats="true" type="reference"/>
+        <index name="index">
+            <element name="board_builder"/>
+        </index>
+        <index name="index2">
+            <element name="group"/>
+        </index>
+    </element>
+</database>

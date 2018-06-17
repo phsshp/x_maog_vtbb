@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_user_role">
+    <sys_user_role action="INSERT_OR_UPDATE">
+        <assignable_by/>
+        <can_delegate>true</can_delegate>
+        <description/>
+        <elevated_privilege>false</elevated_privilege>
+        <grantable>true</grantable>
+        <includes_roles/>
+        <name>x_maog_vtbb.manager</name>
+        <suffix>manager</suffix>
+        <sys_class_name>sys_user_role</sys_class_name>
+        <sys_created_by>peter.smith</sys_created_by>
+        <sys_created_on>2018-06-12 14:59:55</sys_created_on>
+        <sys_id>f398ad9bdbee9b00898be3a84b961961</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_maog_vtbb.manager</sys_name>
+        <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
+        <sys_update_name>sys_user_role_f398ad9bdbee9b00898be3a84b961961</sys_update_name>
+        <sys_updated_by>peter.smith</sys_updated_by>
+        <sys_updated_on>2018-06-12 14:59:55</sys_updated_on>
+    </sys_user_role>
+</record_update>

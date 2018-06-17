@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element attributes="update_synch=true" extends="sys_metadata" label="Board Builder" max_length="40" name="x_maog_vtbb_board_builder" type="collection">
+        <element label="Active" max_length="40" name="active" type="boolean"/>
+        <element attributes="staticDependent=sys_user_group" label="Group Filter" max_length="4000" name="group_filter" type="conditions"/>
+        <element default="fast" label="Group Types" max_length="4000" name="group_types" reference="sys_user_group_type" type="glide_list"/>
+        <element choice="1" label="Manager" max_length="40" name="manager" type="choice">
+            <choice>
+                <element hint="Members and Manager" label="Included" sequence="10" value="Included"/>
+                <element hint="Do not build this for the manager" label="Excluded" sequence="20" value="Excluded"/>
+                <element hint="Only build for the manager" label="Only" sequence="30" value="Only"/>
+            </choice>
+        </element>
+        <element display="true" label="Name" max_length="100" name="name" type="string"/>
+        <element label="Task Table" max_length="80" name="table" type="table_name"/>
+        <element label="Template" max_length="32" name="template" reference="sys_template" reference_qual="table=vtb_board^EQ" reference_qual_condition="table=vtb_board^EQ" type="reference"/>
+        <element label="User Filter" max_length="4000" name="user_filter" type="conditions"/>
+        <element label="User Roles" max_length="4000" name="user_roles" reference="sys_user_role" type="glide_list"/>
+        <index name="index">
+            <element name="template"/>
+        </index>
+    </element>
+</database>

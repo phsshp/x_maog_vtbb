@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_documentation element="x_maog_vtbb_builder" label="Builder" language="en" table="vtb_board">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>x_maog_vtbb_builder</element>
+            <help/>
+            <hint/>
+            <label>Builder</label>
+            <language>en</language>
+            <name>vtb_board</name>
+            <plural>Builders</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-06-12 16:44:58</sys_created_on>
+            <sys_id>63c08e1bdb22db00898be3a84b961937</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Builder</sys_name>
+            <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
+            <sys_update_name>sys_documentation_vtb_board_x_maog_vtbb_builder_en</sys_update_name>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-06-12 16:44:58</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

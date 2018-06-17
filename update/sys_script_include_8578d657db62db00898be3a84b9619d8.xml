@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_maog_vtbb.UserBoardBuilder</api_name>
+        <client_callable>false</client_callable>
+        <description>Makes sure any boards that apply to the user have been built.</description>
+        <name>UserBoardBuilder</name>
+        <script><![CDATA[var UserBoardBuilder = Class.create();
+UserBoardBuilder.prototype = (function UserBoardBuilder_proto() {
+	var p = {};
+	var TYPE = p.type = 'UserBoardBuilder';
+	
+	var log = new x_spar2_log.Logger.getLogger(TYPE, gs.getCurrentScopeName());
+
+	p.initialize = function initialize(tableName, userSysId) {
+		var userGr;
+		var applicableBuilders = {};
+		var applicableBuilderSysIds = [];
+		var userGroupSysIds = [];
+		
+		(function getUserGr() {
+			userGr = new GlideRecord('sys_user');
+			userGr.get('sys_id', userSysId);
+		})();
+		
+		(function getGroupSysIds() {
+			var gr = new GlideRecord('sys_user_grmember');
+			gr.addQuery('user', userGr.getUniqueValue());
+			gr.query();
+			while (gr.next()) {
+				userGroupSysIds.push(gr.group.sys_id + '');
+			}
+		})();
+
+		(function filterByTable() {
+			var gr, bb;
+			
+			gr = new GlideRecord('x_maog_vtbb_board_builder');
+			gr.addQuery('table.name', tableName);
+			while (gr.next()) {
+				bb = new BoardBuilder(gr);
+				applicableBuilderSysIds.push(bb.sys_id);
+				applicableBuilders[bb.sys_id] = bb;
+			}
+		})();
+		
+		this.buildBoards = function buildBoards() {
+			
+		};
+
+
+	};  // End initialize
+
+	return p;
+})();  // End UserBoardBuilder_proto]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>peter.smith</sys_created_by>
+        <sys_created_on>2018-06-12 18:30:38</sys_created_on>
+        <sys_id>8578d657db62db00898be3a84b9619d8</sys_id>
+        <sys_mod_count>10</sys_mod_count>
+        <sys_name>UserBoardBuilder</sys_name>
+        <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
+        <sys_update_name>sys_script_include_8578d657db62db00898be3a84b9619d8</sys_update_name>
+        <sys_updated_by>peter.smith</sys_updated_by>
+        <sys_updated_on>2018-06-15 15:38:18</sys_updated_on>
+    </sys_script_include>
+</record_update>

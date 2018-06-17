@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_maog_vtbb.BoardBuilder</api_name>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>BoardBuilder</name>
+        <script><![CDATA[var BoardBuilder = Class.create();
+BoardBuilder.prototype = (function BoardBuilder_proto(s) {
+	var p = {};
+	var TYPE = p.type = 'BoardBuilder';
+	var TABLE_NAME = s.TABLE_NAME = 'x_maog_vtbb_board_builder';
+
+	var log = x_spar2_log.Logger.getLogger(TYPE);
+
+	var a_forEach = Utils.a_forEach;
+	var o_forOwnProperties = Utils.o_forOwnProperties;
+
+	p.initialize = function initialize(grOrSysId) {
+		var myGr, mySysId;
+		var that = this;
+
+		if (typeof grOrSysId === 'string') {
+			mySysId = grOrSysId;
+		} else {
+			myGr = grOrSysId;
+			mySysId = myGr.getUniqueValue();
+			that.gr = myGr;
+		}
+
+		that.sysId = mySysId;
+		that.tableName = TABLE_NAME;
+
+		that.useGr = function useGr(gr) { myGr = gr; };
+
+		function getGr() {
+			if (!myGr) {
+				myGr = new GlideRecord(TABLE_NAME);
+				myGr.get(mySysId);
+				that.gr = myGr;
+			}
+			return myGr;
+		}
+		that.getGr = getGr;
+
+		that.getSysId = function() { return mySysId; };
+		that.toString = function() { return '[BB ' + getGr().getDisplayValue() + ']'; };
+
+		function getGroupTypes() {
+			return getGr().getValue('group_types').split(',').sort();
+		}
+		that.getGroupTypes = getGroupTypes;
+
+		function getGroupQueryString() {
+			var bbGroupTypes = getGroupTypes(); 
+			var query = [];
+			for (var bbti = 0; bbti < bbGroupTypes.length; bbti++) {
+				query.push('typeLIKE');
+				query.push(bbGroupTypes[bbti]);
+				query.push('^');
+			}
+			query.push(getGr().getValue('group_filter'));
+
+			return query.join('');
+		}
+
+		// Associate groups with this board builder based on its conditions.
+		that.updateGroups = function updateGroups() {
+			var bbgs, groups;
+			var bbgGroupMap = {};
+
+			// Get groups currently related to this board builder.
+			bbgs = BoardBuilderGroup.findGroupsForBoards(mySysId);
+
+			// Create a map with group SysId as key.
+			a_forEach(bbgs, function(bbg) {
+				bbgGroupMap[bbg.getGroupSysId()] = bbg;
+			});
+
+			// Add groups that aren't already linked.  Remove every
+			// group encountered from the group map.  That leaves
+			// the ones that shouldn't exist in the map.
+			groups = Group.queryGroups(getGroupQueryString());
+			a_forEach(groups, function(group) {
+				var groupSysId = group.getSysId();
+				if (!bbgGroupMap[groupSysId]) {
+					BoardBuilderGroup.add(mySysId, groupSysId);
+				}
+				delete bbgGroupMap[groupSysId];
+			});
+
+			// Delete the entries that should no longer be there.
+			o_forOwnProperties(bbgGroupMap, function(v) {
+				v.deleteRecord();
+			});
+
+		}; // End updateGroups
+	};  // End initialize
+
+	return p;
+})(BoardBuilder);  // End BoardBuilder_proto]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>peter.smith</sys_created_by>
+        <sys_created_on>2018-06-12 18:31:44</sys_created_on>
+        <sys_id>f6195ad3db62db00898be3a84b961938</sys_id>
+        <sys_mod_count>52</sys_mod_count>
+        <sys_name>BoardBuilder</sys_name>
+        <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
+        <sys_update_name>sys_script_include_f6195ad3db62db00898be3a84b961938</sys_update_name>
+        <sys_updated_by>peter.smith</sys_updated_by>
+        <sys_updated_on>2018-06-17 00:27:59</sys_updated_on>
+    </sys_script_include>
+</record_update>

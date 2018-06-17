@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_maog_vtbb.BoardBuilderGroup</api_name>
+        <client_callable>false</client_callable>
+        <description>Optimizes queries to manage groups of boards</description>
+        <name>BoardBuilderGroup</name>
+        <script><![CDATA[var BoardBuilderGroup = Class.create();
+BoardBuilderGroup.prototype = (function BoardBuilderGroup_proto(s) {
+	var p = {};
+	var TYPE = p.type = 'BoardBuilderGroup';
+
+	var TABLE_NAME = 'x_maog_vtbb_board_builder_group';
+
+	var log = x_spar2_log.Logger.getLogger(TYPE, gs.getCurrentScopeName());
+
+	// Return array of Groups matching a list of Board Builders,
+	// based on the current Board Builder Groups related list.
+	s.findGroupsForBoards = function findGroupsForBoards(bbSysIds) {
+		var gr, groups = [];
+
+		gr = new GlideRecord(TABLE_NAME);
+		gr.addQuery('board_builder', 'IN', bbSysIds);
+		gr.query();
+		while (gr.next()) {
+			groups.push(new BoardBuilderGroup(gr.getUniqueValue()));
+		}
+		return groups;
+	};
+
+	// Add a new link between a board bilder and a group.
+	s.add = function add(bbSysId, groupSysId) {
+		var gr = new GlideRecord(TABLE_NAME);
+		gr.initialize();
+		gr.setValue('board_builder', bbSysId);
+		gr.setValue('group', groupSysId);
+		gr.insert();
+		return new BoardBuilderGroup(gr);
+	};
+
+	function findGroupsForBbs(bbs, groupSysIds) {
+		var bbsByTypes;
+
+		// Group board builders by canonical group type clause.
+		bbsByTypes = bbs.reduce(function(bbt, bb) {
+			var bbtc = bb.getTypes().join();  // BB Type Clause
+			if (!bbt[bbtc]) bbt[bbtc] = { bbs: [], groups: []};
+			bbt[bbtc].bbs.push(bb);
+		}, {});
+
+		// Find groups that match each unique type clause
+		(function() {
+			var bbTypes, groupGr, cnd;
+			var groupSysIdClause = groupSysIds.join();
+
+			for (var bbtc in bbsByTypes) {
+				bbTypes = bbtc.split();
+				groupGr = new GlideRecord('sys_user_group');
+				groupGr.addQuery('sys_id', 'IN', groupSysIdClause);
+
+				for (var i = 0; i < bbTypes.length; i++) {
+					groupGr.addQuery('type.sys_id', bbTypes[i]);
+				}
+				gs.log('findBbsForGroups: {0}', groupGr.getEncodedQuery());
+
+				gr.query();
+				while (gr.next()) {
+					bbsByTypes[bbtc].groups.push(groupGr.getValue('sys_id'));
+				}
+			}
+		})();
+	}
+
+
+	// Don't save the GlideRecord parameter because it is a cursor.
+	p.initialize = function initialize(grOrSysId) {
+		var myGr, mySysId;
+		var that = this;
+
+		if (typeof grOrSysId === 'string') {
+			mySysId = grOrSysId;
+		} else {
+			myGr = grOrSysId;
+			mySysId = myGr.getUniqueValue();
+			that.gr = myGr;
+		}
+
+		that.sysId = mySysId;
+		that.tableName = TABLE_NAME;
+
+		that.useGr = function useGr(gr) { myGr = gr; };
+
+		function getGr() {
+			if (!myGr) {
+				myGr = new GlideRecord(TABLE_NAME);
+				myGr.get(mySysId);
+				that.gr = myGr;
+			}
+			return myGr;
+		}
+		that.getGr = getGr;
+
+		that.getSysId = function() { return mySysId; };
+		that.toString = function() { return '[BBG ' + getGr().getDisplayValue() + ']'; };
+
+		that.getBoardBuilderSysId = function getBoardBuilderSysId() {
+			return getGr().getValue('board_builder');
+		};
+
+		that.getGroupSysId = function getGroupSysId() {
+			return getGr().getValue('group');
+		};
+
+		that.getBoardBuilder = function getBoardBuilder() {
+			return new BoardBuilder(getGr().getValue('board_builder'));
+		};
+
+		that.getGroup = function getGroup() {
+			return new Group(getGr().getValue('group'));
+		};
+
+		that.added = function added() {
+			log.debug('added');
+		};
+
+		that.removed = function removed() {
+			log.debug('removed');
+		};
+
+		that.deleteRecord = function deleteRecord() {
+			getGr().deleteRecord();
+		};
+
+	};  // End initialize
+
+	return p;
+})(BoardBuilderGroup);  // End BoardBuilderGroup_proto]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>peter.smith</sys_created_by>
+        <sys_created_on>2018-06-14 15:39:17</sys_created_on>
+        <sys_id>f8f40488db721f00898be3a84b961950</sys_id>
+        <sys_mod_count>32</sys_mod_count>
+        <sys_name>BoardBuilderGroup</sys_name>
+        <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
+        <sys_update_name>sys_script_include_f8f40488db721f00898be3a84b961950</sys_update_name>
+        <sys_updated_by>peter.smith</sys_updated_by>
+        <sys_updated_on>2018-06-17 00:28:58</sys_updated_on>
+    </sys_script_include>
+</record_update>

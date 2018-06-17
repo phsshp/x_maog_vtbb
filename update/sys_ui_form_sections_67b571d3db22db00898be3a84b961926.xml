@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_ui_form_sections form_id="67b571d3db22db00898be3a84b961926" sys_domain="global" table="x_maog_vtbb_board_builder" version="3">
+        <sys_ui_form_section action="INSERT_OR_UPDATE">
+            <position>0</position>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-06-12 15:56:38</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>2fb571d3db22db00898be3a84b961928</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_overrides/>
+            <sys_ui_form display_value="x_maog_vtbb_board_builder" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">67b571d3db22db00898be3a84b961926</sys_ui_form>
+            <sys_ui_section caption="NULL" display_value="" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">60f23113db22db00898be3a84b961930</sys_ui_section>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-06-12 15:56:38</sys_updated_on>
+        </sys_ui_form_section>
+        <sys_ui_form_section action="INSERT_OR_UPDATE">
+            <position>1</position>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-06-12 16:43:43</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>8980ca1bdb22db00898be3a84b9619a4</sys_id>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_overrides/>
+            <sys_ui_form display_value="x_maog_vtbb_board_builder" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">67b571d3db22db00898be3a84b961926</sys_ui_form>
+            <sys_ui_section caption="Group Conditions" display_value="Group Conditions" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">c1804a1bdb22db00898be3a84b9619c9</sys_ui_section>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-06-12 16:43:43</sys_updated_on>
+        </sys_ui_form_section>
+        <sys_ui_form_section action="INSERT_OR_UPDATE">
+            <position>2</position>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-06-12 17:51:08</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>f8ff4e13db62db00898be3a84b9619ae</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_overrides/>
+            <sys_ui_form display_value="x_maog_vtbb_board_builder" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">67b571d3db22db00898be3a84b961926</sys_ui_form>
+            <sys_ui_section caption="User Conditions" display_value="User Conditions" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">30ff4e13db62db00898be3a84b9619ac</sys_ui_section>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-06-12 17:51:08</sys_updated_on>
+        </sys_ui_form_section>
+        <sys_ui_form action="INSERT_OR_UPDATE">
+            <name>x_maog_vtbb_board_builder</name>
+            <roles/>
+            <sys_class_name>sys_ui_form</sys_class_name>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-06-12 15:56:38</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>67b571d3db22db00898be3a84b961926</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>x_maog_vtbb_board_builder</sys_name>
+            <sys_overrides/>
+            <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
+            <sys_update_name>sys_ui_form_sections_67b571d3db22db00898be3a84b961926</sys_update_name>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-06-12 15:56:38</sys_updated_on>
+            <sys_user/>
+            <view display_value="Default view" name="NULL">Default view</view>
+            <view_name/>
+        </sys_ui_form>
+    </sys_ui_form_sections>
+</record_update>

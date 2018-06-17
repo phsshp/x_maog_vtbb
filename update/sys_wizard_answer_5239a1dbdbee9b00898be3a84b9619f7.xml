@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_wizard_answer">
+    <sys_wizard_answer action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <answer>Board Builder</answer>
+        <button_label/>
+        <dependent_value/>
+        <element/>
+        <name>Board Builder</name>
+        <next_question/>
+        <order>100</order>
+        <payload_name/>
+        <question display_value="Application File" name="Application File">55ef2662dbf2030005dce3a84b9619bc</question>
+        <roles/>
+        <script/>
+        <sys_class_name>sys_wizard_answer</sys_class_name>
+        <sys_created_by>peter.smith</sys_created_by>
+        <sys_created_on>2018-06-12 15:01:57</sys_created_on>
+        <sys_id>5239a1dbdbee9b00898be3a84b9619f7</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Board Builder</sys_name>
+        <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
+        <sys_update_name>sys_wizard_answer_5239a1dbdbee9b00898be3a84b9619f7</sys_update_name>
+        <sys_updated_by>peter.smith</sys_updated_by>
+        <sys_updated_on>2018-06-12 15:01:57</sys_updated_on>
+        <table/>
+        <target_url>x_maog_vtbb_board_builder.do</target_url>
+        <type>1</type>
+    </sys_wizard_answer>
+</record_update>
