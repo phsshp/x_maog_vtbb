@@ -18,30 +18,44 @@
         <sys_ui_form_section action="INSERT_OR_UPDATE">
             <position>1</position>
             <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-06-17 00:48:14</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>9dc51c78db3e9740d4b15eea4b961991</sys_id>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_overrides/>
+            <sys_ui_form display_value="x_maog_vtbb_board_builder" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">67b571d3db22db00898be3a84b961926</sys_ui_form>
+            <sys_ui_section caption="Board Definition" display_value="Board Definition" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">5dc51c78db3e9740d4b15eea4b96198d</sys_ui_section>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-06-17 00:48:14</sys_updated_on>
+        </sys_ui_form_section>
+        <sys_ui_form_section action="INSERT_OR_UPDATE">
+            <position>2</position>
+            <sys_created_by>peter.smith</sys_created_by>
             <sys_created_on>2018-06-12 16:43:43</sys_created_on>
             <sys_domain>global</sys_domain>
             <sys_domain_path>/</sys_domain_path>
             <sys_id>8980ca1bdb22db00898be3a84b9619a4</sys_id>
-            <sys_mod_count>1</sys_mod_count>
+            <sys_mod_count>3</sys_mod_count>
             <sys_overrides/>
             <sys_ui_form display_value="x_maog_vtbb_board_builder" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">67b571d3db22db00898be3a84b961926</sys_ui_form>
             <sys_ui_section caption="Group Conditions" display_value="Group Conditions" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">c1804a1bdb22db00898be3a84b9619c9</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-06-12 16:43:43</sys_updated_on>
+            <sys_updated_on>2018-06-17 00:49:06</sys_updated_on>
         </sys_ui_form_section>
         <sys_ui_form_section action="INSERT_OR_UPDATE">
-            <position>2</position>
+            <position>3</position>
             <sys_created_by>peter.smith</sys_created_by>
             <sys_created_on>2018-06-12 17:51:08</sys_created_on>
             <sys_domain>global</sys_domain>
             <sys_domain_path>/</sys_domain_path>
             <sys_id>f8ff4e13db62db00898be3a84b9619ae</sys_id>
-            <sys_mod_count>0</sys_mod_count>
+            <sys_mod_count>2</sys_mod_count>
             <sys_overrides/>
             <sys_ui_form display_value="x_maog_vtbb_board_builder" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">67b571d3db22db00898be3a84b961926</sys_ui_form>
             <sys_ui_section caption="User Conditions" display_value="User Conditions" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">30ff4e13db62db00898be3a84b9619ac</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-06-12 17:51:08</sys_updated_on>
+            <sys_updated_on>2018-06-17 00:49:06</sys_updated_on>
         </sys_ui_form_section>
         <sys_ui_form action="INSERT_OR_UPDATE">
             <name>x_maog_vtbb_board_builder</name>

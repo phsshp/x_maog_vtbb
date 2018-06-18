@@ -5,13 +5,13 @@
             <element>group_types</element>
             <position>0</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-06-14 23:33:17</sys_created_on>
-            <sys_id>8471390cdb361f00898be3a84b961984</sys_id>
+            <sys_created_on>2018-06-17 18:45:23</sys_created_on>
+            <sys_id>cc5cc08ddbb2d740d4b15eea4b9619ea</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Group Conditions" display_value="Group Conditions" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">c1804a1bdb22db00898be3a84b9619c9</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-06-14 23:33:17</sys_updated_on>
+            <sys_updated_on>2018-06-17 18:45:23</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -19,55 +19,41 @@
             <element>.split</element>
             <position>1</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-06-14 23:33:17</sys_created_on>
-            <sys_id>0871390cdb361f00898be3a84b961984</sys_id>
+            <sys_created_on>2018-06-17 18:45:23</sys_created_on>
+            <sys_id>405cc08ddbb2d740d4b15eea4b9619eb</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Group Conditions" display_value="Group Conditions" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">c1804a1bdb22db00898be3a84b9619c9</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-06-14 23:33:17</sys_updated_on>
+            <sys_updated_on>2018-06-17 18:45:23</sys_updated_on>
             <sys_user/>
             <type>.split</type>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>manager</element>
+            <element>.end_split</element>
             <position>2</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-06-14 23:33:17</sys_created_on>
-            <sys_id>8871390cdb361f00898be3a84b961984</sys_id>
+            <sys_created_on>2018-06-17 18:45:23</sys_created_on>
+            <sys_id>c05cc08ddbb2d740d4b15eea4b9619eb</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Group Conditions" display_value="Group Conditions" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">c1804a1bdb22db00898be3a84b9619c9</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-06-14 23:33:17</sys_updated_on>
-            <sys_user/>
-            <type/>
-        </sys_ui_element>
-        <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>.end_split</element>
-            <position>3</position>
-            <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-06-14 23:33:17</sys_created_on>
-            <sys_id>0c71390cdb361f00898be3a84b961984</sys_id>
-            <sys_mod_count>0</sys_mod_count>
-            <sys_ui_formatter/>
-            <sys_ui_section caption="Group Conditions" display_value="Group Conditions" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">c1804a1bdb22db00898be3a84b9619c9</sys_ui_section>
-            <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-06-14 23:33:17</sys_updated_on>
+            <sys_updated_on>2018-06-17 18:45:23</sys_updated_on>
             <sys_user/>
             <type>.end_split</type>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>group_filter</element>
-            <position>4</position>
+            <position>3</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-06-14 23:33:17</sys_created_on>
-            <sys_id>8c71390cdb361f00898be3a84b961984</sys_id>
+            <sys_created_on>2018-06-17 18:45:23</sys_created_on>
+            <sys_id>445cc08ddbb2d740d4b15eea4b9619eb</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Group Conditions" display_value="Group Conditions" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">c1804a1bdb22db00898be3a84b9619c9</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-06-14 23:33:17</sys_updated_on>
+            <sys_updated_on>2018-06-17 18:45:23</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>

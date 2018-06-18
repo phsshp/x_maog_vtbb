@@ -30,14 +30,17 @@ BoardBuilderGroup.prototype = (function BoardBuilderGroup_proto(s) {
 		return groups;
 	};
 
-	// Add a new link between a board bilder and a group.
+	// Add a new link between a board builder and a group.
 	s.add = function add(bbSysId, groupSysId) {
+		var bbg;
 		var gr = new GlideRecord(TABLE_NAME);
 		gr.initialize();
 		gr.setValue('board_builder', bbSysId);
 		gr.setValue('group', groupSysId);
 		gr.insert();
-		return new BoardBuilderGroup(gr);
+		bbg = new BoardBuilderGroup(gr);
+		if (log.isDebugging()) log.debug('Added {0}', bbg.toString());
+		return bbg;
 	};
 
 	function findGroupsForBbs(bbs, groupSysIds) {
@@ -76,7 +79,7 @@ BoardBuilderGroup.prototype = (function BoardBuilderGroup_proto(s) {
 
 	// Don't save the GlideRecord parameter because it is a cursor.
 	p.initialize = function initialize(grOrSysId) {
-		var myGr, mySysId;
+		var myGr, mySysId, myBoardBuilder, myGroup;
 		var that = this;
 
 		if (typeof grOrSysId === 'string') {
@@ -103,34 +106,80 @@ BoardBuilderGroup.prototype = (function BoardBuilderGroup_proto(s) {
 		that.getGr = getGr;
 
 		that.getSysId = function() { return mySysId; };
-		that.toString = function() { return '[BBG ' + getGr().getDisplayValue() + ']'; };
+		
+		// Don't instantiate referenced objects just to create the string.
+		function toString() {
+			var parts = [];
+			parts.push('[BBG ');
+			parts.push(mySysId);
+			parts.push(' ');
+			if (myGr) {
+				parts.push(myGr.getDisplayValue());
+				if (myBoardBuilder) {
+					parts.push(myBoardBuilder.toString());
+				} else {
+					parts.push(BoardBuilder.stringForSysId(myGr.getValue('board_builder')));
+				}
+				parts.push(' ');
+				if (myGroup) {
+					parts.push(myGroup.toString());
+				} else {
+					parts.push(Group.stringForSysId(myGr.getValue('group')));
+				}
+			}
+			parts.push(']');
 
-		that.getBoardBuilderSysId = function getBoardBuilderSysId() {
+			return parts.join('');
+		} that.toString = toString;
+
+		function getBoardBuilderSysId() {
 			return getGr().getValue('board_builder');
-		};
+		} that.getBoardBuilderSysId = getBoardBuilderSysId;
 
-		that.getGroupSysId = function getGroupSysId() {
+		function getGroupSysId() {
 			return getGr().getValue('group');
-		};
+		} that.getGroupSysId = getGroupSysId;
 
-		that.getBoardBuilder = function getBoardBuilder() {
+		function getBoardBuilder() {
 			return new BoardBuilder(getGr().getValue('board_builder'));
-		};
+		} that.getBoardBuilder = getBoardBuilder;
 
-		that.getGroup = function getGroup() {
+		function getGroup() {
 			return new Group(getGr().getValue('group'));
-		};
-
-		that.added = function added() {
-			log.debug('added');
-		};
-
-		that.removed = function removed() {
-			log.debug('removed');
-		};
+		} that.getGroup = getGroup;
 
 		that.deleteRecord = function deleteRecord() {
 			getGr().deleteRecord();
+		};
+
+		// When a record is added, run the board builder
+		// for the group's applicable users.
+		that.added = function added() {
+			var bb, group, userSysIds, filter;
+
+			if (log.isDebugging()) log.debug('{0} added()', toString());
+
+			bb = getBoardBuilder();
+			group = getGroup();
+
+			// Find the group's users the builder applies to
+			filter = 'userIN' + group.getUserSysIds() + '^' +
+				bb.getUserFilter();
+			users = Users.queryUsers(filter);
+			users = users.filter(function(u) {
+				var applies =  u.hasRoleSysIds(bb.getUserRoleSysIds());
+				return applies;
+			});
+
+			// Find the users with boards
+
+			// Add boards for the remaining users.
+
+			// TODO: Delete boards for users who left the group.
+		};
+
+		that.removed = function removed() {
+			if (log.isDebugging()) log.debug('{0} removed()', toString());
 		};
 
 	};  // End initialize
@@ -141,13 +190,13 @@ BoardBuilderGroup.prototype = (function BoardBuilderGroup_proto(s) {
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-14 15:39:17</sys_created_on>
         <sys_id>f8f40488db721f00898be3a84b961950</sys_id>
-        <sys_mod_count>32</sys_mod_count>
+        <sys_mod_count>44</sys_mod_count>
         <sys_name>BoardBuilderGroup</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_f8f40488db721f00898be3a84b961950</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-06-17 00:28:58</sys_updated_on>
+        <sys_updated_on>2018-06-18 15:58:30</sys_updated_on>
     </sys_script_include>
 </record_update>

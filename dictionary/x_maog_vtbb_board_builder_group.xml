@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <database>
     <element label="Board Builder Group" max_length="40" name="x_maog_vtbb_board_builder_group" type="collection">
-        <element label="Board Builder" max_length="32" name="board_builder" reference="x_maog_vtbb_board_builder" reference_floats="true" reference_qual="active=true^EQ" reference_qual_condition="active=true^EQ" type="reference"/>
-        <element label="Group" max_length="32" name="group" reference="sys_user_group" reference_floats="true" type="reference"/>
+        <element label="Board Builder" max_length="32" name="board_builder" reference="x_maog_vtbb_board_builder" reference_cascade_rule="delete" reference_floats="true" reference_qual="state=Operational^EQ" reference_qual_condition="state=Operational^EQ" type="reference"/>
+        <element label="Group" max_length="32" name="group" reference="sys_user_group" reference_cascade_rule="delete" reference_floats="true" reference_qual="active=true^EQ" reference_qual_condition="active=true^EQ" type="reference"/>
         <index name="index">
             <element name="board_builder"/>
         </index>

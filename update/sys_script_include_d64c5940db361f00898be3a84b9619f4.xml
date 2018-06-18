@@ -11,7 +11,8 @@
 GroupMember.prototype = (function GroupMember_proto(s) {
 	var p = {};
 	var TYPE = p.type = 'GroupMember';
-	
+	var TABLE_NAME = 'sys_user_grmember';
+
 	var log = x_spar2_log.Logger.getLogger(TYPE, gs.getCurrentScopeName());
 
 	p.initialize = function initialize(grOrSysId) {
@@ -42,10 +43,36 @@ GroupMember.prototype = (function GroupMember_proto(s) {
 		that.getGr = getGr;
 
 		that.getSysId = function() { return mySysId; };
-		that.toString = function() { return '[GroupMember ' + getGr().getDisplayValue() + ']'; };
-		
+		function toString() {
+			return '[GM ' + mySysId + (myGr ? myGr.getDisplayValue() : '') + ']';
+		} that.toString = toString;
+
+
 		that.getUser = function() {	return new User(getGr().user.getRefRecord()); };	
 		that.getGroup = function() { return new Group(getGr().group.getRefRecord()); };
+
+		s.getUsersGroupSysIds = function getUsersGroupSysIds(userSysIds) {
+			var gids = [];
+			var gr = new GlideRecord(TABLE_NAME);
+			gr.addQuery('user', 'IN', userSysIds);
+			gr.query();
+			while (gr.next()) {
+				gids.push(gr.getValue('group'));
+			}
+			return gids;
+		};		
+
+		s.getGroupUserSysIds = function getGroupUserSysIds(groupSysIds) {
+			var uids = [];
+			var gr = new GlideRecord(TABLE_NAME);
+			gr.addQuery('group', 'IN', groupSysIds);
+			gr.query();
+			while (gr.next()) {
+				uids.push(gr.getValue('user'));
+			}
+			return uids;
+		};		
+
 	};  // End initialize
 
 	return p;
@@ -54,13 +81,13 @@ GroupMember.prototype = (function GroupMember_proto(s) {
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-14 22:05:05</sys_created_on>
         <sys_id>d64c5940db361f00898be3a84b9619f4</sys_id>
-        <sys_mod_count>10</sys_mod_count>
+        <sys_mod_count>15</sys_mod_count>
         <sys_name>GroupMember</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_d64c5940db361f00898be3a84b9619f4</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-06-17 00:29:53</sys_updated_on>
+        <sys_updated_on>2018-06-18 15:25:23</sys_updated_on>
     </sys_script_include>
 </record_update>

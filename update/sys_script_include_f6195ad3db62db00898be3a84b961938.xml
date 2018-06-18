@@ -42,18 +42,45 @@ BoardBuilder.prototype = (function BoardBuilder_proto(s) {
 				that.gr = myGr;
 			}
 			return myGr;
-		}
-		that.getGr = getGr;
+		} that.getGr = getGr;
 
 		that.getSysId = function() { return mySysId; };
-		that.toString = function() { return '[BB ' + getGr().getDisplayValue() + ']'; };
+
+		function stringForSysId(sysId) {
+			return '[BB ' + sysId + ']';
+		} that.stringForSysId = stringForSysId;
+
+		function toString() {
+			return stringForSysId(mySysId + (myGr ? myGr.getDisplayValue() : ''));
+		} that.toString = toString;
+		
+		that.getUserFilter = function() { return getGr().getValue('user_filter'); };
+		that.getUserRoleSysIds = function() { return getGr().getValue('user_roles'); };
+
+		function isActive() {
+			var a = getGr().getValue('active');
+			a = (a != 0);
+			return a;
+		} that.isActive = isActive;
+
+		// Set active flag based on current state.
+		// Called by BR Board Builder Active Flag.
+		that.setActive = function setActive() {
+			var state = current.getValue('state');
+			var active = (state === 'Operational');
+			current.setValue('active', active);
+			if (log.isDebugging()) log.debug(
+				'{0} set active to {1} for State={2}',
+				toString(), active, current.getDisplayValue('state'));
+			return active;
+		};
 
 		function getGroupTypes() {
 			return getGr().getValue('group_types').split(',').sort();
-		}
-		that.getGroupTypes = getGroupTypes;
+		} that.getGroupTypes = getGroupTypes;
 
 		function getGroupQueryString() {
+			var qs;
 			var bbGroupTypes = getGroupTypes(); 
 			var query = [];
 			for (var bbti = 0; bbti < bbGroupTypes.length; bbti++) {
@@ -63,13 +90,18 @@ BoardBuilder.prototype = (function BoardBuilder_proto(s) {
 			}
 			query.push(getGr().getValue('group_filter'));
 
-			return query.join('');
+			qs = query.join('');
+			if (log.isDebugging()) log.debug(
+				'{0} query string: {1}', toString(), qs);
+			return qs;
 		}
 
 		// Associate groups with this board builder based on its conditions.
 		that.updateGroups = function updateGroups() {
 			var bbgs, groups;
 			var bbgGroupMap = {};
+
+			if (log.isDebugging()) log.debug('{0} updateGroups()', toString());
 
 			// Get groups currently related to this board builder.
 			bbgs = BoardBuilderGroup.findGroupsForBoards(mySysId);
@@ -82,21 +114,28 @@ BoardBuilder.prototype = (function BoardBuilder_proto(s) {
 			// Add groups that aren't already linked.  Remove every
 			// group encountered from the group map.  That leaves
 			// the ones that shouldn't exist in the map.
-			groups = Group.queryGroups(getGroupQueryString());
-			a_forEach(groups, function(group) {
-				var groupSysId = group.getSysId();
-				if (!bbgGroupMap[groupSysId]) {
-					BoardBuilderGroup.add(mySysId, groupSysId);
-				}
-				delete bbgGroupMap[groupSysId];
-			});
+			if (isActive()) {
+				groups = Group.queryGroups(getGroupQueryString());
+				a_forEach(groups, function(group) {
+					var groupSysId = group.getSysId();
+					if (!bbgGroupMap[groupSysId]) {
+						BoardBuilderGroup.add(mySysId, groupSysId);
+					}
+					delete bbgGroupMap[groupSysId];
+				});
+			}
 
 			// Delete the entries that should no longer be there.
 			o_forOwnProperties(bbgGroupMap, function(v) {
 				v.deleteRecord();
 			});
-
 		}; // End updateGroups
+
+		that.findEligibleUsers = function findEligibleUsers(groupSysId, userSysIds) {
+
+
+		};
+
 	};  // End initialize
 
 	return p;
@@ -105,13 +144,13 @@ BoardBuilder.prototype = (function BoardBuilder_proto(s) {
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-12 18:31:44</sys_created_on>
         <sys_id>f6195ad3db62db00898be3a84b961938</sys_id>
-        <sys_mod_count>52</sys_mod_count>
+        <sys_mod_count>72</sys_mod_count>
         <sys_name>BoardBuilder</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_f6195ad3db62db00898be3a84b961938</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-06-17 00:27:59</sys_updated_on>
+        <sys_updated_on>2018-06-18 16:01:22</sys_updated_on>
     </sys_script_include>
 </record_update>
