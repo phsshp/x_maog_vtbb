@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update table="sys_script_include">
     <sys_script_include action="INSERT_OR_UPDATE">
-        <access>package_private</access>
+        <access>public</access>
         <active>true</active>
         <api_name>x_maog_vtbb.GroupMember</api_name>
         <client_callable>false</client_callable>
@@ -11,69 +11,88 @@
 GroupMember.prototype = (function GroupMember_proto(s) {
 	var p = {};
 	var TYPE = p.type = 'GroupMember';
-	var TABLE_NAME = 'sys_user_grmember';
+	var TABLE = 'sys_user_grmember';
 
-	var log = x_spar2_log.Logger.getLogger(TYPE, gs.getCurrentScopeName());
+	var log = s.log = x_spar2_log.Logger.getLogger(TYPE, gs.getCurrentScopeName());
+
+	RecordWrapper.setup(p, TABLE, 'GrpMbr');
 
 	p.initialize = function initialize(grOrSysId) {
-		var myGr, mySysId;
-		var that = this;
+		this.set(grOrSysId);
+	};
 
-		if (typeof grOrSysId === 'string') {
-			mySysId = grOrSysId;
-		} else {
-			myGr = grOrSysId;
-			mySysId = myGr.getUniqueValue();
-			that.gr = myGr;
+	p.getUser = function() {
+		if (!this.user) {
+			var userSysId = this.getGr().getValue('user');
+			this.user = new User(userSysId);
 		}
+		return this.user;
+	};	
 
-		that.sysId = mySysId;
-		that.tableName = TABLE_NAME;
-
-		that.useGr = function useGr(gr) { myGr = gr; };
-
-		function getGr() {
-			if (!myGr) {
-				myGr = new GlideRecord(TABLE_NAME);
-				myGr.get(mySysId);
-				that.gr = myGr;
-			}
-			return myGr;
+	p.getGroup = function getGroup() {
+		if (!this.group) {
+			var groupSysId = this.getGr().getValue('group');
+			this.group = new Group(groupSysId);
 		}
-		that.getGr = getGr;
+		return this.group;
+	};
 
-		that.getSysId = function() { return mySysId; };
-		function toString() {
-			return '[GM ' + mySysId + (myGr ? myGr.getDisplayValue() : '') + ']';
-		} that.toString = toString;
+	// The Group Member Added BR invokes this method.
+	// Find board builders that apply to the user's new group.
+	// Remove board builders that already have a vtb for this user.
+	// Create vtbs for this user for remaining boards.
+	p.added = function added() {
+		var user, group, applicableBbs, userBbs, newBbs;
 
+		user = this.getUser();
+		group = this.getGroup();
 
-		that.getUser = function() {	return new User(getGr().user.getRefRecord()); };	
-		that.getGroup = function() { return new Group(getGr().group.getRefRecord()); };
+		// Find applicable board builders
+		applicableBbs = group.getApplicableBoardBuilders();
 
-		s.getUsersGroupSysIds = function getUsersGroupSysIds(userSysIds) {
-			var gids = [];
-			var gr = new GlideRecord(TABLE_NAME);
-			gr.addQuery('user', 'IN', userSysIds);
-			gr.query();
-			while (gr.next()) {
-				gids.push(gr.getValue('group'));
-			}
-			return gids;
-		};		
+		// Find the user's boards that match any applicable board.
+		userBbs = user.findExistingBoards(applicableBbs);
 
-		s.getGroupUserSysIds = function getGroupUserSysIds(groupSysIds) {
-			var uids = [];
-			var gr = new GlideRecord(TABLE_NAME);
-			gr.addQuery('group', 'IN', groupSysIds);
-			gr.query();
-			while (gr.next()) {
-				uids.push(gr.getValue('user'));
-			}
-			return uids;
-		};		
+		// Remove applicable boards that have an existing board
+		newBbs = Utils.subtractArraysHashed(
+			applicableBbs, userBbs, function hash(val) {
+				return val.getSysId();
+			});
 
-	};  // End initialize
+		// Create boards for remaining board builders
+		Utils.a_forEach(newBbs, function f(bb) {
+			bb.addBoard(group, user);
+		});
+	};
+	
+	// We do not remove VTBs that a Board Builder created on
+	// behalf of a user.  This way, any customizations the user
+	// made to their board remain intact.
+	p.removed = function removed() {
+		log.info('{0} removal from group is not implemented', this + '');
+	};
+
+	s.getUserGroups = function getUserGroups(user) {
+		var groups = [];
+		var gr = new GlideRecord(TABLE);
+		gr.addQuery('user', 'IN', user.getSysId());
+		gr.query();
+		while (gr.next()) {
+			groups.push(new Group(gr.getValue('group')));
+		}
+		return groups;
+	};		
+
+	s.getGroupUsers = function getGroupUsers(groupSysIds) {
+		var users = [];
+		var gr = new GlideRecord(TABLE);
+		gr.addQuery('group', 'IN', groupSysIds);
+		gr.query();
+		while (gr.next()) {
+			users.push(new User(gr.getValue('user')));
+		}
+		return users;
+	};
 
 	return p;
 })(GroupMember);  // End GroupMember_proto]]></script>
@@ -81,13 +100,13 @@ GroupMember.prototype = (function GroupMember_proto(s) {
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-14 22:05:05</sys_created_on>
         <sys_id>d64c5940db361f00898be3a84b9619f4</sys_id>
-        <sys_mod_count>15</sys_mod_count>
+        <sys_mod_count>28</sys_mod_count>
         <sys_name>GroupMember</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_d64c5940db361f00898be3a84b9619f4</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-06-18 15:25:23</sys_updated_on>
+        <sys_updated_on>2018-06-24 22:48:01</sys_updated_on>
     </sys_script_include>
 </record_update>

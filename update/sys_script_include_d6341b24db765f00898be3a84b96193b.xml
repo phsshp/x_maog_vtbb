@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update table="sys_script_include">
     <sys_script_include action="INSERT_OR_UPDATE">
-        <access>package_private</access>
+        <access>public</access>
         <active>true</active>
         <api_name>x_maog_vtbb.Utils</api_name>
         <client_callable>false</client_callable>
@@ -21,18 +21,101 @@ Utils.o_forOwnProperties = function o_forOwnProperties(o, fn) {
 			fn(o[k], k, o);
 		}
 	}
+};
+
+// From VTB_Utils
+Utils.cloneGlideRecord = function cloneGlideRecord(oldGr, className) {
+	var newGr, key, value, msg;
+	className = className || oldGr.getTableName();
+
+	newGr = new GlideRecordSecure(className);
+	newGr.initialize();
+
+	for (key in oldGr) {
+		if (!oldGr.hasOwnProperty(key)) continue;
+		value = oldGr[key];
+		if (value === undefined) continue;
+		if (IGNORE[key]) continue;
+		newGr.setValue(key, value.getValue());
+	}
+};
+
+// Given arrays A and B, compute A - B.
+// Requires a unique hash for values in the arrays.
+Utils.subtractArraysHashed = function subtractArrayHashed(a, b, hash) {
+	var answer, bMap;
+
+	if (typeof hash !== 'function') {
+		throw new TypeError('hash must be a function');
+	}
+
+	bMap = b.reduce(function(accum, bVal) {
+		var hashVal = hash(bVal);
+
+		if (hashVal == undefined) {
+			throw new TypeError(
+				'Hash of {0} is undefined',
+				bVal);
+		}
+
+		var oldVal = accum[hashVal];
+
+		if (oldVal !== undefined) {
+			throw new TypeError(
+				'Duplicate hash value {0} for {1}, {2}',
+				hashVal, accum[hashVal], bVal);
+		}
+
+		accum[hashVal] = bVal;
+		return accum;
+	}, {});
+
+	answer = a.reduce(function(accum, aVal) {
+		var hashVal = hash(aVal);
+
+		if (hashVal == undefined) {
+			throw new TypeError(
+				'Hash of {0} is undefined',
+				aVal);
+		}
+
+		if (!bMap.hasOwnProperty(hashVal)) {
+			accum.push(aVal);
+		}
+		return accum;
+	}, []);
+	return answer;
+};
+
+Utils.getGlideTrueFalse = function getGlideTrueFalse(gr, fieldName) {
+	var rawValue = gr.getValue(fieldName);
+	var answer = false;
+	switch (rawValue) {
+		case '1':
+			answer = true;
+			break;
+		case true:
+			answer = true;
+			break;
+		case 'true':
+			answer = true;
+			break;
+		default:
+			// Do nothing
+	}
+	return answer;
 };]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-16 20:05:02</sys_created_on>
         <sys_id>d6341b24db765f00898be3a84b96193b</sys_id>
-        <sys_mod_count>3</sys_mod_count>
+        <sys_mod_count>11</sys_mod_count>
         <sys_name>Utils</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_d6341b24db765f00898be3a84b96193b</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-06-17 00:21:11</sys_updated_on>
+        <sys_updated_on>2018-06-24 22:14:02</sys_updated_on>
     </sys_script_include>
 </record_update>

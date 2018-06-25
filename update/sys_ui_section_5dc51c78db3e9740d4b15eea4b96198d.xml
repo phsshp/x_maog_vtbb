@@ -5,69 +5,97 @@
             <element>table</element>
             <position>0</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-06-17 15:12:22</sys_created_on>
-            <sys_id>678b9fb8db72d740d4b15eea4b96197d</sys_id>
+            <sys_created_on>2018-06-25 02:52:44</sys_created_on>
+            <sys_id>5bfef117dbbe5340898be3a84b9619da</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Board Definition" display_value="Board Definition" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">5dc51c78db3e9740d4b15eea4b96198d</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-06-17 15:12:22</sys_updated_on>
+            <sys_updated_on>2018-06-25 02:52:44</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>field</element>
+            <position>1</position>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-06-25 02:52:44</sys_created_on>
+            <sys_id>dbfef117dbbe5340898be3a84b9619da</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Board Definition" display_value="Board Definition" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">5dc51c78db3e9740d4b15eea4b96198d</sys_ui_section>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-06-25 02:52:44</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>.split</element>
-            <position>1</position>
+            <position>2</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-06-17 15:12:22</sys_created_on>
-            <sys_id>e78b9fb8db72d740d4b15eea4b96197d</sys_id>
+            <sys_created_on>2018-06-25 02:52:44</sys_created_on>
+            <sys_id>5ffef117dbbe5340898be3a84b9619da</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Board Definition" display_value="Board Definition" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">5dc51c78db3e9740d4b15eea4b96198d</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-06-17 15:12:22</sys_updated_on>
+            <sys_updated_on>2018-06-25 02:52:44</sys_updated_on>
             <sys_user/>
             <type>.split</type>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>template</element>
-            <position>2</position>
+            <position>3</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-06-17 15:12:22</sys_created_on>
-            <sys_id>6b8b9fb8db72d740d4b15eea4b96197d</sys_id>
+            <sys_created_on>2018-06-25 02:52:44</sys_created_on>
+            <sys_id>dffef117dbbe5340898be3a84b9619da</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Board Definition" display_value="Board Definition" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">5dc51c78db3e9740d4b15eea4b96198d</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-06-17 15:12:22</sys_updated_on>
+            <sys_updated_on>2018-06-25 02:52:44</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>.end_split</element>
-            <position>3</position>
+            <position>4</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-06-17 15:12:22</sys_created_on>
-            <sys_id>eb8b9fb8db72d740d4b15eea4b96197d</sys_id>
+            <sys_created_on>2018-06-25 02:52:44</sys_created_on>
+            <sys_id>53fef117dbbe5340898be3a84b9619db</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Board Definition" display_value="Board Definition" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">5dc51c78db3e9740d4b15eea4b96198d</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-06-17 15:12:22</sys_updated_on>
+            <sys_updated_on>2018-06-25 02:52:44</sys_updated_on>
             <sys_user/>
             <type>.end_split</type>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>description</element>
-            <position>4</position>
+            <element>board_filter</element>
+            <position>5</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-06-17 15:12:22</sys_created_on>
-            <sys_id>6f8b9fb8db72d740d4b15eea4b96197d</sys_id>
+            <sys_created_on>2018-06-25 02:52:44</sys_created_on>
+            <sys_id>d3fef117dbbe5340898be3a84b9619db</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Board Definition" display_value="Board Definition" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">5dc51c78db3e9740d4b15eea4b96198d</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-06-17 15:12:22</sys_updated_on>
+            <sys_updated_on>2018-06-25 02:52:44</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>description</element>
+            <position>6</position>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-06-25 02:52:44</sys_created_on>
+            <sys_id>57fef117dbbe5340898be3a84b9619db</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Board Definition" display_value="Board Definition" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">5dc51c78db3e9740d4b15eea4b96198d</sys_ui_section>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-06-25 02:52:44</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>

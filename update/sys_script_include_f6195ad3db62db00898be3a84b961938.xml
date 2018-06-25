@@ -11,132 +11,152 @@
 BoardBuilder.prototype = (function BoardBuilder_proto(s) {
 	var p = {};
 	var TYPE = p.type = 'BoardBuilder';
-	var TABLE_NAME = s.TABLE_NAME = 'x_maog_vtbb_board_builder';
+	var TABLE = s.TABLE = 'x_maog_vtbb_board_builder';
 
-	var log = x_spar2_log.Logger.getLogger(TYPE);
+	var log = s.log = x_spar2_log.Logger.getLogger(TYPE);
+
+	x_maog_vtbb.RecordWrapper.setup(p, TABLE, 'BB');
+
+	p.initialize = function initialize(grOrSysId) {
+		this.set(grOrSysId);
+	};  // End initialize
 
 	var a_forEach = Utils.a_forEach;
 	var o_forOwnProperties = Utils.o_forOwnProperties;
 
-	p.initialize = function initialize(grOrSysId) {
-		var myGr, mySysId;
+	p.getUserFilter = function getUserFilter() { return this.getGr().getValue('user_filter'); };
+	p.getUserRoleSysIds = function getUserRoleSysIds() { return this.getGr().getValue('user_roles'); };
+	p.getState = function getState() { return this.getGr().getValue('state'); };
+
+	p.isActive = function isActive() {
+		var gr = this.getGr();
+		var answer = Utils.getGlideTrueFalse(gr, 'active');
+		if (log.isDebugging()) {
+			log.debug('{0} active={1}', this + '', answer);
+		}
+		return answer;
+	};
+
+	// Set active flag based on current state.
+	// Called by BR Board Builder Active Flag.
+	p.setActive = function setActive() {
+		var myGr = this.getGr();
+		var state = myGr.getValue('state');
+		var active = (state === 'Operational') ? true : false;
+		myGr.setValue('active', active);
+		if (log.isDebugging()) log.debug(
+			'{0} set active to {1} for State={2}',
+			this + '', active, myGr.getDisplayValue('state'));
+		return active;
+	};
+
+	p.getGroupTypes = function getGroupTypes() {
+		var groupTypesStr = this.getGr().getValue('group_types');
+		var groupTypesSort = groupTypesStr.split(',').sort();
+		return groupTypesSort;
+	};
+
+	p.getGroupQueryString =  function getGroupQueryString() {
+		var qs;
+		var bbGroupTypes = this.getGroupTypes(); 
+		var bbGroupTypesLen = bbGroupTypes.length;
+
+		var query = [];
+		for (var bbti = 0; bbti < bbGroupTypesLen; bbti++) {
+			query.push('typeLIKE');
+			query.push(bbGroupTypes[bbti]);
+			query.push('^');
+		}
+		query.push(this.getGr().getValue('group_filter'));
+
+		qs = query.join('');
+		return qs;
+	};
+
+	// Find VTBs that reference this board.
+	p.getReferencingVtbs = function getReferencingVtbs(additionalFilter) {
+		var filter, gr, vtb, vtbs = [];
+
+		filter = 'x_maog_vtbb_builder=' + this.getSysId();
+		vtbs = VtbBoard.query(filter);
+		if (log.isDebugging()) {
+			log.debug('{0} getReferencingVtbs {1}', this + '',
+					  RecordWrapper.arrayToString(vtbs));
+		}
+		return vtbs;
+	};
+
+	// Associate groups with this board builder based on its conditions.
+	p.updateGroups = function updateGroups() {
+		var bbgs, groups;
+		var bbgGroupMap = {};
+
+		if (log.isDebugging()) log.debug('{0} updateGroups()', this + '');
+
+		// Get board builder groups that reference this board builder.
+		bbgs = BoardBuilderGroup.findGroupsForBoardBuilder(this);
+
+		// Create a map with the board builder's group SysId as key.
+		a_forEach(bbgs, function(bbg) {
+			bbgGroupMap[bbg.getGroup().getSysId()] = bbg;
+		});
+
+		// Add groups that aren't already linked.  Remove every
+		// group encountered from the group map.  That leaves
+		// the ones that shouldn't exist in the map.
+		if (this.isActive()) {
+			groups = Group.queryGroups(this.getGroupQueryString());
+			a_forEach(groups, function(group) {
+				var groupSysId = group.getSysId();
+				if (!bbgGroupMap[groupSysId]) {
+					BoardBuilderGroup.addRecord(this.getSysId(), groupSysId);
+				}
+				delete bbgGroupMap[groupSysId];
+			});
+		}
+
+		// Delete the entries that should no longer be there.
+		o_forOwnProperties(bbgGroupMap, function(bbg) {
+			bbg.deleteRecord();
+		});
+
+	};
+
+	p.addBoard = function addBoard(group, user) {
+		var bbGr, members;
 		var that = this;
-
-		if (typeof grOrSysId === 'string') {
-			mySysId = grOrSysId;
-		} else {
-			myGr = grOrSysId;
-			mySysId = myGr.getUniqueValue();
-			that.gr = myGr;
-		}
-
-		that.sysId = mySysId;
-		that.tableName = TABLE_NAME;
-
-		that.useGr = function useGr(gr) { myGr = gr; };
-
-		function getGr() {
-			if (!myGr) {
-				myGr = new GlideRecord(TABLE_NAME);
-				myGr.get(mySysId);
-				that.gr = myGr;
-			}
-			return myGr;
-		} that.getGr = getGr;
-
-		that.getSysId = function() { return mySysId; };
-
-		function stringForSysId(sysId) {
-			return '[BB ' + sysId + ']';
-		} that.stringForSysId = stringForSysId;
-
-		function toString() {
-			return stringForSysId(mySysId + (myGr ? myGr.getDisplayValue() : ''));
-		} that.toString = toString;
 		
-		that.getUserFilter = function() { return getGr().getValue('user_filter'); };
-		that.getUserRoleSysIds = function() { return getGr().getValue('user_roles'); };
+		log.debug('{0} addBoard({1}, {2})', this + '', group + '', user + '');
 
-		function isActive() {
-			var a = getGr().getValue('active');
-			a = (a != 0);
-			return a;
-		} that.isActive = isActive;
-
-		// Set active flag based on current state.
-		// Called by BR Board Builder Active Flag.
-		that.setActive = function setActive() {
-			var state = current.getValue('state');
-			var active = (state === 'Operational');
-			current.setValue('active', active);
-			if (log.isDebugging()) log.debug(
-				'{0} set active to {1} for State={2}',
-				toString(), active, current.getDisplayValue('state'));
-			return active;
-		};
-
-		function getGroupTypes() {
-			return getGr().getValue('group_types').split(',').sort();
-		} that.getGroupTypes = getGroupTypes;
-
-		function getGroupQueryString() {
-			var qs;
-			var bbGroupTypes = getGroupTypes(); 
-			var query = [];
-			for (var bbti = 0; bbti < bbGroupTypes.length; bbti++) {
-				query.push('typeLIKE');
-				query.push(bbGroupTypes[bbti]);
-				query.push('^');
-			}
-			query.push(getGr().getValue('group_filter'));
-
-			qs = query.join('');
-			if (log.isDebugging()) log.debug(
-				'{0} query string: {1}', toString(), qs);
-			return qs;
-		}
-
-		// Associate groups with this board builder based on its conditions.
-		that.updateGroups = function updateGroups() {
-			var bbgs, groups;
-			var bbgGroupMap = {};
-
-			if (log.isDebugging()) log.debug('{0} updateGroups()', toString());
-
-			// Get groups currently related to this board builder.
-			bbgs = BoardBuilderGroup.findGroupsForBoards(mySysId);
-
-			// Create a map with group SysId as key.
-			a_forEach(bbgs, function(bbg) {
-				bbgGroupMap[bbg.getGroupSysId()] = bbg;
-			});
-
-			// Add groups that aren't already linked.  Remove every
-			// group encountered from the group map.  That leaves
-			// the ones that shouldn't exist in the map.
-			if (isActive()) {
-				groups = Group.queryGroups(getGroupQueryString());
-				a_forEach(groups, function(group) {
-					var groupSysId = group.getSysId();
-					if (!bbgGroupMap[groupSysId]) {
-						BoardBuilderGroup.add(mySysId, groupSysId);
-					}
-					delete bbgGroupMap[groupSysId];
-				});
-			}
-
-			// Delete the entries that should no longer be there.
-			o_forOwnProperties(bbgGroupMap, function(v) {
-				v.deleteRecord();
-			});
-		}; // End updateGroups
-
-		that.findEligibleUsers = function findEligibleUsers(groupSysId, userSysIds) {
-
-
-		};
-
-	};  // End initialize
+		bbGr = this.getGr();
+		var vtb = VtbBoard.create(function(vtbGr) {
+			var templateSysId = bbGr.getValue('template');
+			var templateGr = GlideTemplate.get(templateSysId);
+			templateGr.apply(vtbGr);
+			vtbGr.setValue('owner', user.getSysId());
+			vtbGr.setValue('assignment_group', group.getSysId());
+			vtbGr.setValue('x_maog_vtbb_builder', that.getSysId());
+			vtbGr.setValue('x_maog_vtbb_template', bbGr.getValue('template'));
+			vtbGr.setValue('table', bbGr.getValue('table'));
+			vtbGr.setValue('field', bbGr.getValue('field'));
+			vtbGr.setValue('filter', bbGr.getValue('board_filter'));
+		});
+		
+		// TODO: Add Members
+		members = this.addBoardMembers(group, user);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		// TODO: Add Lanes
+		return vtb;
+	};
 
 	return p;
 })(BoardBuilder);  // End BoardBuilder_proto]]></script>
@@ -144,13 +164,13 @@ BoardBuilder.prototype = (function BoardBuilder_proto(s) {
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-12 18:31:44</sys_created_on>
         <sys_id>f6195ad3db62db00898be3a84b961938</sys_id>
-        <sys_mod_count>72</sys_mod_count>
+        <sys_mod_count>125</sys_mod_count>
         <sys_name>BoardBuilder</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_f6195ad3db62db00898be3a84b961938</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-06-18 16:01:22</sys_updated_on>
+        <sys_updated_on>2018-06-25 14:16:23</sys_updated_on>
     </sys_script_include>
 </record_update>

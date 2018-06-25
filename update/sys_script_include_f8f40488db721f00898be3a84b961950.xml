@@ -11,18 +11,40 @@
 BoardBuilderGroup.prototype = (function BoardBuilderGroup_proto(s) {
 	var p = {};
 	var TYPE = p.type = 'BoardBuilderGroup';
+	var TABLE = 'x_maog_vtbb_board_builder_group';
 
-	var TABLE_NAME = 'x_maog_vtbb_board_builder_group';
+	RecordWrapper.setup(p, TABLE, 'BBG');
 
-	var log = x_spar2_log.Logger.getLogger(TYPE, gs.getCurrentScopeName());
+	var log = s.log = x_spar2_log.Logger.getLogger(TYPE, gs.getCurrentScopeName());
+	var call = Function.prototype.call;
+
+	p.initialize = function initialize(sysIdOrGr) {
+		this.set(sysIdOrGr);
+	};
+
+	p.getBoardBuilder = function getBoardBuilder() {
+		if (!this.boardBuilder) {
+			var bbSysId = this.getGr().getValue('board_builder');
+			this.boardBuilder = new BoardBuilder(bbSysId);
+		}
+		return this.boardBuilder;
+	};
+
+	p.getGroup = function getGroup() {
+		if (!this.group) {
+			var groupSysId = this.getGr().getValue('group');
+			this.group = new Group(groupSysId);
+		}
+		return this.group;
+	};
 
 	// Return array of Groups matching a list of Board Builders,
 	// based on the current Board Builder Groups related list.
-	s.findGroupsForBoards = function findGroupsForBoards(bbSysIds) {
+	s.findGroupsForBoardBuilder = function findGroupsForBoardBuilder(bb) {
 		var gr, groups = [];
 
-		gr = new GlideRecord(TABLE_NAME);
-		gr.addQuery('board_builder', 'IN', bbSysIds);
+		gr = new GlideRecord(TABLE);
+		gr.addQuery('board_builder', 'IN', bb.getSysId());
 		gr.query();
 		while (gr.next()) {
 			groups.push(new BoardBuilderGroup(gr.getUniqueValue()));
@@ -31,158 +53,114 @@ BoardBuilderGroup.prototype = (function BoardBuilderGroup_proto(s) {
 	};
 
 	// Add a new link between a board builder and a group.
-	s.add = function add(bbSysId, groupSysId) {
+	s.addRecord = function addRecord(bbSysId, groupSysId) {
 		var bbg;
-		var gr = new GlideRecord(TABLE_NAME);
+		var gr = new GlideRecord(TABLE);
 		gr.initialize();
 		gr.setValue('board_builder', bbSysId);
 		gr.setValue('group', groupSysId);
+		log.debug('inserting board builder group {0} {1}', bbSysId, groupSysId);
 		gr.insert();
 		bbg = new BoardBuilderGroup(gr);
-		if (log.isDebugging()) log.debug('Added {0}', bbg.toString());
+		if (log.isDebugging()) log.debug('{0} inserted record', bbg.toString());
 		return bbg;
 	};
 
-	function findGroupsForBbs(bbs, groupSysIds) {
-		var bbsByTypes;
-
-		// Group board builders by canonical group type clause.
-		bbsByTypes = bbs.reduce(function(bbt, bb) {
-			var bbtc = bb.getTypes().join();  // BB Type Clause
-			if (!bbt[bbtc]) bbt[bbtc] = { bbs: [], groups: []};
-			bbt[bbtc].bbs.push(bb);
-		}, {});
-
-		// Find groups that match each unique type clause
-		(function() {
-			var bbTypes, groupGr, cnd;
-			var groupSysIdClause = groupSysIds.join();
-
-			for (var bbtc in bbsByTypes) {
-				bbTypes = bbtc.split();
-				groupGr = new GlideRecord('sys_user_group');
-				groupGr.addQuery('sys_id', 'IN', groupSysIdClause);
-
-				for (var i = 0; i < bbTypes.length; i++) {
-					groupGr.addQuery('type.sys_id', bbTypes[i]);
-				}
-				gs.log('findBbsForGroups: {0}', groupGr.getEncodedQuery());
-
-				gr.query();
-				while (gr.next()) {
-					bbsByTypes[bbtc].groups.push(groupGr.getValue('sys_id'));
-				}
-			}
-		})();
-	}
-
-
-	// Don't save the GlideRecord parameter because it is a cursor.
-	p.initialize = function initialize(grOrSysId) {
-		var myGr, mySysId, myBoardBuilder, myGroup;
-		var that = this;
-
-		if (typeof grOrSysId === 'string') {
-			mySysId = grOrSysId;
+	// Run a query and return an array of board builder groups that match.
+	s.query = function(filter) {
+		var bbgs = [];
+		var gr = new GlideRecord(TABLE);
+		if (typeof filter === 'function') {
+			filter.call(this, gr);
 		} else {
-			myGr = grOrSysId;
-			mySysId = myGr.getUniqueValue();
-			that.gr = myGr;
+			addEncodedQuery(filter);
 		}
-
-		that.sysId = mySysId;
-		that.tableName = TABLE_NAME;
-
-		that.useGr = function useGr(gr) { myGr = gr; };
-
-		function getGr() {
-			if (!myGr) {
-				myGr = new GlideRecord(TABLE_NAME);
-				myGr.get(mySysId);
-				that.gr = myGr;
-			}
-			return myGr;
+		gr.query();
+		while (gr.next()) {
+			bbgs.push(new BoardBuilderGroup(gr.getUniqueValue()));
 		}
-		that.getGr = getGr;
+		return bbgs;
+	};
 
-		that.getSysId = function() { return mySysId; };
+	// Do not reference the GlideRecord parameter because it is a cursor.
+	// Save the SysID and get a new GlideRecord if required.
+	p.initialize = function initialize(grOrSysId) {
+		this.set(grOrSysId);
+	};
+
+	p.deleteRecord = function deleteRecord() {
+		log.debug('{0} deleting record', this + '');
+		this.getGr().deleteRecord();
+	};
+
+	// Find the users affected by this board builder and group.
+	// This is a superset of users that already have the board.
+	p.getApplicableUsers = function getApplicableUsers() {
+		var users;
 		
-		// Don't instantiate referenced objects just to create the string.
-		function toString() {
-			var parts = [];
-			parts.push('[BBG ');
-			parts.push(mySysId);
-			parts.push(' ');
-			if (myGr) {
-				parts.push(myGr.getDisplayValue());
-				if (myBoardBuilder) {
-					parts.push(myBoardBuilder.toString());
-				} else {
-					parts.push(BoardBuilder.stringForSysId(myGr.getValue('board_builder')));
-				}
-				parts.push(' ');
-				if (myGroup) {
-					parts.push(myGroup.toString());
-				} else {
-					parts.push(Group.stringForSysId(myGr.getValue('group')));
-				}
-			}
-			parts.push(']');
+		var bb = this.getBoardBuilder();
+		var group = this.getGroup();
 
-			return parts.join('');
-		} that.toString = toString;
+		// Find the group's users the builder applies to
+		users = User.query(function(gr) {
+			gr.addQuery('user', 'IN', group.getUserSysIds());
+			gr.addEncodedQuery(bb.getUserFilter());
+		});
+		users = users.filter(function(u) {
+			var applies = u.hasRoleSysIds(bb.getUserRoleSysIds());
+			return applies;
+		});
+		return users;
+	};
 
-		function getBoardBuilderSysId() {
-			return getGr().getValue('board_builder');
-		} that.getBoardBuilderSysId = getBoardBuilderSysId;
+	// Find VTBs that reference this board and group.
+	p.getReferencingVtbs = function getReferencingVtbs(userSysIds) {
+		var gr, vtbs = [];
+		var mySysId = this.getSysId();
 
-		function getGroupSysId() {
-			return getGr().getValue('group');
-		} that.getGroupSysId = getGroupSysId;
+		gr = new GlideRecord('vtb_board');
+		gr.addQuery('x_maog_vtbb_builder', mySysId);
+		gr.addQuery('user', 'IN', userSysIds);
 
-		function getBoardBuilder() {
-			return new BoardBuilder(getGr().getValue('board_builder'));
-		} that.getBoardBuilder = getBoardBuilder;
+		gr.query();
 
-		function getGroup() {
-			return new Group(getGr().getValue('group'));
-		} that.getGroup = getGroup;
+		while (gr.next()) {
+			vtbs.push(gr);
+		}
+		// TODO: Clean up - above or below?
+		filter = 'board_builder=' + mySysId + '^';
+		filter = 'userIN' + userSysIds + '^EQ';
+		users = Users.queryUsers(filter);
+		return users;
+	};
 
-		that.deleteRecord = function deleteRecord() {
-			getGr().deleteRecord();
-		};
+	// When a record is added, run the board builder
+	// for the group's applicable users.
+	p.added = function added() {
+		var bb, group, allUsers, usersWithBoard, newBoards;
 
-		// When a record is added, run the board builder
-		// for the group's applicable users.
-		that.added = function added() {
-			var bb, group, userSysIds, filter;
+		if (log.isDebugging()) log.debug('{0} business rule for insert', this + '');
 
-			if (log.isDebugging()) log.debug('{0} added()', toString());
+		bb = this.getBoardBuilder();
+		group = this.getGroup();
 
-			bb = getBoardBuilder();
-			group = getGroup();
+		allUsers = bb.getApplicableUsers(group);
+		usersWithBoard = bb.getUsersWithBoard(allUsers.join(','));
 
-			// Find the group's users the builder applies to
-			filter = 'userIN' + group.getUserSysIds() + '^' +
-				bb.getUserFilter();
-			users = Users.queryUsers(filter);
-			users = users.filter(function(u) {
-				var applies =  u.hasRoleSysIds(bb.getUserRoleSysIds());
-				return applies;
-			});
+		// Add boards for the remaining users.
+		newBoards = Utils.subtractArraysHashed(allUsers, usersWithBoard, function(user) {
+			return user.getSysId();
+		});
+		Utils.a_forEach(newBoard, function(user) {
+			bb.addBoardForUser(user);
+		});
 
-			// Find the users with boards
+		// TODO: Delete boards for users who left the group.
+	};
 
-			// Add boards for the remaining users.
-
-			// TODO: Delete boards for users who left the group.
-		};
-
-		that.removed = function removed() {
-			if (log.isDebugging()) log.debug('{0} removed()', toString());
-		};
-
-	};  // End initialize
+	p.removed = function removed() {
+		if (log.isDebugging()) log.debug('{0} business rule for delete', this + '');
+	};
 
 	return p;
 })(BoardBuilderGroup);  // End BoardBuilderGroup_proto]]></script>
@@ -190,13 +168,13 @@ BoardBuilderGroup.prototype = (function BoardBuilderGroup_proto(s) {
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-14 15:39:17</sys_created_on>
         <sys_id>f8f40488db721f00898be3a84b961950</sys_id>
-        <sys_mod_count>44</sys_mod_count>
+        <sys_mod_count>75</sys_mod_count>
         <sys_name>BoardBuilderGroup</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_f8f40488db721f00898be3a84b961950</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-06-18 15:58:30</sys_updated_on>
+        <sys_updated_on>2018-06-24 22:29:03</sys_updated_on>
     </sys_script_include>
 </record_update>

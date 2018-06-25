@@ -57,6 +57,20 @@
             <sys_updated_by>peter.smith</sys_updated_by>
             <sys_updated_on>2018-06-17 00:49:06</sys_updated_on>
         </sys_ui_form_section>
+        <sys_ui_form_section action="INSERT_OR_UPDATE">
+            <position>4</position>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-06-25 02:48:00</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>3dedb9d3dbbe5340898be3a84b96191a</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_overrides/>
+            <sys_ui_form display_value="x_maog_vtbb_board_builder" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">67b571d3db22db00898be3a84b961926</sys_ui_form>
+            <sys_ui_section caption="Member Conditions" display_value="Member Conditions" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">fdedb9d3dbbe5340898be3a84b961916</sys_ui_section>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-06-25 02:48:00</sys_updated_on>
+        </sys_ui_form_section>
         <sys_ui_form action="INSERT_OR_UPDATE">
             <name>x_maog_vtbb_board_builder</name>
             <roles/>

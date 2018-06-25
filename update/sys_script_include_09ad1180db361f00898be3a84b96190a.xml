@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update table="sys_script_include">
     <sys_script_include action="INSERT_OR_UPDATE">
-        <access>package_private</access>
+        <access>public</access>
         <active>true</active>
         <api_name>x_maog_vtbb.Group</api_name>
         <client_callable>false</client_callable>
@@ -11,74 +11,59 @@
 Group.prototype = (function Group_proto(s) {
 	var p = {};
 	var TYPE = p.type = 'Group';
-	var TABLE_NAME = s.TABLE_NAME = 'sys_user_group';
+	var TABLE = s.TABLE = 'sys_user_group';
 
-	var log = x_spar2_log.Logger.getLogger(TYPE, gs.getCurrentScopeName());
+	var log = s.log = x_spar2_log.Logger.getLogger(TYPE, gs.getCurrentScopeName());
 
-	s.queryGroups = function(encodedQuery) {
+	RecordWrapper.setup(p, TABLE, 'GM');
+
+	p.initialize = function initialize(grOrSysId) {
+		this.set(grOrSysId);
+	};
+
+	p.queryGroups = s.queryGroups = function queryGroups(encodedQuery) {
 		var groups = [];
 
-		var gr = new GlideRecord(TABLE_NAME);
+		var gr = new GlideRecord(TABLE);
 		gr.addEncodedQuery(encodedQuery);
 		gr.query();
 		while (gr.next()) {
 			groups.push(new Group(gr.getUniqueValue()));
 		}
+
+		if (log.isDebugging()) {
+			log.debug('queryGroups({1}) returns {2}',
+					  encodedQuery, RecordWrapper.arrayToString(groups));
+		}
 		return groups;
 	};
+	
+	p.getApplicableBoardBuilders = function getApplicableBoardBuilders() {
+		var bbgs, bbs, groupSysId = this.getSysId();
+		bbgs = BoardBuilderGroup.query((function(gr) {
+			gr.addQuery('group', groupSysId);
+		}));
+		bbs = bbgs.map(function(bbg) {
+			return bbg.getBoardBuilder();
+		});
+		return bbs;
+	};
 
-	p.initialize = function initialize(grOrSysId) {
-		var myGr, mySysId;
-		var that = this;
+	p.updatedType = function updatedType() {
+		log.info('{0} updatedType TODO', this + '');  // TODO
+	};
 
-		if (typeof grOrSysId === 'string') {
-			mySysId = grOrSysId;
-		} else {
-			myGr = grOrSysId;
-			mySysId = myGr.getUniqueValue();
-			that.gr = myGr;
-		}
+	p.updatedManager = function updatedManager() {
+		log.info('{0} updatedManager TODO', this + '');  // TODO
+	};
 
-		that.sysId = mySysId;
-		that.tableName = TABLE_NAME;
+	p.getUserGroups = function getUserGroups() {
+		return GroupMember.getUserGroups(this);  // TODO
+	};
 
-		that.useGr = function useGr(gr) { myGr = gr; };
-
-		function getGr() {
-			if (!myGr) {
-				myGr = new GlideRecord(TABLE_NAME);
-				myGr.get(mySysId);
-				that.gr = myGr;
-			}
-			return myGr;
-		}
-		that.getGr = getGr;
-
-		that.getSysId = function() { return mySysId; };
-		function toString() {
-			return '[Group ' + mySysId + (myGr ? myGr.getDisplayValue() : '') + ']';
-		} that.toString = toString;
-
-		that.updatedType = function updatedType() {
-			log.debug('updatedType');
-		};
-
-		that.updatedManager = function updatedManager() {
-			log.debug('updatedManager');
-		};
-
-		function getUserSysIds() {
-			return GroupMember.getUsersGroupSysIds(mySysId);
-		} that.getUserSysIds = getUserSysIds;
-		
-		that.getUsers = function getUsers() {
-			var userSysIds = getGroupSysIds();
-			var users = groupSysIds.map(function(id) {
-				return new User(id);
-			});
-		};
-
-	};  // End initialize
+	p.getUsers = function getUsers() {
+		return GroupMember.getUserGroups(user);  // TODO
+	};
 
 	return p;
 })(Group);  // End Group_proto]]></script>
@@ -86,13 +71,13 @@ Group.prototype = (function Group_proto(s) {
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-14 22:06:47</sys_created_on>
         <sys_id>09ad1180db361f00898be3a84b96190a</sys_id>
-        <sys_mod_count>24</sys_mod_count>
+        <sys_mod_count>57</sys_mod_count>
         <sys_name>Group</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_09ad1180db361f00898be3a84b96190a</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-06-18 15:24:15</sys_updated_on>
+        <sys_updated_on>2018-06-24 21:17:02</sys_updated_on>
     </sys_script_include>
 </record_update>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_maog_vtbb.RecordWrapper</api_name>
+        <client_callable>false</client_callable>
+        <description>Mixin to wrap a record as an object.  Provide standard behavior and lazy-evaluate retrieval of the record's content until something other than the Sys ID is required.&#13;
+&#13;
+Expects subclass to invoke RecordWrapper.setup while initializing its prototype.&#13;
+Defines these methods in my:  set, haveGr, getGr, getSysId, toString&#13;
+Expects subclass to invoke my.set from its constructor.&#13;
+Defines these properties on this: gr, sysId, recordWrapper&#13;
+&#13;
+You can pass in a dedicated property as the my parameter to set aside the methods.  You can pass in your prototype to expose the methods publicly.&#13;
+&#13;
+If you don't want to expose gr and sysId on your "this" object, use bind or call to put them somewhere else and then forward to them.&#13;
+</description>
+        <name>RecordWrapper</name>
+        <script><![CDATA[var RecordWrapper = Class.create();
+RecordWrapper.setup = function setup(my, TABLE, PREFIX) {
+	my = my || {};
+
+	// Accept either a SysID or a GlideRecord
+	my.set = function set(grOrSysId, that) {
+		this.recordWrapper = {};
+		if (typeof grOrSysId === 'string') {
+			this.sysId = grOrSysId;
+			this.gr = null;
+		} else {
+			this.sysId = grOrSysId.getUniqueValue();
+			this.gr = grOrSysId;
+			this.recordWrapper.sharedGlideRecord = this.gr.getUniqueValue();
+		}
+		this.recordWrapper.table = TABLE;
+		this.recordWrapper.that = this;
+		return this;
+	};
+
+	// Return the SysID.  Does not need to instantiate the GlideRecord.
+	my.getSysId = function getSysId() { return this.sysId; };
+
+	my.haveGr = function haveGr() { return !!this.gr; };
+
+	// Get the GlideRecord in TABLE that matches the supplied Sys ID.
+	// Cache the GlideRecord for reuse.
+	my.getGr = function getGr() {
+		if (!this.haveGr()) {
+			this.gr = new GlideRecord(TABLE);
+			this.gr.get(this.getSysId());
+		}
+		return this.gr;
+	};
+
+	my.toString = function toString(more) {
+		var sysId = this.getSysId();
+		var gr = this.getGr();
+
+		var parts = [];
+		parts.push('[');
+		parts.push(PREFIX);
+		parts.push(' ');
+		parts.push(sysId);
+		if (gr) {
+			parts.push(' ');
+			parts.push(gr.getDisplayValue());
+		}
+		if (more) {
+			parts.push(' ');
+			parts.push(more);
+		}
+		parts.push(']');
+		return parts.join('');
+	};
+	
+	return my;
+};
+
+RecordWrapper.arrayToString = function arrayToString(arr) {
+	var r = arr.map(function(val) {
+		return val.toString();
+	});
+	return r.join(',');
+};
+
+RecordWrapper.arrayToSysIds = function arrayToString(arr) {
+	var r = a.map(arr, function(accum, val) {
+		accum.push(val.getSysId());
+		return accum;
+	}, []);
+	return r.join(',');
+};
+
+]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>peter.smith</sys_created_by>
+        <sys_created_on>2018-06-20 01:04:05</sys_created_on>
+        <sys_id>c8d53b65db72df00898be3a84b96194e</sys_id>
+        <sys_mod_count>19</sys_mod_count>
+        <sys_name>RecordWrapper</sys_name>
+        <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
+        <sys_update_name>sys_script_include_c8d53b65db72df00898be3a84b96194e</sys_update_name>
+        <sys_updated_by>peter.smith</sys_updated_by>
+        <sys_updated_on>2018-06-22 13:38:20</sys_updated_on>
+    </sys_script_include>
+</record_update>

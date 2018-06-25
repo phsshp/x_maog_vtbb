@@ -33,7 +33,7 @@
 	// If the user is added to a group and that group has board builders,
 	// make sure the user has an instance of each builder's board.
 
-	new GroupMember().added(); 
+	new GroupMember(current).added(); 
 
 })(current, previous);]]></script>
         <sys_class_name>sys_script</sys_class_name>
@@ -42,7 +42,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>8b714184dbf21f00898be3a84b961923</sys_id>
-        <sys_mod_count>6</sys_mod_count>
+        <sys_mod_count>8</sys_mod_count>
         <sys_name>Group Member Added</sys_name>
         <sys_overrides/>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
@@ -50,9 +50,9 @@
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_8b714184dbf21f00898be3a84b961923</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-06-17 00:38:41</sys_updated_on>
+        <sys_updated_on>2018-06-24 22:35:41</sys_updated_on>
         <template/>
-        <when>before</when>
+        <when>after</when>
     </sys_script>
     <sys_translated_text action="delete_multiple" query="documentkey=8b714184dbf21f00898be3a84b961923"/>
 </record_update>
