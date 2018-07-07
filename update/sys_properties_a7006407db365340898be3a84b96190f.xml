@@ -12,16 +12,16 @@
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-24 01:19:29</sys_created_on>
         <sys_id>a7006407db365340898be3a84b96190f</sys_id>
-        <sys_mod_count>0</sys_mod_count>
+        <sys_mod_count>1</sys_mod_count>
         <sys_name>x_maog_vtbb.BoardBuilderEnabled</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy/>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_properties_a7006407db365340898be3a84b96190f</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-06-24 01:19:29</sys_updated_on>
+        <sys_updated_on>2018-06-26 15:49:14</sys_updated_on>
         <type>choicelist</type>
-        <value>info</value>
+        <value>true</value>
         <write_roles>x_maog_vtbb.manager,x_spar2_log.log_admin</write_roles>
     </sys_properties>
     <sys_translated_text action="delete_multiple" query="documentkey=a7006407db365340898be3a84b96190f"/>

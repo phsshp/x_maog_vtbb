@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update sys_domain="global" table="sys_ui_action">
     <sys_ui_action action="INSERT_OR_UPDATE">
-        <action_name>grmember_test_board_builder</action_name>
-        <active>true</active>
+        <action_name>grmember_add_boards</action_name>
+        <active>false</active>
         <client>false</client>
         <comments/>
-        <condition/>
+        <condition>gs.hasRole('admin') || gs.hasRole('x_maog_vtbb.manager')</condition>
         <form_action>true</form_action>
         <form_button>false</form_button>
         <form_context_menu>false</form_context_menu>
         <form_link>true</form_link>
         <form_style/>
-        <hint/>
+        <hint>Add boards for this user and group</hint>
         <list_action>true</list_action>
         <list_banner_button>false</list_banner_button>
         <list_button>false</list_button>
         <list_choice>true</list_choice>
         <list_context_menu>true</list_context_menu>
-        <list_link>true</list_link>
+        <list_link>false</list_link>
         <list_save_with_form_button>false</list_save_with_form_button>
         <list_style/>
-        <name>Test Board Builder</name>
+        <name>Add Boards</name>
         <onclick/>
-        <order>10000</order>
-        <script><![CDATA[new GroupMember(current).added();
+        <order>100</order>
+        <script><![CDATA[new x_maog_vtbb.GroupMember(current).addBoards();
 action.setRedirectURL(current);]]></script>
         <show_insert>true</show_insert>
         <show_multiple_update>false</show_multiple_update>
@@ -35,15 +35,15 @@ action.setRedirectURL(current);]]></script>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>3dd0b8a2dbf61340898be3a84b9619c3</sys_id>
-        <sys_mod_count>4</sys_mod_count>
-        <sys_name>Test Board Builder</sys_name>
+        <sys_mod_count>14</sys_mod_count>
+        <sys_name>Add Boards</sys_name>
         <sys_overrides/>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy/>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_ui_action_3dd0b8a2dbf61340898be3a84b9619c3</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-06-24 20:21:44</sys_updated_on>
+        <sys_updated_on>2018-06-27 17:47:05</sys_updated_on>
         <table>sys_user_grmember</table>
         <ui11_compatible>true</ui11_compatible>
         <ui16_compatible>true</ui16_compatible>

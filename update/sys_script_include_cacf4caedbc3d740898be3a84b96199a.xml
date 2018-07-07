@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_maog_vtbb.Incident</api_name>
+        <client_callable>false</client_callable>
+        <description>Wrapper to simplify creation of incidents.&#13;
+&#13;
+new Incident('short description').setDescription('long description').insert().addToErrorLog(gs).throwError(TypeError);&#13;
+&#13;
+try {&#13;
+    throw new RangeError('an error');&#13;
+} catch (e) {&#13;
+    new Incident().setError(e).insert().addToErrorLog(x_maog_vtbb.Incident.log).rethrow();&#13;
+}</description>
+        <name>Incident</name>
+        <script><![CDATA[var Incident = Class.create();
+Incident.prototype = (function Incident_proto(s) {
+	var p = {};
+	var TYPE = 'Incident';
+	var TABLE = s.TABLE = 'incident';
+	var log = s.log = x_spar2_log.Logger.getLogger(TYPE, gs.getCurrentScopeName());
+	var rw = RecordWrapper.setup(p, s, TABLE, 'INC');
+
+	var insertEnabled = gs.getProperty('x_maog_vtbb.createIncidentsForErrors', 'Enable');
+
+	p.initialize = function initialize(shortDescription) {
+		this.set();
+		if (shortDescription) this.setShortDescription(shortDescription);
+	};
+
+	p.setShortDescription = function setShortDescription(msg) {
+		this.getGr().setValue('short_description', msg);
+		return this;
+	};
+
+	p.setDescription = function setDescription(msg) {
+		this.getGr().setValue('description', msg);
+		return this;
+	};
+
+	p.addToDescription = function addToDescription(msg) {
+		var gr = this.getGr();
+		var description = gr.getValue('description');
+		description = description.trim() + '\n\n' + msg;
+		gr.setValue('description', description);
+		return this;
+	};
+
+	p.setImpact = function setImpact(v) {
+		this.getGr().setValue('impact', v);
+		return this;
+	};
+
+	p.setUrgency = function setUrgency(v) {
+		this.getGr().setValue('urgency', v);
+		return this;
+	};
+
+	p.setPriority = function setPriority(v) {
+		this.getGr().setValue('priority', v);
+		return this;
+	};
+
+	p.addComment = function addComment(msg) {
+		this.getGr().setValue('comments', msg);
+		return this;
+	};
+
+	p.addWorkNote = function addWorkNote(msg) {
+		this.getGr().setValue('work_notes', msg);
+		return this;
+	};
+
+	p.throwError = function throwError(ErrorClass, message) {
+		ErrorClass = ErrorClass || TypeError;
+		message = message || this.getMessage();
+		throw new ErrorClass(message);
+	};
+
+	p.rethrow = function rethrow() {
+		var e = this.error;
+		if (!e) {
+			e = new TypeError('rethrow without argument.\n\n{0}', this.getMessage());
+		}
+		throw e;
+	};
+
+	p.addToErrorLog = function addToErrorLog(log) {
+		log.error(this.getMessage());
+		return this;
+	};
+
+	p.setError = function setError(e) {
+		var stackTrace;
+
+		this.setShortDescription(e.name + ': ' + e.message);
+		this.error = e;
+		if (e.stack) stackTrace = e.stack;
+		if (!stackTrace && typeof e.captureStackTrace === 'function') {
+			stackTrace = e.capturStackTrace();
+		}
+		if (stackTrace) this.setDescription(stackTrace);
+		return this;
+	};
+
+	p.insert = (function(skip) {
+		var superInsert = p.insert;  // From RecordWrapper
+		return function insertIncident() {
+
+			// Set some default values before saving the record.
+			var gr = this.getGr();
+			if (!gr.getValue('caller_id')) {
+				gr.setValue('caller_id', gs.getUserID());
+			}
+
+			if (insertEnabled === 'Enable' || (insertEnabled === 'Skip' && !skip)) {
+				superInsert.call(this, skip);
+			} else {
+				if (log.isDebugging()) log.debug('Skipped incident insert');
+			}
+			return this;
+		};
+	})();
+
+	p.getNumber = function getNumber() {
+		return this.getGr().getValue('number');
+	};
+
+	p.getShortDescription = function getShortDescription() {
+		return this.getGr().getValue('short_description');
+	};
+
+	p.getDescription = function getDescription() {
+		return this.getGr().getValue('description');
+	};
+
+	p.getMessage = function getMessage() {
+		var parts = [];
+		var number = this.getNumber();
+		var description = this.getDescription();
+		if (number) {
+			parts.push(number);
+			parts.push(' ');
+		}
+		parts.push(this.getShortDescription());
+		if (description) {
+			parts.push('\n\n');
+			parts.push(description.trim());
+		}
+		return parts.join('');
+	};
+
+	return p;
+})(Incident);  // End Incident_proto]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>peter.smith</sys_created_by>
+        <sys_created_on>2018-07-04 23:03:05</sys_created_on>
+        <sys_id>cacf4caedbc3d740898be3a84b96199a</sys_id>
+        <sys_mod_count>29</sys_mod_count>
+        <sys_name>Incident</sys_name>
+        <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
+        <sys_update_name>sys_script_include_cacf4caedbc3d740898be3a84b96199a</sys_update_name>
+        <sys_updated_by>peter.smith</sys_updated_by>
+        <sys_updated_on>2018-07-06 01:10:20</sys_updated_on>
+    </sys_script_include>
+</record_update>

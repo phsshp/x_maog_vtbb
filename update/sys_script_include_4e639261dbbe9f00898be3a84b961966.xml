@@ -15,10 +15,10 @@ VtbBoard.prototype = (function VtbBoard_proto(s) {
 
 	var log = s.log = x_spar2_log.Logger.getLogger(TYPE, gs.getCurrentScopeName());
 
-	RecordWrapper.setup(p, TABLE, 'VTB');
+	var rw = RecordWrapper.setup(p, s, TABLE, 'VTB');
 
-	p.initialize = function initialize(grOrSysId) {
-		this.set(grOrSysId);
+	p.initialize = function initialize(grOrSysId, share) {
+		this.set(grOrSysId, share);
 	};
 
 	p.toString = (function overrideToString(superToString) {
@@ -31,31 +31,19 @@ VtbBoard.prototype = (function VtbBoard_proto(s) {
 		};
 	})(p.toString);
 	
-	s.create = function create(builder) {
-		var vtbGr = new GlideRecord(TABLE);
-		vtbGr.initialize();
-		if (typeof builder === 'function') {
-			builder(vtbGr);
-		}
-		vtbGr.insert();
-		return new VtbBoard(vtbGr);
-	};
+	p.rebuildBoard = function rebuildBoard() {
+		var vtbGr = this.getGr();
+		var group = vtbGr.assignment_group;
+		var owner = vtbGr.owner;
+		var bbSysId = vtbGr.x_maog_vtbb_builder;
+		var bb = new BoardBuilder(bbSysId);
 
-	s.query = function query(filter) {
-		var records = [];
-
-		var gr = new GlideRecord(TABLE);
-		if (typeof filter === 'function') {
-			filter(gr);
-		} else {
-			gr.addEncodedQuery(filter);
-		}
-		gr.query();
-		while (gr.next()) {
-			records.push(new VtbBoard(gr.getUniqueValue()));
-		}
-		return records;
+		this.deleteRecord();
+		bb.synchVtbRecord(group, owner);
 	};
+	
+	s.createRecord = rw.createRecord;
+	s.query = rw.query;
 
 	return p;
 })(VtbBoard);  // End VtbBoard_proto]]></script>
@@ -63,13 +51,13 @@ VtbBoard.prototype = (function VtbBoard_proto(s) {
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-19 18:09:15</sys_created_on>
         <sys_id>4e639261dbbe9f00898be3a84b961966</sys_id>
-        <sys_mod_count>22</sys_mod_count>
+        <sys_mod_count>39</sys_mod_count>
         <sys_name>VtbBoard</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_4e639261dbbe9f00898be3a84b961966</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-06-24 22:57:32</sys_updated_on>
+        <sys_updated_on>2018-07-04 23:01:08</sys_updated_on>
     </sys_script_include>
 </record_update>

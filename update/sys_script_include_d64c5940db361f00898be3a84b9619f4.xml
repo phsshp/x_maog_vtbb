@@ -15,10 +15,10 @@ GroupMember.prototype = (function GroupMember_proto(s) {
 
 	var log = s.log = x_spar2_log.Logger.getLogger(TYPE, gs.getCurrentScopeName());
 
-	RecordWrapper.setup(p, TABLE, 'GrpMbr');
+	var rw = RecordWrapper.setup(p, s, TABLE, 'GrpMbr');
 
-	p.initialize = function initialize(grOrSysId) {
-		this.set(grOrSysId);
+	p.initialize = function initialize(grOrSysId, share) {
+		this.set(grOrSysId, share);
 	};
 
 	p.getUser = function() {
@@ -27,7 +27,7 @@ GroupMember.prototype = (function GroupMember_proto(s) {
 			this.user = new User(userSysId);
 		}
 		return this.user;
-	};	
+	};
 
 	p.getGroup = function getGroup() {
 		if (!this.group) {
@@ -35,6 +35,13 @@ GroupMember.prototype = (function GroupMember_proto(s) {
 			this.group = new Group(groupSysId);
 		}
 		return this.group;
+	};
+
+	p.getUsersForGroup = function getUsersForGroup(group, filter) {
+		return s.query(function filter(gr) {
+			gr.addQuery('group', group.getSysId());
+			rw.applyFilter(gr, filter);
+		});
 	};
 
 	// The Group Member Added BR invokes this method.
@@ -60,11 +67,11 @@ GroupMember.prototype = (function GroupMember_proto(s) {
 			});
 
 		// Create boards for remaining board builders
-		Utils.a_forEach(newBbs, function f(bb) {
-			bb.addBoard(group, user);
+		newBbs.forEach(function f(bb) {
+			bb.buildBoard(group, user);
 		});
 	};
-	
+
 	// We do not remove VTBs that a Board Builder created on
 	// behalf of a user.  This way, any customizations the user
 	// made to their board remain intact.
@@ -72,27 +79,7 @@ GroupMember.prototype = (function GroupMember_proto(s) {
 		log.info('{0} removal from group is not implemented', this + '');
 	};
 
-	s.getUserGroups = function getUserGroups(user) {
-		var groups = [];
-		var gr = new GlideRecord(TABLE);
-		gr.addQuery('user', 'IN', user.getSysId());
-		gr.query();
-		while (gr.next()) {
-			groups.push(new Group(gr.getValue('group')));
-		}
-		return groups;
-	};		
-
-	s.getGroupUsers = function getGroupUsers(groupSysIds) {
-		var users = [];
-		var gr = new GlideRecord(TABLE);
-		gr.addQuery('group', 'IN', groupSysIds);
-		gr.query();
-		while (gr.next()) {
-			users.push(new User(gr.getValue('user')));
-		}
-		return users;
-	};
+	s.query = rw.query;
 
 	return p;
 })(GroupMember);  // End GroupMember_proto]]></script>
@@ -100,13 +87,13 @@ GroupMember.prototype = (function GroupMember_proto(s) {
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-14 22:05:05</sys_created_on>
         <sys_id>d64c5940db361f00898be3a84b9619f4</sys_id>
-        <sys_mod_count>28</sys_mod_count>
+        <sys_mod_count>43</sys_mod_count>
         <sys_name>GroupMember</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_d64c5940db361f00898be3a84b9619f4</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-06-24 22:48:01</sys_updated_on>
+        <sys_updated_on>2018-07-05 03:43:43</sys_updated_on>
     </sys_script_include>
 </record_update>

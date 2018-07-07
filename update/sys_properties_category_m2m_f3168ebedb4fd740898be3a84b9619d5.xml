@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_properties_category_m2m">
+    <sys_properties_category_m2m action="INSERT_OR_UPDATE">
+        <category display_value="VTB Builder Properties">595e1883db365340898be3a84b961965</category>
+        <order>800</order>
+        <property display_value="x_maog_vtbb.createIncidentsForErrors" name="x_maog_vtbb.createIncidentsForErrors">a0d54e7edb4fd740898be3a84b961977</property>
+        <sys_class_name>sys_properties_category_m2m</sys_class_name>
+        <sys_created_by>peter.smith</sys_created_by>
+        <sys_created_on>2018-07-06 00:22:38</sys_created_on>
+        <sys_id>f3168ebedb4fd740898be3a84b9619d5</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>x_maog_vtbb.createIncidentsForErrors.VTB Builder Properties</sys_name>
+        <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
+        <sys_update_name>sys_properties_category_m2m_f3168ebedb4fd740898be3a84b9619d5</sys_update_name>
+        <sys_updated_by>peter.smith</sys_updated_by>
+        <sys_updated_on>2018-07-06 00:34:30</sys_updated_on>
+    </sys_properties_category_m2m>
+</record_update>

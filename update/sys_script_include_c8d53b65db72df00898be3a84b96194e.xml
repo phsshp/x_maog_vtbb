@@ -5,104 +5,272 @@
         <active>true</active>
         <api_name>x_maog_vtbb.RecordWrapper</api_name>
         <client_callable>false</client_callable>
-        <description>Mixin to wrap a record as an object.  Provide standard behavior and lazy-evaluate retrieval of the record's content until something other than the Sys ID is required.&#13;
+        <description>Mixin to wrap a GlideRecord with an object&#13;
 &#13;
-Expects subclass to invoke RecordWrapper.setup while initializing its prototype.&#13;
-Defines these methods in my:  set, haveGr, getGr, getSysId, toString&#13;
-Expects subclass to invoke my.set from its constructor.&#13;
-Defines these properties on this: gr, sysId, recordWrapper&#13;
+Expects the subclass to invoke RecordWrapper.setup while initializing its prototype&#13;
+Adds methods to the supplied prototype (p)&#13;
+Expects the  subclass to invoke p.set from its constructor&#13;
+Adds a recordWrapper property to each instance&#13;
 &#13;
-You can pass in a dedicated property as the my parameter to set aside the methods.  You can pass in your prototype to expose the methods publicly.&#13;
-&#13;
-If you don't want to expose gr and sysId on your "this" object, use bind or call to put them somewhere else and then forward to them.&#13;
-</description>
+Your object can inherit methods by supplying its prototype to the setup method.&#13;
+Alternatively, provide a different object to set aside the methods.</description>
         <name>RecordWrapper</name>
         <script><![CDATA[var RecordWrapper = Class.create();
-RecordWrapper.setup = function setup(my, TABLE, PREFIX) {
-	my = my || {};
+(function RecordWrapper_static(s) {
+	var TYPE = 'RecordWrapper';
+	var log = x_spar2_log.Logger.getLogger(TYPE);
 
-	// Accept either a SysID or a GlideRecord
-	my.set = function set(grOrSysId, that) {
-		this.recordWrapper = {};
-		if (typeof grOrSysId === 'string') {
-			this.sysId = grOrSysId;
-			this.gr = null;
-		} else {
-			this.sysId = grOrSysId.getUniqueValue();
-			this.gr = grOrSysId;
-			this.recordWrapper.sharedGlideRecord = this.gr.getUniqueValue();
-		}
-		this.recordWrapper.table = TABLE;
-		this.recordWrapper.that = this;
-		return this;
-	};
+	// Call this method while setting up your class.
+	//
+	// p:      Subclass prototype to expose methods, or private object to hide them.
+	// CLASS:  Class object for the subclass.
+	// TABLE:  Table the subclass will access.
+	// PREFIX: Prefix to use in toString(): [PREFIX SysId DisplayName]
 
-	// Return the SysID.  Does not need to instantiate the GlideRecord.
-	my.getSysId = function getSysId() { return this.sysId; };
+	s.setup = function setup(p, CLASS, TABLE, PREFIX) {
+		p = p || {};
+		s = {};
 
-	my.haveGr = function haveGr() { return !!this.gr; };
+		// Accept either a SysID or a GlideRecord
+		// Allow sharing of GlideRecord as an optimization
+		p.set = function set(grOrSysId, share, that) {
+			that = that || this;
+			var rw = that.recordWrapper = {};
+			var sysId, gr, incident;
 
-	// Get the GlideRecord in TABLE that matches the supplied Sys ID.
-	// Cache the GlideRecord for reuse.
-	my.getGr = function getGr() {
-		if (!this.haveGr()) {
-			this.gr = new GlideRecord(TABLE);
-			this.gr.get(this.getSysId());
-		}
-		return this.gr;
-	};
+			if (typeof grOrSysId === 'string') {
+				rw.sysId = sysId = grOrSysId;
+				rw.gr = gr = null;  // Lazy load
+			} else if (typeof grOrSysId === 'object') {
+				rw.sysId = sysId = grOrSysId.getUniqueValue();
+				rw.gr = gr = share ? grOrSysId: null;
+			} // Otherwise lazy instantiate a record.
+			rw.share = share;  // For Script Debugger
+			rw.table = TABLE;  // For Script Debugger
 
-	my.toString = function toString(more) {
-		var sysId = this.getSysId();
-		var gr = this.getGr();
+			// Return the SysID.  Does not need to fetch the GlideRecord.
+			// If the SysID is blank, initialize a new record.
+			p.getSysId = function getSysId() {
+				if (!sysId) {
+					gr = new GlideRecord(TABLE);
+					gr.initialize();
+					gr.setNewGuidValue(gs.generateGUID());
+					sysId = gr.getUniqueValue();
+				}
+				return sysId;
+			};
 
-		var parts = [];
-		parts.push('[');
-		parts.push(PREFIX);
-		parts.push(' ');
-		parts.push(sysId);
-		if (gr) {
-			parts.push(' ');
-			parts.push(gr.getDisplayValue());
-		}
-		if (more) {
-			parts.push(' ');
-			parts.push(more);
-		}
-		parts.push(']');
-		return parts.join('');
-	};
-	
-	return my;
-};
+			p.haveGr = function haveGr() { return !!gr; };
 
-RecordWrapper.arrayToString = function arrayToString(arr) {
-	var r = arr.map(function(val) {
-		return val.toString();
-	});
-	return r.join(',');
-};
+			// Get the GlideRecord in TABLE that matches the supplied Sys ID.
+			// Cache the GlideRecord for reuse.
+			// If sharing, check to see if the GlideRecord is corrupt.
+			p.getGr = function getGr() {
+				var isNew;
 
-RecordWrapper.arrayToSysIds = function arrayToString(arr) {
-	var r = a.map(arr, function(accum, val) {
-		accum.push(val.getSysId());
-		return accum;
-	}, []);
-	return r.join(',');
-};
+				if (!gr) {
+					if (sysId) {
+						gr = rw.gr = new GlideRecord(TABLE);
+						gr.get(sysId);
+					} else {
+						this.getSysId(); // Initialize a new record.
+					}
+					if (log.isDebugging()) log.debug('{0} loaded', this.toString());
+				} else if (share && gr.sysId && sysId != gr.sys_id) {
+					new Incident().
+					setShortDescription('RecordWrapper GlideRecord Sys ID Changed').
+					setDescription('Shared GlideRecord Sys ID changed from {0} to {1}',
+								   sysId, gr.getValue('sys_id')).
+					insert(log.isDebugging()).addToErrorLog(log).throwError(TypeError);
+				}
+				return gr;
+			};
 
+			// Possible outcomes of changing the share state
+			// +---------+------------+------+-------------------------+
+			// |  Share  |  ShareNow  |  gr  |  Outcome                |
+			// +---------+------------+------+-------------------------+
+			// |    0    |     0      |  *   |  NC                     |
+			// +---------+------------+------+-------------------------+
+			// |    0    |     1      |  0   |  NC Meets Precondition  |
+			// +---------+------------+------+-------------------------+
+			// |    0    |     1      |  1   |  NC Already Shareable   |
+			// +---------+------------+------+-------------------------+
+			// |    1    |     0      |  0   |  NC Meets Precondition  |
+			// +---------+------------+------+-------------------------+
+			// |    1    |     0      |  1   |  Reset gr               |
+			// +---------+------------+------+-------------------------+
+			// |    1    |     1      |  *   |  NC                     |
+			// +---------+------------+------+-------------------------+
+
+			p.setShared = function setShared(shareNow) {
+				if (share && !shareNow && gr) {
+					gr = null;
+				}
+				share = !!shareNow;
+				return this;
+			};
+
+			p.toString = function toString(more) {
+				var parts = [];
+				parts.push('[');
+				parts.push(PREFIX);
+				parts.push(' ');
+				if (sysId) {
+					parts.push(sysId);
+				} else {
+					parts.push('(new)');
+				}
+				if (gr && gr.getDisplayValue()) {
+					parts.push(' ');
+					parts.push(gr.getDisplayValue());
+				}
+				if (more) {
+					parts.push(' ');
+					parts.push(more);
+				}
+				if (share) {
+					parts.push(' (shared)');
+				}
+				parts.push(']');
+				return parts.join('');
+			};
+
+			if (log.isDebugging()) log.debug('{0} constructed', that.toString());
+			return that;
+		};
+
+		p.setForceUpdate = function setForceUpdate(isOn) {
+			this.getGr().setForceUpdate(isOn);
+		};
+
+		p.update = function update() {
+			this.getGr().update();
+			return this;
+		};
+
+		p.insert = function insert() {
+			this.getGr().insert();
+			if (log.isDebugging()) log.debug('{0} inserted', this.toString());
+			return this;
+		};
+
+		// Apply a filter to a GlideRecord.  The filter could be an
+		// encoded query string or a function.  Newer code uses the
+		// function.
+		function applyFilter(gr, filter) {
+			if (typeof filter === 'function') {
+				filter(gr);
+			} else if (typeof filter === 'string' && filter) {
+				gr.addEncodedQuery(filter);
+			}
+			return this;
+		} s.applyFilter = applyFilter;
+
+		// Make a GlideRecord query that calls back for further action.
+		//
+		// filter: Called before the gr.query() call.
+		// processor: Called from within the gr.next() loop.
+		//
+		// In your filter method, add queries to the GlideRecord and
+		// make other pre-query adjustments like setting the row limit.
+		//
+		// Your processor can be used one of two ways.  If you want to
+		// return an array of wrapped records, supply the subclass
+		// definition (BoardBuilder, etc.).  If you want to
+		//
+		// If you want to operate on the records without saving
+		// them in an array, return null from your processor.
+		//
+		// If you want to act on each record but not
+		s.query = function query(filter, processor, share) {
+			var records = [], record, Constructor;
+			var gr = new GlideRecord(TABLE);
+
+			if (!processor) {
+				processor = function(gr) {
+					return new CLASS(gr, share);
+				};
+			}
+
+			if (typeof processor !== 'function') {
+				new Incident().
+				setShortDescription('Processor must be a function').
+				setDescription('RecordWrapper.query was called incorrectly').
+				insert(log.isDebugging()).addToErrorLog(log).throwError(TypeError);
+			}
+
+			applyFilter(gr, filter);
+			if (log.isDebugging()) {
+				log.debug('query {0}: {1}', TABLE, gr.getEncodedQuery());
+			}
+
+			gr.query();
+			while (gr.next()) {
+				record = processor(gr);
+				if (record) {
+					records.push(record);
+				}
+			}
+			return records;
+		};
+
+		s.createRecord = function createRecord(builder, share) {
+			var wrapper;
+			var gr = new GlideRecord(TABLE);
+			gr.initialize();
+			if (typeof builder === 'function') {
+				builder(gr);
+			}
+			gr.insert();
+			wrapper = new CLASS(gr, share);
+			if (log.isDebugging()) log.debug(wrapper.toString());
+			return wrapper;
+		};
+
+		s.deleteMultiple = function deleteMultiple(filter) {
+			var records = [], record, Constructor;
+			var gr = new GlideRecord(TABLE);
+
+			applyFilter(gr, filter);
+			if (log.isDebugging()) {
+				log.debug('deleteMultiple {0} {1}', TABLE, gr.getEncodedQuery());
+			}
+
+			gr.deleteMultiple();
+			return this;
+		};
+
+		s.arrayToString = function arrayToString(arr) {
+			var r = arr.map(function(val) {
+				return val.toString();
+			});
+			return r.join(',');
+		};
+
+		s.arrayToSysIds = function arrayToString(arr) {
+			var r = a.map(arr, function(accum, val) {
+				accum.push(val.getSysId());
+				return accum;
+			}, []);
+			return r.join(',');
+		};
+
+		return s;
+	}; // End RecordWrapper.setup
+})(RecordWrapper); // End RecordWrapper_static
 ]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-20 01:04:05</sys_created_on>
         <sys_id>c8d53b65db72df00898be3a84b96194e</sys_id>
-        <sys_mod_count>19</sys_mod_count>
+        <sys_mod_count>76</sys_mod_count>
         <sys_name>RecordWrapper</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_c8d53b65db72df00898be3a84b96194e</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-06-22 13:38:20</sys_updated_on>
+        <sys_updated_on>2018-07-06 01:12:10</sys_updated_on>
     </sys_script_include>
 </record_update>

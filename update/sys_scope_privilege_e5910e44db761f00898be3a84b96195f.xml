@@ -17,7 +17,7 @@
         <sys_updated_by>peter.smith</sys_updated_by>
         <sys_updated_on>2018-06-15 00:43:50</sys_updated_on>
         <target_name>SequencedLogger</target_name>
-        <target_scope display_value="Sequenced Logger">c68303a04f1613008305417da310c783</target_scope>
+        <target_scope/>
         <target_type>sys_script_include</target_type>
     </sys_scope_privilege>
 </record_update>

@@ -16,10 +16,11 @@
         <condition/>
         <description/>
         <execute_function>false</execute_function>
-        <filter_condition table="x_maog_vtbb_board_builder">activeVALCHANGES^ORgroup_filterVALCHANGES^ORgroup_typesVALCHANGES^ORstateVALCHANGES^EQ<item endquery="false" field="active" goto="false" newquery="false" operator="VALCHANGES" or="false" value=""/>
+        <filter_condition table="x_maog_vtbb_board_builder">activeVALCHANGES^ORgroup_filterVALCHANGES^ORgroup_typesVALCHANGES^ORstateVALCHANGES^active=true^EQ<item endquery="false" field="active" goto="false" newquery="false" operator="VALCHANGES" or="false" value=""/>
             <item endquery="false" field="group_filter" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
             <item endquery="false" field="group_types" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
             <item endquery="false" field="state" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="active" goto="false" newquery="false" operator="=" or="false" value="true"/>
             <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
         </filter_condition>
         <is_rest>false</is_rest>
@@ -36,7 +37,7 @@
         <script><![CDATA[(function executeRule(current, previous /*null when async*/) {
 
 	// Update the groups this builder applies to when the builder changes.
-	new BoardBuilder(current).updateGroups();
+	new BoardBuilder(current).updated();
 
 })(current, previous);]]></script>
         <sys_class_name>sys_script</sys_class_name>
@@ -45,7 +46,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>84980148dbf21f00898be3a84b96191e</sys_id>
-        <sys_mod_count>10</sys_mod_count>
+        <sys_mod_count>16</sys_mod_count>
         <sys_name>Board Builder Updated</sys_name>
         <sys_overrides/>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
@@ -53,7 +54,7 @@
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_84980148dbf21f00898be3a84b96191e</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-06-18 14:07:37</sys_updated_on>
+        <sys_updated_on>2018-07-06 02:27:50</sys_updated_on>
         <template/>
         <when>after</when>
     </sys_script>

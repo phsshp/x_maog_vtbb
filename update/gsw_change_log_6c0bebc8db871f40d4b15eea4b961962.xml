@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="gsw_change_log">
+    <gsw_change_log action="INSERT_OR_UPDATE">
+        <change_date>2018-06-27 18:40:08</change_date>
+        <changed_by display_value="Peter Smith">4e3f4c7cdb63fa0024c9dfea5e961956</changed_by>
+        <content display_value="ITSM Guided Setup">01c6e55c25513200964f48ca4b89e87a</content>
+        <related_change_log_entry/>
+        <related_task_entry/>
+        <sys_class_name>gsw_change_log</sys_class_name>
+        <sys_created_by>peter.smith</sys_created_by>
+        <sys_created_on>2018-06-27 18:40:08</sys_created_on>
+        <sys_id>6c0bebc8db871f40d4b15eea4b961962</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>2018-06-27 18:40:08</sys_name>
+        <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
+        <sys_update_name>gsw_change_log_6c0bebc8db871f40d4b15eea4b961962</sys_update_name>
+        <sys_updated_by>peter.smith</sys_updated_by>
+        <sys_updated_on>2018-06-27 18:40:08</sys_updated_on>
+        <type>1</type>
+    </gsw_change_log>
+</record_update>

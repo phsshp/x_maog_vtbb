@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<database>
-    <element attributes="update_synch=true" extends="sys_metadata" label="Lane Builder" max_length="40" name="x_maog_vtbb_lane_builder" type="collection">
-        <element label="Board Builder" max_length="32" name="board_builder" reference="x_maog_vtbb_board_builder" reference_qual="active=true^EQ" reference_qual_condition="active=true^EQ" type="reference"/>
-        <index name="index">
-            <element name="board_builder"/>
-        </index>
-    </element>
-</database>

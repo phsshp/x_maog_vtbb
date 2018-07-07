@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update sys_domain="global" table="sys_ui_action">
     <sys_ui_action action="INSERT_OR_UPDATE">
-        <action_name>test_board_builder</action_name>
+        <action_name>bb_add_boards</action_name>
         <active>true</active>
         <client>false</client>
         <comments/>
-        <condition/>
+        <condition>gs.hasRole('admin') || gs.hasRole('x_maog_vtbb.manager')</condition>
         <form_action>true</form_action>
         <form_button>false</form_button>
         <form_context_menu>false</form_context_menu>
         <form_link>true</form_link>
         <form_style/>
-        <hint/>
-        <list_action>false</list_action>
+        <hint>Add boards that groups/users do not have yet</hint>
+        <list_action>true</list_action>
         <list_banner_button>false</list_banner_button>
         <list_button>false</list_button>
-        <list_choice>false</list_choice>
-        <list_context_menu>false</list_context_menu>
+        <list_choice>true</list_choice>
+        <list_context_menu>true</list_context_menu>
         <list_link>false</list_link>
         <list_save_with_form_button>false</list_save_with_form_button>
         <list_style/>
-        <name>Test Board Builder</name>
+        <name>Add Boards</name>
         <onclick/>
-        <order>5000</order>
-        <script><![CDATA[new UserBoardBuilder(current).buildBoards();]]></script>
+        <order>100</order>
+        <script><![CDATA[new x_maog_vtbb.BoardBuilder(current).addBoards();
+action.setRedirectURL(current);]]></script>
         <show_insert>true</show_insert>
         <show_multiple_update>false</show_multiple_update>
         <show_query>false</show_query>
@@ -34,16 +35,16 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>6c20de13db62db00898be3a84b9619e9</sys_id>
-        <sys_mod_count>1</sys_mod_count>
-        <sys_name>Test Board Builder</sys_name>
+        <sys_mod_count>15</sys_mod_count>
+        <sys_name>Add Boards</sys_name>
         <sys_overrides/>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy/>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_ui_action_6c20de13db62db00898be3a84b9619e9</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-06-12 18:28:09</sys_updated_on>
-        <table>sys_user</table>
+        <sys_updated_on>2018-07-03 02:38:06</sys_updated_on>
+        <table>x_maog_vtbb_board_builder</table>
         <ui11_compatible>true</ui11_compatible>
         <ui16_compatible>true</ui16_compatible>
     </sys_ui_action>
