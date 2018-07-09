@@ -6,25 +6,39 @@
         <element dependent="table" dependent_on_field="table" label="Board Filter" max_length="4000" name="board_filter" type="conditions" use_dependent_field="true"/>
         <element attributes="edge_encryption_enabled=true" label="Description" max_length="4000" name="description" type="string"/>
         <element dependent="table" dependent_on_field="table" label="Lane Field" mandatory="true" max_length="80" name="field" type="field_name" use_dependent_field="true"/>
-        <element attributes="staticDependent=sys_user_group" label="Group Filter" max_length="4000" name="group_filter" type="conditions"/>
-        <element default="fast" label="Group Types" max_length="4000" name="group_types" reference="sys_user_group_type" type="glide_list"/>
-        <element default="true" label="Include Group Members" max_length="40" name="include_group_members" type="boolean"/>
         <element attributes="staticDependent=vtb_lane" label="Lane Filter" max_length="4000" name="lane_filter" type="conditions"/>
-        <element choice="1" default="Include" label="Manager" mandatory="true" max_length="40" name="manager" type="choice">
+        <element attributes="staticDependent=sys_user_group" label="Member Group Filter" max_length="4000" name="member_group_filter" type="conditions"/>
+        <element choice="1" default="Include" label="Member Group Manager" max_length="40" name="member_group_manager" type="choice">
             <choice>
                 <element hint="Members and Manager" label="Include" sequence="10" value="Include"/>
                 <element hint="Do not build this for the manager" label="Exclude" sequence="20" value="Exclude"/>
             </choice>
         </element>
-        <element choice="1" default="Include" label="Members" mandatory="true" max_length="40" name="members" type="choice">
+        <element choice="1" label="Member Group Members" max_length="40" name="member_group_members" type="choice">
             <choice>
                 <element hint="Include group members" label="Include" sequence="100" value="Include"/>
                 <element hint="Do not include group members" label="Exclude" sequence="200" value="Exclude"/>
             </choice>
         </element>
-        <element attributes="staticDependent=sys_user" label="Member Filter" max_length="4000" name="member_filter" type="conditions"/>
         <element label="Member Roles" max_length="4000" name="member_roles" reference="sys_user_role" type="glide_list"/>
+        <element attributes="staticDependent=sys_user" label="Member User Filter" max_length="4000" name="member_user_filter" type="conditions"/>
         <element display="true" label="Name" max_length="100" name="name" type="string"/>
+        <element attributes="staticDependent=sys_user_group" label="Owner Group Filter" max_length="4000" name="owner_group_filter" type="conditions"/>
+        <element choice="1" default="Include" label="Owner Group Manager" max_length="40" name="owner_group_manager" type="choice">
+            <choice>
+                <element hint="Members and Manager" label="Include" sequence="10" value="Include"/>
+                <element hint="Do not build this for the manager" label="Exclude" sequence="20" value="Exclude"/>
+            </choice>
+        </element>
+        <element choice="1" default="Include" label="Owner Group Members" max_length="40" name="owner_group_members" type="choice">
+            <choice>
+                <element hint="Include group members" label="Include" sequence="100" value="Include"/>
+                <element hint="Do not include group members" label="Exclude" sequence="200" value="Exclude"/>
+            </choice>
+        </element>
+        <element label="Owner Group Types" max_length="4000" name="owner_group_types" reference="sys_user_group_type" type="glide_list"/>
+        <element label="Owner Roles" max_length="4000" name="owner_roles" reference="sys_user_role" type="glide_list"/>
+        <element attributes="staticDependent=sys_user" label="Owner User Filter" max_length="4000" name="owner_user_filter" type="conditions"/>
         <element choice="1" label="State" max_length="40" name="state" type="choice">
             <choice>
                 <element label="Draft" sequence="100" value="Draft"/>
@@ -34,8 +48,6 @@
         </element>
         <element label="Task Table" max_length="80" name="table" type="table_name"/>
         <element label="Board Template" max_length="32" name="template" reference="sys_template" reference_qual="table=vtb_board^EQ" reference_qual_condition="table=vtb_board^EQ" type="reference"/>
-        <element attributes="staticDependent=sys_user" label="Owner Filter" max_length="4000" name="user_filter" type="conditions"/>
-        <element label="Owner Roles" max_length="4000" name="user_roles" reference="sys_user_role" type="glide_list"/>
         <index name="index">
             <element name="template"/>
         </index>

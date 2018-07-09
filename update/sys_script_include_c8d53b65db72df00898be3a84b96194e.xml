@@ -19,6 +19,24 @@ Alternatively, provide a different object to set aside the methods.</description
 (function RecordWrapper_static(s) {
 	var TYPE = 'RecordWrapper';
 	var log = x_spar2_log.Logger.getLogger(TYPE);
+	
+	// When you create a wrapped record it encapsulates a GlideRecord.
+	// You can specify that it is private (the default) or shared.
+	// SHARED: No extra queries.  Have to stop using it before modifying
+	//         the shared GlideRecord.  You must not share a GlideRecord
+	//         from a query/next loop unless you will stop using it before
+	//         the next iteration.
+	//
+	// PRIVATE: Requires a query the first time getGr is called.  Does not
+	//          get corrupted by saving beyond one iteration of a query/next
+	//          loop (for example when returning an array of wrapped records.)
+    //
+	// For efficiency, use scoping and functional programming to nest activites
+	// to conform to the lifespan of a wrapper for a shared GlideRecord.
+	
+	var RW = s.RW = {};
+	RW.SHARED = true;  // Share the GlideRecord
+	RW.PRIVATE = false; // Private is the default.
 
 	// Call this method while setting up your class.
 	//
@@ -30,6 +48,8 @@ Alternatively, provide a different object to set aside the methods.</description
 	s.setup = function setup(p, CLASS, TABLE, PREFIX) {
 		p = p || {};
 		s = {};
+		
+		p.RW = s.RW = RW;
 
 		// Accept either a SysID or a GlideRecord
 		// Allow sharing of GlideRecord as an optimization
@@ -222,9 +242,10 @@ Alternatively, provide a different object to set aside the methods.</description
 			if (typeof builder === 'function') {
 				builder(gr);
 			}
+			if (log.isDebugging()) log.debug('saving {0}: {1}', TABLE, gr.getDisplayValue());
 			gr.insert();
 			wrapper = new CLASS(gr, share);
-			if (log.isDebugging()) log.debug(wrapper.toString());
+			if (log.isDebugging()) log.debug('{0} saved', wrapper.toString());
 			return wrapper;
 		};
 
@@ -264,13 +285,13 @@ Alternatively, provide a different object to set aside the methods.</description
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-20 01:04:05</sys_created_on>
         <sys_id>c8d53b65db72df00898be3a84b96194e</sys_id>
-        <sys_mod_count>76</sys_mod_count>
+        <sys_mod_count>81</sys_mod_count>
         <sys_name>RecordWrapper</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_c8d53b65db72df00898be3a84b96194e</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-07-06 01:12:10</sys_updated_on>
+        <sys_updated_on>2018-07-09 02:47:19</sys_updated_on>
     </sys_script_include>
 </record_update>

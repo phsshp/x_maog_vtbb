@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update>
-    <sys_documentation element="user_roles" label="Owner Roles" language="en" table="x_maog_vtbb_board_builder">
+    <sys_documentation element="member_user_filter" label="Member User Filter" language="en" table="x_maog_vtbb_board_builder">
         <sys_documentation action="INSERT_OR_UPDATE">
-            <element>user_roles</element>
+            <element>member_user_filter</element>
             <help/>
             <hint/>
-            <label>Owner Roles</label>
+            <label>Member User Filter</label>
             <language>en</language>
             <name>x_maog_vtbb_board_builder</name>
-            <plural>Owner Roles</plural>
+            <plural>Member User Filters</plural>
             <sys_class_name>sys_documentation</sys_class_name>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-06-12 17:50:10</sys_created_on>
-            <sys_id>6ebf8a13db62db00898be3a84b96190c</sys_id>
-            <sys_mod_count>1</sys_mod_count>
-            <sys_name>Owner Roles</sys_name>
+            <sys_created_on>2018-07-08 02:22:19</sys_created_on>
+            <sys_id>58b4b8efdb0f5380d4b15eea4b961914</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Member User Filter</sys_name>
             <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
             <sys_policy/>
             <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
-            <sys_update_name>sys_documentation_x_maog_vtbb_board_builder_user_roles_en</sys_update_name>
+            <sys_update_name>sys_documentation_x_maog_vtbb_board_builder_member_user_filter_en</sys_update_name>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-06-29 21:37:23</sys_updated_on>
+            <sys_updated_on>2018-07-08 02:22:19</sys_updated_on>
             <url/>
             <url_target/>
         </sys_documentation>

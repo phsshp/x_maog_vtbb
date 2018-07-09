@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update>
-    <sys_documentation element="manager" label="Manager" language="en" table="x_maog_vtbb_board_builder">
+    <sys_documentation element="member_group_members" label="Member Group Members" language="en" table="x_maog_vtbb_board_builder">
         <sys_documentation action="INSERT_OR_UPDATE">
-            <element>manager</element>
+            <element>member_group_members</element>
             <help/>
             <hint/>
-            <label>Manager</label>
+            <label>Member Group Members</label>
             <language>en</language>
             <name>x_maog_vtbb_board_builder</name>
-            <plural>Managers</plural>
+            <plural>Member Group Members</plural>
             <sys_class_name>sys_documentation</sys_class_name>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-06-14 23:21:21</sys_created_on>
-            <sys_id>5dbe2d48db361f00898be3a84b96193a</sys_id>
+            <sys_created_on>2018-07-08 02:31:19</sys_created_on>
+            <sys_id>d0c6b823db4f5380d4b15eea4b96197f</sys_id>
             <sys_mod_count>0</sys_mod_count>
-            <sys_name>Manager</sys_name>
+            <sys_name>Member Group Members</sys_name>
             <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
             <sys_policy/>
             <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
-            <sys_update_name>sys_documentation_x_maog_vtbb_board_builder_manager_en</sys_update_name>
+            <sys_update_name>sys_documentation_x_maog_vtbb_board_builder_member_group_members_en</sys_update_name>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-06-14 23:21:21</sys_updated_on>
+            <sys_updated_on>2018-07-08 02:31:19</sys_updated_on>
             <url/>
             <url_target/>
         </sys_documentation>

@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update>
-    <sys_ui_section caption="Member Conditions" section_id="fdedb9d3dbbe5340898be3a84b961916" sys_domain="global" table="x_maog_vtbb_board_builder" version="3" view="">
+    <sys_ui_section caption="Membership" section_id="fdedb9d3dbbe5340898be3a84b961916" sys_domain="global" table="x_maog_vtbb_board_builder" version="3" view="">
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>member_roles</element>
             <position>0</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-03 02:15:44</sys_created_on>
-            <sys_id>1f33c331db079740898be3a84b961928</sys_id>
+            <sys_created_on>2018-07-08 02:41:22</sys_created_on>
+            <sys_id>1f097c63db4f5380d4b15eea4b961999</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Member Conditions" display_value="Member Conditions" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">fdedb9d3dbbe5340898be3a84b961916</sys_ui_section>
+            <sys_ui_section caption="Membership" display_value="Membership" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">fdedb9d3dbbe5340898be3a84b961916</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-03 02:15:44</sys_updated_on>
+            <sys_updated_on>2018-07-08 02:41:22</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>members</element>
+            <element>allow_assignees</element>
             <position>1</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-03 02:15:44</sys_created_on>
-            <sys_id>9f33c331db079740898be3a84b961928</sys_id>
+            <sys_created_on>2018-07-08 02:41:22</sys_created_on>
+            <sys_id>9f097c63db4f5380d4b15eea4b961999</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Member Conditions" display_value="Member Conditions" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">fdedb9d3dbbe5340898be3a84b961916</sys_ui_section>
+            <sys_ui_section caption="Membership" display_value="Membership" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">fdedb9d3dbbe5340898be3a84b961916</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-03 02:15:44</sys_updated_on>
+            <sys_updated_on>2018-07-08 02:41:22</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -33,41 +33,41 @@
             <element>.split</element>
             <position>2</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-03 02:15:44</sys_created_on>
-            <sys_id>1333c331db079740898be3a84b961929</sys_id>
+            <sys_created_on>2018-07-08 02:41:22</sys_created_on>
+            <sys_id>13097c63db4f5380d4b15eea4b96199a</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Member Conditions" display_value="Member Conditions" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">fdedb9d3dbbe5340898be3a84b961916</sys_ui_section>
+            <sys_ui_section caption="Membership" display_value="Membership" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">fdedb9d3dbbe5340898be3a84b961916</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-03 02:15:44</sys_updated_on>
+            <sys_updated_on>2018-07-08 02:41:22</sys_updated_on>
             <sys_user/>
             <type>.split</type>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>manager</element>
+            <element>member_group_members</element>
             <position>3</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-03 02:15:44</sys_created_on>
-            <sys_id>9333c331db079740898be3a84b961929</sys_id>
+            <sys_created_on>2018-07-08 02:41:22</sys_created_on>
+            <sys_id>93097c63db4f5380d4b15eea4b96199a</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Member Conditions" display_value="Member Conditions" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">fdedb9d3dbbe5340898be3a84b961916</sys_ui_section>
+            <sys_ui_section caption="Membership" display_value="Membership" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">fdedb9d3dbbe5340898be3a84b961916</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-03 02:15:44</sys_updated_on>
+            <sys_updated_on>2018-07-08 02:41:22</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>allow_assignees</element>
+            <element>member_group_manager</element>
             <position>4</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-03 02:15:44</sys_created_on>
-            <sys_id>1733c331db079740898be3a84b961929</sys_id>
+            <sys_created_on>2018-07-08 02:41:22</sys_created_on>
+            <sys_id>17097c63db4f5380d4b15eea4b96199a</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Member Conditions" display_value="Member Conditions" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">fdedb9d3dbbe5340898be3a84b961916</sys_ui_section>
+            <sys_ui_section caption="Membership" display_value="Membership" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">fdedb9d3dbbe5340898be3a84b961916</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-03 02:15:44</sys_updated_on>
+            <sys_updated_on>2018-07-08 02:41:22</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -75,32 +75,46 @@
             <element>.end_split</element>
             <position>5</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-03 02:15:44</sys_created_on>
-            <sys_id>9733c331db079740898be3a84b961929</sys_id>
+            <sys_created_on>2018-07-08 02:41:22</sys_created_on>
+            <sys_id>97097c63db4f5380d4b15eea4b96199a</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Member Conditions" display_value="Member Conditions" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">fdedb9d3dbbe5340898be3a84b961916</sys_ui_section>
+            <sys_ui_section caption="Membership" display_value="Membership" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">fdedb9d3dbbe5340898be3a84b961916</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-03 02:15:44</sys_updated_on>
+            <sys_updated_on>2018-07-08 02:41:22</sys_updated_on>
             <sys_user/>
             <type>.end_split</type>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>member_filter</element>
+            <element>member_group_filter</element>
             <position>6</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-03 02:15:44</sys_created_on>
-            <sys_id>1b33c331db079740898be3a84b961929</sys_id>
+            <sys_created_on>2018-07-08 02:41:22</sys_created_on>
+            <sys_id>1b097c63db4f5380d4b15eea4b96199a</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Member Conditions" display_value="Member Conditions" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">fdedb9d3dbbe5340898be3a84b961916</sys_ui_section>
+            <sys_ui_section caption="Membership" display_value="Membership" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">fdedb9d3dbbe5340898be3a84b961916</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-03 02:15:44</sys_updated_on>
+            <sys_updated_on>2018-07-08 02:41:22</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>member_user_filter</element>
+            <position>7</position>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-07-08 02:41:22</sys_created_on>
+            <sys_id>9b097c63db4f5380d4b15eea4b96199a</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Membership" display_value="Membership" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">fdedb9d3dbbe5340898be3a84b961916</sys_ui_section>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-07-08 02:41:22</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_section action="INSERT_OR_UPDATE">
-            <caption>Member Conditions</caption>
+            <caption>Membership</caption>
             <header>false</header>
             <name>x_maog_vtbb_board_builder</name>
             <roles/>
@@ -110,15 +124,15 @@
             <sys_domain>global</sys_domain>
             <sys_domain_path>/</sys_domain_path>
             <sys_id>fdedb9d3dbbe5340898be3a84b961916</sys_id>
-            <sys_mod_count>0</sys_mod_count>
-            <sys_name>Member Conditions</sys_name>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_name>Membership</sys_name>
             <sys_overrides/>
             <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
             <sys_policy/>
             <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
             <sys_update_name>sys_ui_section_fdedb9d3dbbe5340898be3a84b961916</sys_update_name>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-06-25 02:48:00</sys_updated_on>
+            <sys_updated_on>2018-07-08 02:06:27</sys_updated_on>
             <sys_user/>
             <title>false</title>
             <view display_value="Default view" name="NULL">Default view</view>

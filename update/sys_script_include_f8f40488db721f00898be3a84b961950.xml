@@ -20,6 +20,21 @@ BoardBuilderGroup.prototype = (function BoardBuilderGroup_proto(s) {
 	var log = s.log = x_spar2_log.Logger.getLogger(TYPE, gs.getCurrentScopeName());
 	var call = Function.prototype.call;
 
+	s.query = rw.query;
+
+	p.initialize = function initialize(grOrSysId, share) {
+		this.set(grOrSysId, share);
+	};
+
+	// Add a new link between a board builder and a group.
+	s.createRecord = function createRecord(bb, group) {
+		var bbg = rw.createRecord(function createBbg(gr) {
+			gr.setValue('board_builder', bb.getSysId());
+			gr.setValue('group', group.getSysId());
+		});
+		return bbg;
+	};
+
 	p.getBoardBuilder = function getBoardBuilder() {
 		if (!this.boardBuilder) {
 			var bbSysId = this.getGr().getValue('board_builder');
@@ -36,59 +51,20 @@ BoardBuilderGroup.prototype = (function BoardBuilderGroup_proto(s) {
 		return this.group;
 	};
 
-	// Do not reference the GlideRecord parameter because it is a cursor.
-	// Save the SysID and get a new GlideRecord if required.
-	p.initialize = function initialize(grOrSysId, share) {
-		this.set(grOrSysId, share);
-	};
-
-	p.getApplicableOwners = function getApplicableOwners() {
-		var bbg = this;
-		var bb = bbg.getBoardBuilder();
-		var group = bbg.getGroup();
-		var owners = group.getUsers(bb.x);
-
-		// Find the group's users the builder applies to
-		owners = User.query(function(gr) {
-			gr.addQuery('user', 'IN', group.getUserSysIds());
-			gr.addEncodedQuery(bb.getUserFilter());
-		});
-		owners = owners.filter(function(u) {
-			var applies = u.hasRoles(bb.getRequiredRoleNames());
-			return applies;
-		});
-		return owners;
-	};
-
-	// Find VTBs that reference this user and group.
-	p.getReferencingVtbs = function getReferencingVtbs(ownerSysIds) { // 0
-		var gr, owners, vtbs = [];
-		var mySysId = this.getSysId();
-
-		gr = new GlideRecord('vtb_board');
-		gr.addQuery('x_maog_vtbb_builder', mySysId);
-		gr.addQuery('user', 'IN', ownerSysIds);
-
-		gr.query();
-
-		while (gr.next()) {
-			vtbs.push(gr);
-		}
-		// TODO: Clean up - above or below?
-		filter = 'board_builder=' + mySysId + '^';
-		filter = 'userIN' + userSysIds + '^EQ';
-		owners = Users.queryUsers(function query(gr) {
-			//gr.addQuery('board_builder'); // TODO
-		});
-		return owners;
-	};
-
-	// This Board Builder Group record specifies a board and a group.
-	// Determine the vtbs that already exist for this board/group.
-	// Determine the users that should exist for this board/group.
-	// Create boards for users that do not have them.
-	// DO NOT delete boards that should no longer exist.
-	// 
+	// Create VTBs for this Board Builder Group's eligible owners.
+	//
+	// Preconditions: Given a Board Builder Group specifying
+	//  one Board Builder and one Group that satisfies that
+	//  Board Builder's owner group membership conditions
+	//  (see BoardBuilder.synchBoardBuilderGroups)
+	// Postcondition: There exists one VTB for each
+	//  user that is a member of or manager for the group
+	//  that satisifes the Board Builder's ownership
+	//  conditions.
+	// Exception: There may be additional VTBs that used to
+	//  meet the preconditions but no longer do.  We do not
+	//  delete VTBs.
+	//
 	p.synchBbgVtbs = function synchBbgVtbs(rebuild) { // 1
 		var bbg = this;
 		var group = bbg.getGroup();
@@ -100,99 +76,44 @@ BoardBuilderGroup.prototype = (function BoardBuilderGroup_proto(s) {
 			log.debug('{0} synchBbgVtbs({1})', this.toString(), rebuild);
 		}
 
-		// Determine the users that should have a copy of this board.
-		users = bb.getEligibleUsers(group);
-						
-		// Determine the VTBs that already exist for this board and group.
+		// Find VTBs that already exist for this board and group.
 		VtbBoard.query(function filter(gr) {
 			gr.addQuery('assignment_group', group.getSysId());
-			gr.addQuery('owner', 'IN', ownerSysIds);
+			gr.addQuery('x_maog_vtbb_builder', bb.getSysId());
 		}, function process(gr) {
 			ownerMap[gr.getValue('owner')] = {
 				status: EXISTS,
-				bbg: new BoardBuilderGroup(bbgGr.getValue('sys_id'))
+				bbg: new BoardBuilderGroup(gr.getValue('sys_id'))
 			};
 		});
 
-
-
-		// Synch every Group that satisfies this Board Builder's
-		// Group conditions.
-		Group.query(function filter(gr) {
-			bb.setGroupQueryString(gr);
-		}, function process(gr) {
-			var groupSysId = gr.getUniqueValue();
-			var v = groupMap[groupSysId];
-			if (v && v.status === EXISTS) {
-				if (rebuild) {
-					if (log.isDebugging()) log.debug('{0} rebuild', v.bbg.toString());
-					v.bbg.synch(true);
-				} else {
-					if (log.isDebugging()) log.debug('{0} matched', v.bbg.toString());
-				}
-				v.status = MATCHED;
-			} else {
-				BoardBuilderGroup.addRecord(groupSysId, bb.getSysId());
+		// Add VTBs that are eligible but do not exist.
+		bb.forEligibleUsers(group, BoardBuilder.BB.OWNERS, function checkUser(user) {
+			if (ownerMap[user.getSysId()] !== EXISTS) {
+				bb.createVtb(group, user);
 			}
 		});
-
-		o_forOwnProperties(groupMap, function(v, k) {
+		
+		Utils.o_forOwnProperties(ownerMap, function(v, k) {
 			if (v.status === EXISTS) {
 				if (log.isDebugging()) log.debug('{0} matched', v.bbg.toString());
 				deleteIds.push(k);
 			}
 		});
 
-		if (deleteIds.length > 0) {
-			Group.deleteMultiple(function filter(gr) {
-				gr.addQuery('sys_id', 'IN', deleteIds.join(','));
-			});
-		}
+		// if (deleteIds.length > 0) {
+		//	Group.deleteMultiple(function filter(gr) {
+		//		gr.addQuery('sys_id', 'IN', deleteIds.join(','));
+		//	});
+		// }
 	};
 
+	// Invoked by BR "Board Builder Group Added"
+	//
 	p.added = function added() {
-		if (log.isDebugging) log.debug('{0} record inserted');
+		if (log.isDebugging) log.debug('{0} record inserted', this.toString());
 		this.synchBbgVtbs();
 	};
-
-	// When a record is added, run the board builder
-	// for the group's applicable users.
-	p.added1 = function added1() {
-		var bb, group, allUsers, usersWithBoard, newBoards;
-
-		if (log.isDebugging()) log.debug('{0} business rule for insert', this + '');
-
-		bb = this.getBoardBuilder();
-		group = this.getGroup();
-
-		allUsers = bb.getApplicableUsers(group);
-		usersWithBoard = bb.getUsersWithBoard(allUsers.join(','));
-
-		// Add boards for the remaining users.
-		newBoards = Utils.subtractArraysHashed(allUsers, usersWithBoard, function(user) {
-			return user.getSysId();
-		});
-		newBoards.forEach(function(user) {
-			bb.addBoardForUser(user);
-		});
-
-		// TODO: Delete boards for users who left the group.
-	};
-
-	p.updated = function updated() {
-		if (log.isDebugging()) log.debug('{0} record updated - TODO');
-	};
-
-	// Add a new link between a board builder and a group.
-	s.createRecord = function createRecord(bbSysId, groupSysId) {
-		var bbg = rw.createRecord(function createBbg(gr) {
-			gr.setValue('board_builder', bbSysId);
-			gr.setValue('group', groupSysId);
-		});
-		return bbg;
-	};
-
-	s.query = rw.query;
 
 	return p;
 })(BoardBuilderGroup);  // End BoardBuilderGroup_proto]]></script>
@@ -200,13 +121,13 @@ BoardBuilderGroup.prototype = (function BoardBuilderGroup_proto(s) {
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-14 15:39:17</sys_created_on>
         <sys_id>f8f40488db721f00898be3a84b961950</sys_id>
-        <sys_mod_count>103</sys_mod_count>
+        <sys_mod_count>119</sys_mod_count>
         <sys_name>BoardBuilderGroup</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_f8f40488db721f00898be3a84b961950</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-07-06 03:00:01</sys_updated_on>
+        <sys_updated_on>2018-07-09 02:01:09</sys_updated_on>
     </sys_script_include>
 </record_update>

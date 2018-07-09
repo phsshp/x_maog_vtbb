@@ -15,9 +15,9 @@ User.prototype = (function User_proto(s) {
 
 	var rw = RecordWrapper.setup(p, s, TABLE, 'User');
 
-	var ADMIN_ROLE_SYS_ID = (function() {
-		var gr = new GlideRecord('sys_user_has_role');
-		gr.get('role.name', 'admin');
+	var adminRoleSysId = (function() {
+		var gr = new GlideRecord('sys_user_role');
+		gr.get('name', 'admin');
 		return gr.getValue('sys_id');
 	})();
 
@@ -29,67 +29,91 @@ User.prototype = (function User_proto(s) {
 		this.set(grOrSysId, share);
 	};
 
-	s.getRoleNamesFromSysIds = function getRoleNamesFromSysIds(sysIds) {
-		var roleNames = [];
+	p.hasRoleSysIds = function hasRoleSysIds(roleSysIdList){
+		var roleSysIdArray, roleSysIdMap, gr, sysId, answer = true;
 
-		if (!sysIds) {
-			return '';
+		roleSysIdArray = roleSysIdList.split(',');
+
+		// Requested roles
+		roleSysIdMap = {};
+		roleSysIdArray.forEach(function(v) {
+			roleSysIdMap[v] = false;
+		});
+
+		// Look for admin too.
+		roleSysIdArray.push(adminRoleSysId);
+		roleSysIdList = roleSysIdArray.join(',');
+
+		// Query for the requested roles
+		gr = new GlideRecord('sys_user_has_role');
+		gr.addQuery('user', this.getSysId());
+		gr.addQuery('role', 'IN', roleSysIdList);
+		if (log.isDebugging()) {
+			log.debug('{0} query {1}: {2}', this.toString(),
+					  gr.getTableName(), gr.getEncodedQuery());
 		}
-
-		gr = new GlideRecord('sys_user_role');
-		gr.addEncodedQuery('sys_idIN' + sysIds);
 		gr.query();
 		while (gr.next()) {
-			roleNames.push(gr.getDisplayValue());
-		}
-		return roleNames.join(',');
-	};
+			sysId = gr.getValue('role');
+			if (sysId === adminRoleSysId) return true;
 
-	p.getRoleMap = function getRoleMap() {
-		var gr, roleMap;
-		
-		if (!this.roleMap) {
-			roleMap = {};
-			gr = new GlideRecord('sys_user_has_role');
-			gr.addQuery('user', this.getSysId());
-			gr.query();
-			while (gr.next()) {
-				roleMap[gr.role.getDisplayValue()] = true;
-			}
-			this.roleMap = roleMap;
+			roleSysIdMap[sysId] = true;
 		}
-		return roleMap;
-	};
-	
-	p.hasRole = function hasRole(roleName) {
-		roleMap = this.getRoleMap();
-		if (roleMap['admin']) {
-			return true;
-		}
-		return !!roleMap[roleName];
-	};
 
-	p.hasRoles = function hasRoles(roleNames) {
-		var roleMap = this.getRoleMap();
-		if (roleMap['admin']) {
-			return true;
-		}
-		roleNames = roleNames.split(',');
-		for (var i = 0; i < roleNames.length; i++) {
-			if (!roleMap[roleNames[i]]) {
-				return false;
-			}
-		}
-		return true;
-	};
-
-	p.findExistingBoards = function findExistingBoards() {
-		var userSysId = this.getSysId();
-		var vtbs = VtbBoard.query(function(gr) {
-			gr.addQuery('user', userSysId);
-			gr.addNotNullQuery('x_maog_vtbb_builder');
+		o_forOwnProperties(roleSysIdMap, function checkRole(v) {
+			if (!v) answer = false;
 		});
-		return vtbs;
+
+		return answer;
+	};
+
+	// Special case:  Suppose I ask for a role that is not defined, like 'x'.
+	// The query will not return a Sys ID for x, so x is simply left out.
+	// This would make hasRoleNames('x') return true.
+	// To avoid this case, add 00000000000000000000000000000000 to the list of
+	// role Sys IDs if any role was undefined.
+	//
+	s.getSysIdsFromRoleNames = function getSysIdsFromRoleNames(roleNameList) {
+		var roleSysIdArray, roleSysIdMap, roleNameMap, name, sysId, gr, nameUndefined;
+
+		roleSysIdMap = {};
+		roleNameMap = roleNameList.split(',').reduce(function buildRoleNameMap(acc, v) {
+			acc[v] = false;
+			return acc;
+		}, {});
+
+		gr = new GlideRecord('sys_user_role');
+		gr.addQuery('name', 'IN', roleNameList);
+		if (log.isDebugging()) {
+			log.debug('query {0}: {1}', gr.getTableName(), gr.getEncodedQuery());
+		}
+		gr.query();
+		while (gr.next()) {
+			sysId = gr.getUniqueValue();
+			name = gr.getValue('name');
+			roleSysIdMap[sysId] = name;
+			roleNameMap[name] = sysId;
+		}
+
+		roleSysIdArray = [];
+		o_forOwnProperties(roleSysIdMap, function getId(v, k) {
+			roleSysIdArray.push(k);
+		});
+
+		o_forOwnProperties(roleNameMap, function getName(v, k) {
+			if (!v) {
+				log.warn('Role {0} is not defined', k);
+				nameUndefined = true;
+			}
+		});
+		if (nameUndefined) {
+			roleSysIdArray.push('00000000000000000000000000000000');
+		}
+		return roleSysIdArray.join(',');
+	};
+
+	p.hasRoleNames = function hasRoleNames(roleNameList) {
+		return this.hasRoleSysIds(s.getSysIdsFromRoleNames(roleNameList));
 	};
 
 	s.query = rw.query;
@@ -100,13 +124,13 @@ User.prototype = (function User_proto(s) {
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-12 18:44:32</sys_created_on>
         <sys_id>8c0c9697db62db00898be3a84b96190e</sys_id>
-        <sys_mod_count>87</sys_mod_count>
+        <sys_mod_count>96</sys_mod_count>
         <sys_name>User</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_8c0c9697db62db00898be3a84b96190e</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-07-04 18:59:49</sys_updated_on>
+        <sys_updated_on>2018-07-09 02:49:04</sys_updated_on>
     </sys_script_include>
 </record_update>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_ui_list parent="" relationship="" sys_domain="global" table="vtb_board" version="2" view="">
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>name</element>
+            <list_id display_value="vtb_board" element="NULL" name="vtb_board" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">3afb1deddb881b0005dce3a84b9619e5</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>0</position>
+            <sum>false</sum>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-02-02 20:57:45</sys_created_on>
+            <sys_id>f2fb1deddb881b0005dce3a84b9619e6</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-02-02 20:57:45</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>table</element>
+            <list_id display_value="vtb_board" element="NULL" name="vtb_board" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">3afb1deddb881b0005dce3a84b9619e5</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>1</position>
+            <sum>false</sum>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-02-02 20:57:45</sys_created_on>
+            <sys_id>bafb1deddb881b0005dce3a84b9619e6</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-02-02 20:57:45</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>field</element>
+            <list_id display_value="vtb_board" element="NULL" name="vtb_board" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">3afb1deddb881b0005dce3a84b9619e5</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>2</position>
+            <sum>false</sum>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-02-02 20:57:45</sys_created_on>
+            <sys_id>3efb1deddb881b0005dce3a84b9619e6</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-02-02 20:57:45</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>owner</element>
+            <list_id display_value="vtb_board" element="NULL" name="vtb_board" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">3afb1deddb881b0005dce3a84b9619e5</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>3</position>
+            <sum>false</sum>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-02-02 20:57:45</sys_created_on>
+            <sys_id>befb1deddb881b0005dce3a84b9619e6</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-02-02 20:57:45</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>assignment_group</element>
+            <list_id display_value="vtb_board" element="NULL" name="vtb_board" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">3afb1deddb881b0005dce3a84b9619e5</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>4</position>
+            <sum>false</sum>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-02-02 20:57:45</sys_created_on>
+            <sys_id>32fb1deddb881b0005dce3a84b9619e7</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-02-02 20:57:45</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>card_limit</element>
+            <list_id display_value="vtb_board" element="NULL" name="vtb_board" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">3afb1deddb881b0005dce3a84b9619e5</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>5</position>
+            <sum>false</sum>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-02-02 20:57:45</sys_created_on>
+            <sys_id>b2fb1deddb881b0005dce3a84b9619e7</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-02-02 20:57:45</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>list_view_name</element>
+            <list_id display_value="vtb_board" element="NULL" name="vtb_board" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">3afb1deddb881b0005dce3a84b9619e5</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>6</position>
+            <sum>false</sum>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-02-02 20:57:45</sys_created_on>
+            <sys_id>36fb1deddb881b0005dce3a84b9619e7</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-02-02 20:57:45</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>active</element>
+            <list_id display_value="vtb_board" element="NULL" name="vtb_board" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">3afb1deddb881b0005dce3a84b9619e5</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>7</position>
+            <sum>false</sum>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-02-02 20:57:45</sys_created_on>
+            <sys_id>b6fb1deddb881b0005dce3a84b9619e7</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-02-02 20:57:45</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element/>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <name>vtb_board</name>
+            <parent/>
+            <position/>
+            <relationship/>
+            <sum>false</sum>
+            <sys_class_name>sys_ui_list</sys_class_name>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-07-09 02:02:08</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>66a93d77db479380d4b15eea4b9619f6</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name/>
+            <sys_package/>
+            <sys_policy/>
+            <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
+            <sys_update_name/>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-07-09 02:02:08</sys_updated_on>
+            <sys_user display_value="Peter Smith">4e3f4c7cdb63fa0024c9dfea5e961956</sys_user>
+            <view display_value="Default view" name="NULL">Default view</view>
+            <view_name/>
+        </sys_ui_list>
+    </sys_ui_list>
+</record_update>
