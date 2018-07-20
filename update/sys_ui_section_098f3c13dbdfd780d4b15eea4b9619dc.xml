@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_ui_section caption="Tasks" section_id="098f3c13dbdfd780d4b15eea4b9619dc" sys_domain="global" table="x_maog_vtbb_board_builder" version="3" view="">
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>task_assigned_to</element>
+            <position>0</position>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-07-19 19:00:39</sys_created_on>
+            <sys_id>aba24593dbdfd780d4b15eea4b9619e3</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Tasks" display_value="Tasks" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">098f3c13dbdfd780d4b15eea4b9619dc</sys_ui_section>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-07-19 19:00:39</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>.split</element>
+            <position>1</position>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-07-19 19:00:39</sys_created_on>
+            <sys_id>2fa24593dbdfd780d4b15eea4b9619e3</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Tasks" display_value="Tasks" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">098f3c13dbdfd780d4b15eea4b9619dc</sys_ui_section>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-07-19 19:00:39</sys_updated_on>
+            <sys_user/>
+            <type>.split</type>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>.end_split</element>
+            <position>2</position>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-07-19 19:00:39</sys_created_on>
+            <sys_id>afa24593dbdfd780d4b15eea4b9619e3</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Tasks" display_value="Tasks" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">098f3c13dbdfd780d4b15eea4b9619dc</sys_ui_section>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-07-19 19:00:39</sys_updated_on>
+            <sys_user/>
+            <type>.end_split</type>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>board_filter</element>
+            <position>3</position>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-07-19 19:00:39</sys_created_on>
+            <sys_id>23a24593dbdfd780d4b15eea4b9619e4</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Tasks" display_value="Tasks" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">098f3c13dbdfd780d4b15eea4b9619dc</sys_ui_section>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-07-19 19:00:39</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_section action="INSERT_OR_UPDATE">
+            <caption>Tasks</caption>
+            <header>false</header>
+            <name>x_maog_vtbb_board_builder</name>
+            <roles/>
+            <sys_class_name>sys_ui_section</sys_class_name>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-07-19 18:46:50</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>098f3c13dbdfd780d4b15eea4b9619dc</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Tasks</sys_name>
+            <sys_overrides/>
+            <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
+            <sys_update_name>sys_ui_section_098f3c13dbdfd780d4b15eea4b9619dc</sys_update_name>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-07-19 18:46:50</sys_updated_on>
+            <sys_user/>
+            <title>false</title>
+            <view display_value="Default view" name="NULL">Default view</view>
+            <view_name/>
+        </sys_ui_section>
+    </sys_ui_section>
+</record_update>

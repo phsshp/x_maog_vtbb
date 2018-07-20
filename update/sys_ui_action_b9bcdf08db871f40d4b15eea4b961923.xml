@@ -2,7 +2,7 @@
 <record_update sys_domain="global" table="sys_ui_action">
     <sys_ui_action action="INSERT_OR_UPDATE">
         <action_name>vtb_board_rebuild</action_name>
-        <active>true</active>
+        <active>false</active>
         <client>false</client>
         <comments/>
         <condition>!current.x_maog_vtbb_builder.nil() &amp;&amp; (gs.hasRole('admin') || gs.hasRole('x_maog_vtbb.manager'))</condition>
@@ -35,7 +35,7 @@ action.setRedirectURL(current);]]></script>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>b9bcdf08db871f40d4b15eea4b961923</sys_id>
-        <sys_mod_count>3</sys_mod_count>
+        <sys_mod_count>4</sys_mod_count>
         <sys_name>Rebuild</sys_name>
         <sys_overrides/>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
@@ -43,7 +43,7 @@ action.setRedirectURL(current);]]></script>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_ui_action_b9bcdf08db871f40d4b15eea4b961923</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-06-27 20:24:35</sys_updated_on>
+        <sys_updated_on>2018-07-20 13:13:16</sys_updated_on>
         <table>vtb_board</table>
         <ui11_compatible>true</ui11_compatible>
         <ui16_compatible>true</ui16_compatible>

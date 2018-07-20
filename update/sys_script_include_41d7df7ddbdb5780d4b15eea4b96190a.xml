@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_maog_vtbb.Once</api_name>
+        <client_callable>false</client_callable>
+        <description>Supports calling a function exactly once for each new object encountered.&#13;
+Requires that key equality is the same as object equality.&#13;
+&#13;
+If you use exists() you must finish using it before calling add() the first time.&#13;
+&#13;
+If you will call removeRemaining:&#13;
+  1. You must not modify any object you passed to exists() - your object is not copied.&#13;
+  2. You must call add() for every object you want to keep.&#13;
+  3. You must finish adding before calling removeRemaining.&#13;
+&#13;
+Member functions:&#13;
+&#13;
+- exists(obj, key): Registers a pre-existing object.&#13;
+&#13;
+- add(obj, key, objFn): Invoke onceFn the first time this object's key is seen.&#13;
+   - objFn(obj): Called the first time this object is encountered, based on the key.&#13;
+&#13;
+- removeRemaining(removeFn)&#13;
+   - removeFn(obj): Called for every existing object that was not also passed to add().</description>
+        <name>Once</name>
+        <script><![CDATA[Once = function Once() {
+	var o_forOwnProperties = Utils.o_forOwnProperties;
+	var keys = {};
+	var ADDED = 'added ';
+	var EXISTS = 'saw ';
+	var REMOVED = 'removed ';
+
+	function process(obj, key, newState, objFn) {
+		var data, state;
+
+		if (key !== undefined) {
+			data = keys[key];
+
+			if (data === undefined) {
+				keys[key] = { state: newState, obj: obj };
+				if (objFn) {
+					objFn(obj);
+				}
+			} else {
+				state = data.state;
+				if (state !== ADDED && newState === ADDED) {
+					data.state = ADDED;
+					data.obj = obj;
+					objFn(obj);
+				}
+			}
+		}
+	}
+
+	// Register a pre-existing object.
+	this.exists = function exists(obj, key) {
+		process(obj, key, EXISTS);
+	};
+
+	// Add object with no matching key.
+	this.add = function add(obj, key, objFn) {
+		process(obj, key, ADDED, objFn);
+	};
+
+	// Delete objects that exist but were not mentioned by add.
+	this.removeRemaining = function removeRemaining(removeFn) {
+		o_forOwnProperties(keys, function remove(data, key) {
+			if (data.state === EXISTS) {
+				data.state = REMOVED;
+				removeFn(data.obj);
+			}
+		});
+	};
+
+	this.forEach = function forEach(fn) {
+		for (var key in keys) {
+			if (keys.hasOwnProperty(key)) {
+				var data = keys[key];
+				fn(data.obj, key, data.state);
+			}
+		}
+	};
+
+	this.toString = function toString() {
+		var buffer = [];
+		this.forEach(function(obj, key, state) {
+			buffer.push(state);
+			buffer.push(key.toString());
+			buffer.push(': ');
+			buffer.push(obj.toString());
+			buffer.push('\n');
+		});
+		return buffer.join('');
+	};
+
+	Once.Description = function Description(key, obj, more) {
+		this.key = key;
+		this.obj = obj;
+		this.more = more;
+		this.toString = function() {
+			var buffer = ['['];
+			buffer.push(key.toString());
+			buffer.push(' ');
+			buffer.push(obj.toString());
+			buffer.push(' (');
+			buffer.push(more.toString());
+			buffer.push(')]');
+			return buffer.join('');
+		};
+	};
+};
+Once.prototype = { type: 'Once' };]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>peter.smith</sys_created_by>
+        <sys_created_on>2018-07-15 14:39:50</sys_created_on>
+        <sys_id>41d7df7ddbdb5780d4b15eea4b96190a</sys_id>
+        <sys_mod_count>6</sys_mod_count>
+        <sys_name>Once</sys_name>
+        <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
+        <sys_update_name>sys_script_include_41d7df7ddbdb5780d4b15eea4b96190a</sys_update_name>
+        <sys_updated_by>peter.smith</sys_updated_by>
+        <sys_updated_on>2018-07-16 01:07:23</sys_updated_on>
+    </sys_script_include>
+</record_update>

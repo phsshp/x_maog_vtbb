@@ -23,7 +23,7 @@ BoardBuilderGroup.prototype = (function BoardBuilderGroup_proto(s) {
 	s.query = rw.query;
 
 	p.initialize = function initialize(grOrSysId, share) {
-		this.set(grOrSysId, share);
+		this.set(grOrSysId, share, this);
 	};
 
 	// Add a new link between a board builder and a group.
@@ -56,7 +56,7 @@ BoardBuilderGroup.prototype = (function BoardBuilderGroup_proto(s) {
 	// Preconditions: Given a Board Builder Group specifying
 	//  one Board Builder and one Group that satisfies that
 	//  Board Builder's owner group membership conditions
-	//  (see BoardBuilder.synchBoardBuilderGroups)
+	//  (see BoardBuilder.synchBbgs)
 	// Postcondition: There exists one VTB for each
 	//  user that is a member of or manager for the group
 	//  that satisifes the Board Builder's ownership
@@ -66,46 +66,42 @@ BoardBuilderGroup.prototype = (function BoardBuilderGroup_proto(s) {
 	//  delete VTBs.
 	//
 	p.synchBbgVtbs = function synchBbgVtbs(rebuild) { // 1
-		var bbg = this;
-		var group = bbg.getGroup();
-		var bb = bbg.getBoardBuilder();
-		var ownerMap = {};
-		var deleteIds = [];
+		var bb, bbSysId, bbg, bbgSysId, group, groupSysId, once;
+
+		bbg = this;
+		bbgSysId = bbg.getSysId();
+		bb = bbg.getBoardBuilder();
+		bbSysId = bb.getSysId();
+		group = bbg.getGroup();
+		groupSysId = group.getSysId();
+		once = new Once();		
 
 		if (log.isDebugging()) {
-			log.debug('{0} synchBbgVtbs({1})', this.toString(), rebuild);
+			log.debug('{0} synchBbgVtbs{1}', this.toString(), (rebuild ? ' (rebuild)' : ''));
 		}
 
 		// Find VTBs that already exist for this board and group.
 		VtbBoard.query(function filter(gr) {
 			gr.addQuery('assignment_group', group.getSysId());
 			gr.addQuery('x_maog_vtbb_builder', bb.getSysId());
-		}, function process(gr) {
-			ownerMap[gr.getValue('owner')] = {
-				status: EXISTS,
-				bbg: new BoardBuilderGroup(gr.getValue('sys_id'))
-			};
+		}, function process(vtbGr) {
+			var owner = new Owner(vtbGr.owner);
+			var key = VtbBoard.makeKey(bbSysId, groupSysId, owner.getSysId());
+			var vtb = new VtbBoard(vtbGr);
+			if (rebuild) {
+				bb.setVtbValues(vtb, group, owner);
+				bb.setVtbFilter(vtb, group, owner);
+			}
+			once.exists(vtb, key);
 		});
 
-		// Add VTBs that are eligible but do not exist.
-		bb.forEligibleUsers(group, BoardBuilder.BB.OWNERS, function checkUser(user) {
-			if (ownerMap[user.getSysId()] !== EXISTS) {
-				bb.createVtb(group, user);
-			}
+		// Add new VTBs
+		bb.forNewEligibleOwners(group, function addNewVtb(owner) {
+			var key = VtbBoard.makeKey(bbSysId, groupSysId, owner.getSysId());
+			once.add(null, key, function addBbgBoard() {
+				bb.createVtbRecord(group, owner, null);
+			});
 		});
-		
-		Utils.o_forOwnProperties(ownerMap, function(v, k) {
-			if (v.status === EXISTS) {
-				if (log.isDebugging()) log.debug('{0} matched', v.bbg.toString());
-				deleteIds.push(k);
-			}
-		});
-
-		// if (deleteIds.length > 0) {
-		//	Group.deleteMultiple(function filter(gr) {
-		//		gr.addQuery('sys_id', 'IN', deleteIds.join(','));
-		//	});
-		// }
 	};
 
 	// Invoked by BR "Board Builder Group Added"
@@ -114,20 +110,20 @@ BoardBuilderGroup.prototype = (function BoardBuilderGroup_proto(s) {
 		if (log.isDebugging) log.debug('{0} record inserted', this.toString());
 		this.synchBbgVtbs();
 	};
-
+	
 	return p;
 })(BoardBuilderGroup);  // End BoardBuilderGroup_proto]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-14 15:39:17</sys_created_on>
         <sys_id>f8f40488db721f00898be3a84b961950</sys_id>
-        <sys_mod_count>119</sys_mod_count>
+        <sys_mod_count>136</sys_mod_count>
         <sys_name>BoardBuilderGroup</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_f8f40488db721f00898be3a84b961950</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-07-09 02:01:09</sys_updated_on>
+        <sys_updated_on>2018-07-20 05:48:24</sys_updated_on>
     </sys_script_include>
 </record_update>

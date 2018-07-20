@@ -20,11 +20,11 @@
         <list_link>false</list_link>
         <list_save_with_form_button>false</list_save_with_form_button>
         <list_style/>
-        <name>Add Boards</name>
+        <name>Add User VTBs</name>
         <onclick/>
         <order>100</order>
-        <script><![CDATA[new x_maog_vtbb.User(current).addBoards();
-action.setRedirectURL(current);]]></script>
+        <script><![CDATA[action.setRedirectURL(current);
+new x_maog_vtbb.User(current, true).addBoards();]]></script>
         <show_insert>true</show_insert>
         <show_multiple_update>false</show_multiple_update>
         <show_query>false</show_query>
@@ -35,15 +35,15 @@ action.setRedirectURL(current);]]></script>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>83ebd804db03d340898be3a84b9619bb</sys_id>
-        <sys_mod_count>6</sys_mod_count>
-        <sys_name>Add Boards</sys_name>
+        <sys_mod_count>9</sys_mod_count>
+        <sys_name>Add User VTBs</sys_name>
         <sys_overrides/>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy/>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_ui_action_83ebd804db03d340898be3a84b9619bb</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-06-27 17:47:06</sys_updated_on>
+        <sys_updated_on>2018-07-15 03:26:44</sys_updated_on>
         <table>sys_user</table>
         <ui11_compatible>true</ui11_compatible>
         <ui16_compatible>true</ui16_compatible>

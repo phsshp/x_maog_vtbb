@@ -3,19 +3,28 @@
     <sys_script_include action="INSERT_OR_UPDATE">
         <access>public</access>
         <active>true</active>
-        <api_name>x_maog_vtbb.VtbLaneType</api_name>
+        <api_name>x_maog_vtbb.VtbLane</api_name>
         <client_callable>false</client_callable>
         <description>Manages a VTB Lane's type information.</description>
-        <name>VtbLaneType</name>
-        <script><![CDATA[var VtbLaneType = Class.create();
-VtbLaneType.prototype = (function VtbLaneType_proto(s) {
+        <name>VtbLane</name>
+        <script><![CDATA[var VtbLane = Class.create();
+VtbLane.prototype = (function VtbLane_proto(s) {
 	var p = {};
-	var TYPE = p.type = 'VtbLaneType';
+	var TYPE = p.type = 'VtbLane';
+	var TABLE = 'vtb_lane';
 
 	var log = s.log = x_spar2_log.Logger.getLogger(TYPE, gs.getCurrentScopeName());
 
-	p.initialize = function initialize(bb, vtb) {
-		var bbGr, tableName, fieldName, gr, ge, ged, type, isChoice, values;
+	var rw = RecordWrapper.setup(p, s, TABLE, 'VTL');
+
+	var slice = Function.prototype.apply.bind(Array.prototype.slice);
+
+	p.initialize = function initialize(grOrSysId, share) {
+		rw.set(grOrSysId, share, this);
+	}; // End initialize
+
+	s.synchLanes = function	synchLanes(bb, vtb, group, owner) {
+		var bbGr, tableName, fieldName, gr, ge, ged, type, isChoice, values, once, highOrder;
 
 		bbGr = bb.getGr();
 		tableName = bbGr.getValue('table');
@@ -27,43 +36,156 @@ VtbLaneType.prototype = (function VtbLaneType_proto(s) {
 		type = ged.getInternalType();
 		isChoice = ged.isChoiceTable();
 		values = [];
+		highOrder = 0;
 
-		if (isChoice) { (function() {
-			values = ge.getChoices();
-		})(); } else (function() {
-			switch (type) {
-				case 'reference':
-					break;
-				default:
-					new TypeError('Unknown type: ' + type);
-			}
-		})();
+		once = new Once();
 
-		this.forEachValue = function forEachValue(fn) {
-			values.forEach(function choiceValue(v) {
-				gr.setValue(fieldName, v);
-				var l = gr[fieldName].getChoiceValue();
-				fn(v, l);
+		// Find existing VTBs.
+		function findExistingRecords() {
+			VtbBoard.query(function filter(vtbGr) {
+				vtbGr.addQuery('board', vtb.getSysId());
+			}, function checker(vtbGr) {
+				var order, value;
+				order = vtbGr.getValue('order');
+				highOrder = Math.max(highOrder, order);
+				value = vtbGr.getValue('value');
+				once.exists(new Once.Description(
+					value, vtbGr.getDisplayValue(),
+					order), value);
 			});
-		};
+		}
 
-		this.getType = function getType() { return type; };
+		function createVtbLane(description) {
+			var key = description.key;
+			var label = description.obj;
+
+			var vtl = rw.createRecord(function createBbg(vtlGr) {
+				vtlGr.setValue('x_maog_vtbb_builder', bb.getSysId());
+				vtlGr.setValue('board', vtb.getSysId());
+				vtlGr.setValue('value', key);
+				vtlGr.setValue('name', label);
+				vtlGr.setValue('order', ++highOrder);
+			});
+			return vtl;
+		}
+
+		// TODO: Finish
+		function forEachChoice() {
+			var values = ge.getChoices();
+
+			values.forEach(function choiceValue(value) {
+				var bd = new BoardDescription(
+
+				);
+				gr.setValue(fieldName, value);
+				label = gr[fieldName].getChoiceValue();
+				once.add(value, label);
+			});
+		}
+
+		function forEachReference() {
+			var value, label;
+			var ga = new GlideAggregate(tableName);
+			ga.addAggregate('COUNT', fieldName);
+			ga.addEncodedQuery(vtb.getValue('board_filter'));
+			ga.orderBy(fieldName);
+			ga.groupBy(fieldName);
+			ga.query();
+			while (ga.next()) {
+				value = ga.getValue(fieldName);
+				once.exists(new Once.Description(
+					ga.getValue(fieldName),
+					ga[fieldName].getDisplayValue()), value);
+			}
+		}
+
+
+		function forEachUser() {
+			if (bbGr.getValue('member_group_manager') === 'Include') {
+				mgr = group.getManager();
+				if (mgr) {
+					if (log.isDebugging) {
+						log.debug('Adding lane for group manager {0}', mgr.toString());
+					}
+					once.add(
+						new Once.Description(
+							mgr.getSysId(),
+							mgr.getDisplayValue()),
+						mgr.getSysId(),
+						createVtbLane);
+				}
+			}
+
+			if (log.isDebugging) {
+				log.debug('Adding lane for group owner {0}', owner.toString());
+			}
+			once.add(new Once.Description(
+				owner.getSysId(),
+				owner.getDisplayValue()), 
+					 owner.getSysId(),
+					 createVtbLane);
+
+			if (bbGr.getValue('member_group_members') === 'Include') {
+				group.getUsers().forEach(function(user) {
+					var sysId = user.getSysId() + '';
+					if (log.isDebugging) {
+						log.debug('Adding lane for group member {0}', user.toString());
+					}
+					once.add(
+						new Once.Description(
+							sysId,
+							user.getDisplayValue()), 
+						sysId,
+						createVtbLane);
+				});
+			}
+		}
+
+		function manageReference() {
+			var refTable = ge.getReferenceTable();
+			switch (refTable) {
+				case 'sys_user':
+					forEachUser();
+					break;
+					//	case 'sys_user_group':
+					//		forEachGroup(fn);
+					// 		break;
+				default:
+					forEachReference();
+			}
+		}
+
+		function addLanes() {
+			if (isChoice) {
+				forEachChoice();
+			} else {
+				switch (type) {
+					case 'reference':
+						manageReference();
+						break;
+					default:
+						new TypeError('Unknown type: ' + type);
+				}
+			}
+		}
+
+		findExistingRecords();
+		addLanes();
 	};
 
-
 	return p;
-})(VtbLaneType);  // End VtbLaneType_proto]]></script>
+})(VtbLane);  // End VtbLane_proto]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-07-07 22:14:31</sys_created_on>
         <sys_id>f85ab317dbcb5380d4b15eea4b96194b</sys_id>
-        <sys_mod_count>18</sys_mod_count>
-        <sys_name>VtbLaneType</sys_name>
+        <sys_mod_count>41</sys_mod_count>
+        <sys_name>VtbLane</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_f85ab317dbcb5380d4b15eea4b96194b</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-07-07 23:22:09</sys_updated_on>
+        <sys_updated_on>2018-07-20 12:23:10</sys_updated_on>
     </sys_script_include>
 </record_update>

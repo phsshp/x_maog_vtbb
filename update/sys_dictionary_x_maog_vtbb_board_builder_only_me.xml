@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update>
-    <sys_dictionary action="INSERT_OR_UPDATE" element="allow_assignees" table="x_maog_vtbb_board_builder">
+    <sys_dictionary action="INSERT_OR_UPDATE" element="only_me" table="x_maog_vtbb_board_builder">
         <active>true</active>
         <array>false</array>
         <array_denormalized>false</array_denormalized>
@@ -15,10 +15,10 @@
         <choice/>
         <choice_field/>
         <choice_table/>
-        <column_label>Allow Assignees</column_label>
+        <column_label>Only Me</column_label>
         <comments/>
         <create_roles/>
-        <default_value/>
+        <default_value>true</default_value>
         <defaultsort/>
         <delete_roles/>
         <dependent/>
@@ -28,7 +28,7 @@
         <dynamic_creation_script/>
         <dynamic_default_value/>
         <dynamic_ref_qual/>
-        <element>allow_assignees</element>
+        <element>only_me</element>
         <element_reference>false</element_reference>
         <foreign_database/>
         <internal_type display_value="">boolean</internal_type>
@@ -51,16 +51,16 @@
         <staged>false</staged>
         <sys_class_name>sys_dictionary</sys_class_name>
         <sys_created_by>peter.smith</sys_created_by>
-        <sys_created_on>2018-06-19 12:49:44</sys_created_on>
-        <sys_id>d619246bdb36db40d4b15eea4b961988</sys_id>
+        <sys_created_on>2018-07-17 05:54:45</sys_created_on>
+        <sys_id>509b739edb9f5f40898be3a84b9619ca</sys_id>
         <sys_mod_count>0</sys_mod_count>
-        <sys_name>Allow Assignees</sys_name>
+        <sys_name>Only Me</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy/>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
-        <sys_update_name>sys_dictionary_x_maog_vtbb_board_builder_allow_assignees</sys_update_name>
-        <sys_updated_by>system</sys_updated_by>
-        <sys_updated_on>2018-06-25 15:16:01</sys_updated_on>
+        <sys_update_name>sys_dictionary_x_maog_vtbb_board_builder_only_me</sys_update_name>
+        <sys_updated_by>peter.smith</sys_updated_by>
+        <sys_updated_on>2018-07-17 05:54:45</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <unique>false</unique>
