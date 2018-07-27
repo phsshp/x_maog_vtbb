@@ -15,9 +15,9 @@ BoardBuilderGroup.prototype = (function BoardBuilderGroup_proto(s) {
 
 	var EXISTS = 1, MATCHED = 2;
 
-	var rw = RecordWrapper.setup(p, s, TABLE, 'BBG');
-
 	var log = s.log = x_spar2_log.Logger.getLogger(TYPE, gs.getCurrentScopeName());
+	var rw = RecordWrapper.setup(p, s, TABLE, 'BBG', log);
+
 	var call = Function.prototype.call;
 
 	s.query = rw.query;
@@ -96,12 +96,12 @@ BoardBuilderGroup.prototype = (function BoardBuilderGroup_proto(s) {
 		});
 
 		// Add new VTBs
-		bb.forNewEligibleOwners(group, function addNewVtb(owner) {
+		bb.forNewEligibleUsers(group, function addNewVtb(owner) {
 			var key = VtbBoard.makeKey(bbSysId, groupSysId, owner.getSysId());
 			once.add(null, key, function addBbgBoard() {
 				bb.createVtbRecord(group, owner, null);
 			});
-		});
+		}, BoardBuilder.USER_TYPE.OWNERS);
 	};
 
 	// Invoked by BR "Board Builder Group Added"
@@ -117,13 +117,13 @@ BoardBuilderGroup.prototype = (function BoardBuilderGroup_proto(s) {
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-14 15:39:17</sys_created_on>
         <sys_id>f8f40488db721f00898be3a84b961950</sys_id>
-        <sys_mod_count>136</sys_mod_count>
+        <sys_mod_count>141</sys_mod_count>
         <sys_name>BoardBuilderGroup</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_f8f40488db721f00898be3a84b961950</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-07-20 05:48:24</sys_updated_on>
+        <sys_updated_on>2018-07-27 03:00:15</sys_updated_on>
     </sys_script_include>
 </record_update>

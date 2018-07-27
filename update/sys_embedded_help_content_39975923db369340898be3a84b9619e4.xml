@@ -4,7 +4,7 @@
         <active>true</active>
         <category>reporting</category>
         <content><![CDATA[ <h1 class="title topictitle1">Chart color scheme list</h1>  <div class="body conbody">  <div class="p">Chart color schemes enable you to predefine and reuse a set of colors in reports.<ol class="ol" id="pa_chart_color_schemes_list-normal__ol_rkr_4ml_d1b"><li class="li"><span class="ph">Click the column headers to search, sort, filter, and    edit data. </span></li><li class="li">Click the name of a color scheme to view and edit its properties and color definitions.</li><li class="li">Click the name of a color scheme to view and edit its properties.</li></ol></div> </div> <div class="related-links"><div class="relinfo"><div class="reltitle">Related information<br /><div><a class="link" href="https://docs.servicenow.com/?context&#61;CSHelp:Lists&amp;version&#61;jakarta" target="_blank" rel="nofollow">Lists</a></div></div></div></div>]]></content>
-        <last_sync>2018-07-10 18:40:05</last_sync>
+        <last_sync>2018-07-25 18:40:08</last_sync>
         <modifier>normal</modifier>
         <name>pa_chart_color_schemes_list-normal</name>
         <page>pa_chart_color_schemes_list</page>
@@ -17,14 +17,14 @@
         <sys_created_by>system</sys_created_by>
         <sys_created_on>2018-06-25 18:39:05</sys_created_on>
         <sys_id>39975923db369340898be3a84b9619e4</sys_id>
-        <sys_mod_count>1</sys_mod_count>
+        <sys_mod_count>2</sys_mod_count>
         <sys_name>pa_chart_color_schemes_list-normal</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy/>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_embedded_help_content_39975923db369340898be3a84b9619e4</sys_update_name>
         <sys_updated_by>system</sys_updated_by>
-        <sys_updated_on>2018-07-10 18:40:05</sys_updated_on>
+        <sys_updated_on>2018-07-25 18:40:08</sys_updated_on>
         <version>j</version>
     </sys_embedded_help_content>
     <sys_translated_text action="delete_multiple" query="documentkey=39975923db369340898be3a84b9619e4"/>

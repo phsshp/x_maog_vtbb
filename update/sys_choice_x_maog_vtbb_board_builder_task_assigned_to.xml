@@ -4,7 +4,7 @@
         <sys_choice action="INSERT_OR_UPDATE">
             <dependent_value/>
             <element>task_assigned_to</element>
-            <hint/>
+            <hint>Do not add anything to the filter</hint>
             <inactive>false</inactive>
             <label>Specified in Filter</label>
             <language>en</language>
@@ -15,16 +15,16 @@
             <sys_domain>global</sys_domain>
             <sys_domain_path>/</sys_domain_path>
             <sys_id>64e38d93dbdfd780d4b15eea4b9619c8</sys_id>
-            <sys_mod_count>6</sys_mod_count>
+            <sys_mod_count>7</sys_mod_count>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-19 20:15:30</sys_updated_on>
+            <sys_updated_on>2018-07-25 20:06:58</sys_updated_on>
             <value>filter</value>
         </sys_choice>
         <sys_choice action="INSERT_OR_UPDATE">
             <dependent_value>Members of this Board</dependent_value>
             <element>task_assigned_to</element>
-            <hint/>
-            <inactive>false</inactive>
+            <hint>Use the current list of this board's members</hint>
+            <inactive>true</inactive>
             <label>Board Members</label>
             <language>en</language>
             <name>x_maog_vtbb_board_builder</name>
@@ -34,9 +34,9 @@
             <sys_domain>global</sys_domain>
             <sys_domain_path>/</sys_domain_path>
             <sys_id>83410553dbdfd780d4b15eea4b9619a6</sys_id>
-            <sys_mod_count>4</sys_mod_count>
+            <sys_mod_count>5</sys_mod_count>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-19 20:15:41</sys_updated_on>
+            <sys_updated_on>2018-07-25 20:07:39</sys_updated_on>
             <value>board_members</value>
         </sys_choice>
         <sys_choice action="INSERT_OR_UPDATE">

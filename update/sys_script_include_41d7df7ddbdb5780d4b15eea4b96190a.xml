@@ -28,40 +28,40 @@ Member functions:&#13;
         <script><![CDATA[Once = function Once() {
 	var o_forOwnProperties = Utils.o_forOwnProperties;
 	var keys = {};
-	var ADDED = 'added ';
-	var EXISTS = 'saw ';
-	var REMOVED = 'removed ';
+	var STATE = Once.STATE = {};
+	var ADDED = STATE.ADDED = 'added ';
+	var EXISTS = STATE.EXISTS = 'saw ';
+	var REMOVED = STATE.REMOVED = 'removed ';
 
-	function process(obj, key, newState, objFn) {
+	function process(obj, key, newState, objFn, updFn) {
 		var data, state;
 
 		if (key !== undefined) {
 			data = keys[key];
 
 			if (data === undefined) {
-				keys[key] = { state: newState, obj: obj };
-				if (objFn) {
-					objFn(obj);
-				}
+				keys[key] = data = { state: newState, obj: obj };
+				if (objFn && newState === ADDED) objFn(data.obj, key, data.state);
 			} else {
 				state = data.state;
 				if (state !== ADDED && newState === ADDED) {
 					data.state = ADDED;
 					data.obj = obj;
-					objFn(obj);
+					if (objFn) objFn(data.obj, key, data.state);
 				}
 			}
+			if (updFn) updFn(data.obj, key, data.state);
 		}
 	}
 
 	// Register a pre-existing object.
-	this.exists = function exists(obj, key) {
-		process(obj, key, EXISTS);
+	this.exists = function exists(obj, key, updFn) {
+		process(obj, key, EXISTS, null, updFn);
 	};
 
 	// Add object with no matching key.
-	this.add = function add(obj, key, objFn) {
-		process(obj, key, ADDED, objFn);
+	this.add = function add(obj, key, objFn, updFn) {
+		process(obj, key, ADDED, objFn, updFn);
 	};
 
 	// Delete objects that exist but were not mentioned by add.
@@ -95,7 +95,7 @@ Member functions:&#13;
 		return buffer.join('');
 	};
 
-	Once.Description = function Description(key, obj, more) {
+	Once.Descriptor = function Descriptor(key, obj, more) {
 		this.key = key;
 		this.obj = obj;
 		this.more = more;
@@ -116,13 +116,13 @@ Once.prototype = { type: 'Once' };]]></script>
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-07-15 14:39:50</sys_created_on>
         <sys_id>41d7df7ddbdb5780d4b15eea4b96190a</sys_id>
-        <sys_mod_count>6</sys_mod_count>
+        <sys_mod_count>11</sys_mod_count>
         <sys_name>Once</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_41d7df7ddbdb5780d4b15eea4b96190a</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-07-16 01:07:23</sys_updated_on>
+        <sys_updated_on>2018-07-26 22:41:30</sys_updated_on>
     </sys_script_include>
 </record_update>

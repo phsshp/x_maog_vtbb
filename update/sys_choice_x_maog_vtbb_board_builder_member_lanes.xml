@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_choice action="INSERT_OR_UPDATE" field="member_lanes" table="x_maog_vtbb_board_builder" version="3">
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>member_lanes</element>
+            <hint/>
+            <inactive>true</inactive>
+            <label>Member Only</label>
+            <language>en</language>
+            <name>x_maog_vtbb_board_builder</name>
+            <sequence>0</sequence>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-07-25 21:40:09</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>b2b02099db671300898be3a84b9619ac</sys_id>
+            <sys_mod_count>4</sys_mod_count>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-07-25 21:57:01</sys_updated_on>
+            <value>member_only</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>member_lanes</element>
+            <hint/>
+            <inactive>true</inactive>
+            <label>Owner Only</label>
+            <language>en</language>
+            <name>x_maog_vtbb_board_builder</name>
+            <sequence>1</sequence>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-07-25 21:42:06</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>d2e02099db671300898be3a84b9619b0</sys_id>
+            <sys_mod_count>4</sys_mod_count>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-07-25 21:57:01</sys_updated_on>
+            <value>owner_only</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>member_lanes</element>
+            <hint/>
+            <inactive>true</inactive>
+            <label>All Members</label>
+            <language>en</language>
+            <name>x_maog_vtbb_board_builder</name>
+            <sequence>2</sequence>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-07-25 21:40:57</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>6cc02099db671300898be3a84b961973</sys_id>
+            <sys_mod_count>4</sys_mod_count>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-07-25 21:57:01</sys_updated_on>
+            <value>all_members</value>
+        </sys_choice>
+        <sys_choice_set action="INSERT_OR_UPDATE">
+            <element>member_lanes</element>
+            <name>x_maog_vtbb_board_builder</name>
+            <sys_class_name>sys_choice_set</sys_class_name>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-07-25 21:40:09</sys_created_on>
+            <sys_id>f2b02099db671300898be3a84b9619ad</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>member_lanes</sys_name>
+            <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
+            <sys_update_name>sys_choice_x_maog_vtbb_board_builder_member_lanes</sys_update_name>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-07-25 21:40:09</sys_updated_on>
+        </sys_choice_set>
+    </sys_choice>
+</record_update>

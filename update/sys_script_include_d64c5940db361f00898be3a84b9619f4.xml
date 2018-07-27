@@ -15,7 +15,7 @@ GroupMember.prototype = (function GroupMember_proto(s) {
 
 	var log = s.log = x_spar2_log.Logger.getLogger(TYPE, gs.getCurrentScopeName());
 
-	var rw = RecordWrapper.setup(p, s, TABLE, 'GrpMbr');
+	var rw = RecordWrapper.setup(p, s, TABLE, 'GrpMbr', log);
 
 	p.initialize = function initialize(grOrSysId, share) {
 		rw.set(grOrSysId, share, this);
@@ -35,34 +35,6 @@ GroupMember.prototype = (function GroupMember_proto(s) {
 			this.group = new Group(groupSysId);
 		}
 		return this.group;
-	};
-
-	// The Group Member Added BR invokes this method.
-	// Find board builders that apply to the user's new group.
-	// Remove board builders that already have a vtb for this user.
-	// Create vtbs for this user for remaining boards.
-	p.added = function added() {
-		var user, group, applicableBbs, userBbs, newBbs;
-
-		user = this.getUser();
-		group = this.getGroup();
-
-		// Find applicable board builders
-		applicableBbs = group.getApplicableBoardBuilders();
-
-		// Find the user's boards that match any applicable board.
-		userBbs = user.findExistingBoards(applicableBbs);
-
-		// Remove applicable boards that have an existing board
-		newBbs = Utils.subtractArraysHashed(
-			applicableBbs, userBbs, function hash(val) {
-				return val.getSysId();
-			});
-
-		// Create boards for remaining board builders
-		newBbs.forEach(function f(bb) {
-			bb.buildBoard(group, user);
-		});
 	};
 
 	// We do not remove VTBs that a Board Builder created on
@@ -85,6 +57,25 @@ GroupMember.prototype = (function GroupMember_proto(s) {
 		});
 	};
 
+	s.forGroupUsers = function forGroupUsers(group, fn) {
+		s.query(function filter(gr) {
+			gr.addQuery('group', group.getSysId());
+		}, function builder(gr) {
+			fn(new User(gr.getValue('user')));
+		});
+
+	};
+
+	// The Group Member Added BR invokes this method.
+	// Find board builders for this GroupMember's Group and
+	// make sure any new boards are built.
+	p.added = function added() {
+		if (isDebugging) {
+			log.debug('{0} record inserted', this.toString);
+		}
+		BoardBuilder.addBoardsForGroup(this.getGroup());
+	};
+
 	s.query = rw.query;
 
 	return p;
@@ -93,13 +84,13 @@ GroupMember.prototype = (function GroupMember_proto(s) {
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-14 22:05:05</sys_created_on>
         <sys_id>d64c5940db361f00898be3a84b9619f4</sys_id>
-        <sys_mod_count>50</sys_mod_count>
+        <sys_mod_count>54</sys_mod_count>
         <sys_name>GroupMember</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_d64c5940db361f00898be3a84b9619f4</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-07-20 09:10:37</sys_updated_on>
+        <sys_updated_on>2018-07-27 02:59:46</sys_updated_on>
     </sys_script_include>
 </record_update>

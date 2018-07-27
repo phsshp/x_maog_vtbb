@@ -18,8 +18,7 @@ Alternatively, provide a different object to set aside the methods.</description
         <script><![CDATA[var RecordWrapper = Class.create();
 (function RecordWrapper_static(s) {
 	var TYPE = 'RecordWrapper';
-	var log = x_spar2_log.Logger.getLogger(TYPE);
-
+	var myLog = x_spar2_log.Logger.getLogger(TYPE);
 
 	// When you create a wrapped record it encapsulates a GlideRecord.
 	// You can specify that it is private (the default) or shared.
@@ -36,9 +35,9 @@ Alternatively, provide a different object to set aside the methods.</description
 	// For efficiency, use scoping and functional programming to nest activites
 	// to conform to the lifespan of a wrapper for a shared GlideRecord.
 
-	var RW = s.RW = {};
-	RW.SHARED = true;  // Share the GlideRecord
-	RW.PRIVATE = false; // Private is the default.
+	var MODE = s.MODE = {};
+	MODE.SHARED = true;  // Share the GlideRecord
+	MODE.PRIVATE = false; // Private is the default.
 
 	// Call this method while setting up your class.
 	//
@@ -47,10 +46,14 @@ Alternatively, provide a different object to set aside the methods.</description
 	// TABLE:  Table the subclass will access.
 	// PREFIX: Prefix to use in toString(): [PREFIX SysId DisplayName]
 
-	s.setup = function setup(p, CLASS, TABLE, PREFIX) {
+	s.setup = function setup(p, CLASS, TABLE, PREFIX, log) {
+
+		log = log || myLog;
 
 		// Each class needs its own copy of the "static" methods defined in setup
 		var rw = {};
+
+		p.MODE = rw.MODE = MODE;
 
 		// If a this value wasn't passed to set, we'll need to use a
 		// shell class to put the prototype in place.
@@ -59,8 +62,6 @@ Alternatively, provide a different object to set aside the methods.</description
 			ShellClass = Class.create();
 			p = ShellClass.p = {};
 		}
-
-		p.RW = rw.RW = RW;
 
 		// Accept either a SysID or a GlideRecord
 		// Allow sharing of GlideRecord as an optimization
@@ -79,9 +80,9 @@ Alternatively, provide a different object to set aside the methods.</description
 				gr = my.gr = null;  // Lazy load
 			} else if (typeof grOrSysId === 'object') {
 				sysId = my.sysId = grOrSysId.getUniqueValue() + '';
-				if (log.isDebugging()) {
-					log.debug('typeof grOrSysId.getUniqueValue()={0}',
-							  typeof grOrSysId.getUniqueValue());
+				if (typeof grOrSysId.getUniqueValue() !== 'string') {
+					log.warning('typeof grOrSysId.getUniqueValue()={0}',
+								typeof grOrSysId.getUniqueValue());
 				}
 				gr = my.gr = share ? grOrSysId : null;
 			} // Otherwise lazy instantiate a record.
@@ -115,7 +116,7 @@ Alternatively, provide a different object to set aside the methods.</description
 					} else {
 						this.getSysId(); // Initialize a new record.
 					}
-					if (log.isDebugging()) log.debug('{0} loaded', this.toString());
+					//if (log.isDebugging()) log.debug('{0} loaded', this.toString());
 				} else if (share && gr.sysId && sysId != gr.sys_id) {
 					new Incident()
 						.setShortDescription('RecordWrapper GlideRecord Sys ID Changed')
@@ -148,9 +149,7 @@ Alternatively, provide a different object to set aside the methods.</description
 					gr = null;
 				}
 				share = !!shareNow;
-				if (log.isDebugging()) {
-					log.debug('{0} setShared({1})', this.toString(), shareNow);
-				}
+				log.info('{0} setShared({1})', this.toString(), shareNow);
 				return this;
 			};
 
@@ -181,7 +180,7 @@ Alternatively, provide a different object to set aside the methods.</description
 
 			p.update = function update() {
 				var gr = this.getGr();
-				if (log.isDebugging()) log.debug('{0} updating', this.toString());
+				//if (log.isDebugging()) log.debug('{0} updating', this.toString());
 				gr.update();
 				if (log.isDebugging()) log.debug('{0} updated', this.toString());
 				return this;
@@ -189,7 +188,7 @@ Alternatively, provide a different object to set aside the methods.</description
 
 			p.insert = function insert() {
 				var gr = this.getGr();
-				if (log.isDebugging()) log.debug('{0} inserting', this.toString());
+				//if (log.isDebugging()) log.debug('{0} inserting', this.toString());
 				gr.insert();
 				if (log.isDebugging()) log.debug('{0} inserted', this.toString());
 				return this;
@@ -204,7 +203,7 @@ Alternatively, provide a different object to set aside the methods.</description
 			p.setValue = function setValue(n, v) { return this.getGr().setValue(n, v); };
 			p.getValue = function getValue(n) { return this.getGr().getValue(n); };
 
-			if (log.isDebugging()) log.debug('{0} constructed', that.toString());
+			//if (log.isDebugging()) log.debug('{0} constructed', that.toString());
 			return my;
 		}; // End setup
 
@@ -295,9 +294,8 @@ Alternatively, provide a different object to set aside the methods.</description
 			var gr = new GlideRecord(TABLE);
 
 			applyFilter(gr, filter);
-			if (log.isDebugging()) {
-				log.debug('deleteMultiple {0} {1}', TABLE, gr.getEncodedQuery());
-			}
+			gr.query();
+			log.info('deleteMultiple {0} {1} {2}', TABLE, gr.getRowCount(), gr.getEncodedQuery());
 
 			gr.deleteMultiple();
 			return this;
@@ -326,13 +324,13 @@ Alternatively, provide a different object to set aside the methods.</description
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-20 01:04:05</sys_created_on>
         <sys_id>c8d53b65db72df00898be3a84b96194e</sys_id>
-        <sys_mod_count>112</sys_mod_count>
+        <sys_mod_count>118</sys_mod_count>
         <sys_name>RecordWrapper</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_c8d53b65db72df00898be3a84b96194e</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-07-20 08:25:57</sys_updated_on>
+        <sys_updated_on>2018-07-27 03:11:38</sys_updated_on>
     </sys_script_include>
 </record_update>

@@ -3,7 +3,7 @@
     <sys_properties_category_m2m action="INSERT_OR_UPDATE">
         <category display_value="VTB Builder Properties">595e1883db365340898be3a84b961965</category>
         <order>100</order>
-        <property display_value="x_maog_vtbb.BoardBuilderEnabled" name="x_maog_vtbb.BoardBuilderEnabled">a7006407db365340898be3a84b96190f</property>
+        <property display_value="x_maog_vtbb.BoardBuilder.log.level" name="x_maog_vtbb.BoardBuilder.log.level">a7006407db365340898be3a84b96190f</property>
         <sys_class_name>sys_properties_category_m2m</sys_class_name>
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-24 01:20:01</sys_created_on>

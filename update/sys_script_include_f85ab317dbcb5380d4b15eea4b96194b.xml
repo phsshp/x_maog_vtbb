@@ -15,58 +15,63 @@ VtbLane.prototype = (function VtbLane_proto(s) {
 
 	var log = s.log = x_spar2_log.Logger.getLogger(TYPE, gs.getCurrentScopeName());
 
-	var rw = RecordWrapper.setup(p, s, TABLE, 'VTL');
+	var rw = RecordWrapper.setup(p, s, TABLE, 'VTL', log);
 
 	var slice = Function.prototype.apply.bind(Array.prototype.slice);
+	var Dsc = Once.Descriptor;
+	
+	var UNASSIGNED = '';
 
 	p.initialize = function initialize(grOrSysId, share) {
 		rw.set(grOrSysId, share, this);
 	}; // End initialize
 
 	s.synchLanes = function	synchLanes(bb, vtb, group, owner) {
-		var bbGr, tableName, fieldName, gr, ge, ged, type, isChoice, values, once, highOrder;
+		var bbGr, tableName, fieldName, gr, ge, ged, type, isChoice, laneOnce, highOrder;
 
 		bbGr = bb.getGr();
-		tableName = bbGr.getValue('table');
-		fieldName = bbGr.getValue('field');
+		tableName = bb.getTaskTable();
+		fieldName = bb.getLaneField();
 		gr = new GlideRecord(tableName);
 		gr.initialize();
 		ge = gr[fieldName];
 		ged = ge.getED();
 		type = ged.getInternalType();
 		isChoice = ged.isChoiceTable();
-		values = [];
 		highOrder = 0;
-
-		once = new Once();
+		laneOnce = new Once();
 
 		// Find existing VTBs.
-		function findExistingRecords() {
-			VtbBoard.query(function filter(vtbGr) {
-				vtbGr.addQuery('board', vtb.getSysId());
-			}, function checker(vtbGr) {
-				var order, value;
-				order = vtbGr.getValue('order');
+		function findExistingLanes() {
+			VtbLane.query(function filterLane(vtlGr) {
+				vtlGr.addQuery('board', vtb.getSysId());
+			}, function checkLane(vtlGr) {
+				var order, key, value, dsc, vtlId;
+				order = vtlGr.getValue('order');
 				highOrder = Math.max(highOrder, order);
-				value = vtbGr.getValue('value');
-				once.exists(new Once.Description(
-					value, vtbGr.getDisplayValue(),
-					order), value);
+				key = vtlGr.getValue('name');
+				value = vtlGr.getValue('value');
+				dsc = new Dsc(value, vtlGr.getDisplayValue(), order);
+				dsc.vtlId = vtlId = vtlGr.getUniqueValue();
+				laneOnce.exists(dsc, key);
+				log.debug('{0} Found lane [lane:{1} key:{2} label:{3}]', vtb.toString(), vtlId, key, value);
 			});
 		}
 
-		function createVtbLane(description) {
-			var key = description.key;
-			var label = description.obj;
+		function createVtbLane(dsc) {
+			var vtlId;
+			var key = dsc.key;
+			var label = dsc.obj;
 
-			var vtl = rw.createRecord(function createBbg(vtlGr) {
+			rw.createRecord(function createLane(vtlGr) {
 				vtlGr.setValue('x_maog_vtbb_builder', bb.getSysId());
 				vtlGr.setValue('board', vtb.getSysId());
 				vtlGr.setValue('value', key);
 				vtlGr.setValue('name', label);
 				vtlGr.setValue('order', ++highOrder);
+				dsc.vtlId = vtlId = vtlGr.getUniqueValue();
 			});
-			return vtl;
+			log.info('{0} Created lane [lane:{1} key:{2} label:{3}]', vtb.toString(), vtlId, key, label);
 		}
 
 		// TODO: Finish
@@ -83,6 +88,7 @@ VtbLane.prototype = (function VtbLane_proto(s) {
 			});
 		}
 
+		// TODO: Finish
 		function forEachReference() {
 			var value, label;
 			var ga = new GlideAggregate(tableName);
@@ -93,59 +99,118 @@ VtbLane.prototype = (function VtbLane_proto(s) {
 			ga.query();
 			while (ga.next()) {
 				value = ga.getValue(fieldName);
-				once.exists(new Once.Description(
+				laneOnce.exists(new Dsc(
 					ga.getValue(fieldName),
 					ga[fieldName].getDisplayValue()), value);
 			}
 		}
 
 
-		function forEachUser() {
-			if (bbGr.getValue('member_group_manager') === 'Include') {
-				mgr = group.getManager();
-				if (mgr) {
-					if (log.isDebugging) {
-						log.debug('Adding lane for group manager {0}', mgr.toString());
-					}
-					once.add(
-						new Once.Description(
-							mgr.getSysId(),
-							mgr.getDisplayValue()),
-						mgr.getSysId(),
-						createVtbLane);
-				}
-			}
+		function createUserContent() {
+			var addUnassigned = bb.showUnassignedLane();
+			var addManager = bb.showManagerLane();
+			var addOwner = bb.showOwnerLane();	
+			var addMembers = bb.showMemberLanes();
+			var showUnassigned = bb.isUnassignedVisible();
+			var showManager = bb.isManagerVisible();
+			var showOwner = bb.isOwnerVisible();	
+			var showMembers = bb.areMembersVisible();
+			var showUser = bb.isUserVisible();	
 
-			if (log.isDebugging) {
-				log.debug('Adding lane for group owner {0}', owner.toString());
-			}
-			once.add(new Once.Description(
-				owner.getSysId(),
-				owner.getDisplayValue()), 
-					 owner.getSysId(),
-					 createVtbLane);
+			// Set visibility after lanes are created below
+			function setUserLaneVisibility() {
+				laneOnce.forEach(function setPref(currentDsc, currentKey) {
+					var prefName, prefGr, hide, updateId;
 
-			if (bbGr.getValue('member_group_members') === 'Include') {
-				group.getUsers().forEach(function(user) {
-					var sysId = user.getSysId() + '';
-					if (log.isDebugging) {
-						log.debug('Adding lane for group member {0}', user.toString());
+					if (currentKey === UNASSIGNED) return;
+					
+					hide = [];
+					laneOnce.forEach(function hideLanes(dsc, key) {
+						var show = showMembers && dsc.member ||
+							showUser && dsc.member && key === currentKey ||
+							showUnassigned && dsc.unassigned ||
+							showManager && dsc.manager ||
+							showOwner && dsc.owner;
+						if (!show) {
+							hide.push(dsc.vtlId);
+						}
+					});
+
+					if (hide.length > 0) {
+						prefName = 'vtb.board.' + vtb.getSysId() + '.hiddenLanes';
+						prefGr = new GlideRecord('sys_user_preference');
+						prefGr.addQuery('name', prefName);
+						prefGr.addQuery('user', currentKey);
+						prefGr.query();
+						if (!prefGr.next()) {
+							prefGr.initialize();
+						}
+						prefGr.setValue('description', 'Generated by ' + vtb.getGr().getDisplayValue());
+						prefGr.setValue('name', prefName);
+						prefGr.setValue('type', 'string');
+						prefGr.setValue('user', currentKey);
+						hide = hide.join('-');
+						prefGr.setValue('value', hide);
+						prefGr.setValue('system', false);
+						updateId = prefGr.update();
+						log.info('Set user preference {0} {1} {2}={3}',
+								  updateId, currentDsc.obj, prefName, hide);
 					}
-					once.add(
-						new Once.Description(
-							sysId,
-							user.getDisplayValue()), 
-						sysId,
-						createVtbLane);
 				});
 			}
+
+			(function createUserLanes() {
+				var mgr, dsc;
+
+				// Create User Lanes
+				if (addUnassigned) {
+					dsc = new Dsc(UNASSIGNED, bb.getUnassignedLaneLabel());
+					laneOnce.add(dsc, UNASSIGNED, createVtbLane, function update(oldDsc) {
+						oldDsc.unassigned = true;
+					});
+				}
+
+				if (addManager) {
+					mgr = group.getManager();
+					if (mgr) {
+						dsc = new Dsc(mgr.getSysId(), mgr.getDisplayValue());
+						laneOnce.add(dsc, mgr.getSysId(), createVtbLane, function update(oldDsc) {
+							oldDsc.manager = true;
+						});
+					}
+				}
+
+				if (addOwner) {
+					dsc = new Dsc(owner.getSysId(), owner.getDisplayValue());
+					laneOnce.add(dsc, owner.getSysId(), createVtbLane, function update(oldDsc) {
+						oldDsc.owner = true;
+					});
+				}
+
+				// For every board member, create a lane if member lanes
+				// were requested.  Collect information we need in the
+				// boards array.
+				if (addMembers) {
+					VtbMember.query(function vtbMemberFilter(vtmGr) {
+						vtmGr.query('board', vtb.getSysId());
+					}, function vtbMemberActions(vtmGr) {
+						var userId = vtmGr.getValue('user');
+						var userName = vtmGr.user.getDisplayValue();
+						dsc = new Dsc(userId, userName);
+						laneOnce.add(dsc, userId, createVtbLane, function update(oldDsc) {
+							oldDsc.member = true;
+						});
+					});
+				}
+				setUserLaneVisibility();
+			}());
 		}
 
 		function manageReference() {
 			var refTable = ge.getReferenceTable();
 			switch (refTable) {
 				case 'sys_user':
-					forEachUser();
+					createUserContent();
 					break;
 					//	case 'sys_user_group':
 					//		forEachGroup(fn);
@@ -169,9 +234,11 @@ VtbLane.prototype = (function VtbLane_proto(s) {
 			}
 		}
 
-		findExistingRecords();
+		findExistingLanes();
 		addLanes();
 	};
+
+	s.query = rw.query;
 
 	return p;
 })(VtbLane);  // End VtbLane_proto]]></script>
@@ -179,13 +246,13 @@ VtbLane.prototype = (function VtbLane_proto(s) {
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-07-07 22:14:31</sys_created_on>
         <sys_id>f85ab317dbcb5380d4b15eea4b96194b</sys_id>
-        <sys_mod_count>41</sys_mod_count>
+        <sys_mod_count>69</sys_mod_count>
         <sys_name>VtbLane</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_f85ab317dbcb5380d4b15eea4b96194b</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-07-20 12:23:10</sys_updated_on>
+        <sys_updated_on>2018-07-27 03:05:45</sys_updated_on>
     </sys_script_include>
 </record_update>

@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update>
-    <sys_documentation element="lane_filter" label="Lane Filter" language="en" table="x_maog_vtbb_board_builder">
+    <sys_documentation element="manager_lane" label="Manager Lane" language="en" table="x_maog_vtbb_board_builder">
         <sys_documentation action="INSERT_OR_UPDATE">
-            <element>lane_filter</element>
+            <element>manager_lane</element>
             <help/>
             <hint/>
-            <label>Lane Filter</label>
+            <label>Manager Lane</label>
             <language>en</language>
             <name>x_maog_vtbb_board_builder</name>
-            <plural>Lane Filters</plural>
+            <plural>Manager Lanes</plural>
             <sys_class_name>sys_documentation</sys_class_name>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-01 23:54:22</sys_created_on>
-            <sys_id>a249d161db8b9f40d4b15eea4b961960</sys_id>
+            <sys_created_on>2018-07-25 21:57:00</sys_created_on>
+            <sys_id>a594201ddb671300898be3a84b961946</sys_id>
             <sys_mod_count>0</sys_mod_count>
-            <sys_name>Lane Filter</sys_name>
+            <sys_name>Manager Lane</sys_name>
             <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
             <sys_policy/>
             <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
-            <sys_update_name>sys_documentation_x_maog_vtbb_board_builder_lane_filter_en</sys_update_name>
+            <sys_update_name>sys_documentation_x_maog_vtbb_board_builder_manager_lane_en</sys_update_name>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-01 23:54:22</sys_updated_on>
+            <sys_updated_on>2018-07-25 21:57:00</sys_updated_on>
             <url/>
             <url_target/>
         </sys_documentation>

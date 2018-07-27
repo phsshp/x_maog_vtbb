@@ -15,7 +15,7 @@ Group.prototype = (function Group_proto(s) {
 
 	var log = s.log = x_spar2_log.Logger.getLogger(TYPE, gs.getCurrentScopeName());
 
-	var rw = RecordWrapper.setup(p, s, TABLE, 'Group');
+	var rw = RecordWrapper.setup(p, s, TABLE, 'Group', log);
 
 	p.initialize = function initialize(grOrSysId, share) {
 		rw.set(grOrSysId, share, this);
@@ -36,10 +36,54 @@ Group.prototype = (function Group_proto(s) {
 		}
 		return mgr;
 	};
-	
+
 	p.getUsers = function getUsers() {
 		return GroupMember.getUsersForGroup(this);
 	};
+
+	p.forUsers = function forUsers(fn, includeManager) {
+		var mgrGr;
+		var once = new Once();
+		GroupMember.forGroupUsers(this, function tryMember(user) {
+			once.add(user, user.getSysId(), function callMember(user) {
+				fn(user);
+			});
+		});
+		if (includeManager) {
+			mgr = this.getManager();
+			if (mgr) {
+				once.add(mgr, mgr.getSysId(), function tryManager(userGr) {
+					fn(mgr);
+				});
+			}
+		}
+	};
+
+	p.hasGroupType = function hasGroupType(type) {
+		var answer = false;
+		var groupTypesStr = this.getGr().getValue('type');
+		var groupTypes = groupTypesStr.split(',');
+		if (groupTypes.indexOf(type) >= 0) {
+			answer = true;
+		}
+		log.debug('hasGroupType({0})={1}: {2}', type, answer, groupTypesStr);
+		return answer;
+	};
+
+	var GROUP_TYPE = s.GROUP_TYPE = p.GROUP_TYPE = {};
+
+	function getGroupTypeId(groupTypeName) {
+		var gtGr = new GlideRecord('sys_user_group_type');
+		if (gtGr.get('name', groupTypeName)) {
+			return gtGr.getUniqueValue();
+		}
+		return null;
+	}
+
+	GROUP_TYPE.FAST = getGroupTypeId('fast');
+	GROUP_TYPE.FAST_COORDINATOR = getGroupTypeId('fast_coordinator');
+
+	s.query = rw.query;
 
 	return p;
 })(Group);  // End Group_proto]]></script>
@@ -47,13 +91,13 @@ Group.prototype = (function Group_proto(s) {
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-14 22:06:47</sys_created_on>
         <sys_id>09ad1180db361f00898be3a84b96190a</sys_id>
-        <sys_mod_count>91</sys_mod_count>
+        <sys_mod_count>100</sys_mod_count>
         <sys_name>Group</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_09ad1180db361f00898be3a84b96190a</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-07-20 06:38:04</sys_updated_on>
+        <sys_updated_on>2018-07-27 03:00:01</sys_updated_on>
     </sys_script_include>
 </record_update>

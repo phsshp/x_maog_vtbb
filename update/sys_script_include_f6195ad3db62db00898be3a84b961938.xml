@@ -15,27 +15,91 @@ BoardBuilder.prototype = (function BoardBuilder_proto(s) {
 
 	// Some activities are similar for ownership and membership.
 	// Support reuse with these constants.
-	var BB = s.BB = p.BB = {};
-	BB.OWNERS = 'owner';
-	BB.MEMBERS = 'member';
+	var USER_TYPE = s.USER_TYPE = p.USER_TYPE = {};
+	USER_TYPE.OWNERS = 'Owner';
+	USER_TYPE.MEMBERS = 'Member';
+	USER_TYPE.USERS = 'User';
 
 	var log = s.log = x_spar2_log.Logger.getLogger(TYPE, gs.getCurrentScopeName());
 
 	var o_forOwnProperties = Utils.o_forOwnProperties;
 
-	var rw = RecordWrapper.setup(p, s, TABLE, 'BB');
+	var rw = RecordWrapper.setup(p, s, TABLE, 'BB', log);
 
 	p.initialize = function initialize(grOrSysId, share) {
 		rw.set(grOrSysId, share, this);
 	};  // End initialize
 
-	p.getState = function getState() { return this.getGr().getValue('state'); };
+	p.applyTemplate = function applyTemplate(vtb) { GlideTemplate.get(this.getGr().getValue('template')).apply(vtb.getGr()); };
 
-	p.isActive = function isActive() {
-		var gr = this.getGr();
-		var answer = Utils.getGlideTrueFalse(gr, 'active');
-		return answer;
+	// Header
+	p.getName = function getName() { return this.getGr().getValue('name'); };
+	p.getState = function getState() { return this.getGr().getValue('state'); };
+	p.isActive = function isActive() { return Utils.getGlideTrueFalse(this.getGr(), 'active'); };
+	p.getDisplayName = function getDisplayName() { return this.getGr().getValue('sys_name'); };
+
+	// Board Definition
+	p.getTaskTable = function getTaskTable() { return this.getGr().getValue('table'); };
+	p.getLaneField = function getLaneField() { return this.getGr().getValue('field'); };
+	p.getDescription = function getDescription() { return this.getGr().getValue('description'); };
+
+	// Tasks
+	p.areTasksAssignedToBoardMembers = function areTasksAssignedToBoardMembers() {
+		return this.getGr().getValue('task_assigned_to') === 'board_members';
 	};
+	p.areTasksAssignedToGroupMembers = function areTasksAssignedToGroupMembers() {
+		return this.getGr().getValue('task_assigned_to') === 'group_members';
+	};
+	p.getTaskFilter = function getTaskFilter() { return this.getGr().getValue('board_filter'); };
+
+	// Owners
+	p.getGroupTypes = function getGroupTypes() { return this.getGr().getValue('owner_group_types').split(',').sort(); };
+	p.includeOwnerGroupMembers = function includeOwnerGroupMembers() {
+		return this.getGr().getValue('owner_group_members') === 'include';
+	};
+	p.getOwnerRoles = function getOwnerRoles() { return this.getGr().getValue('owner_roles'); };
+	p.includeOwnerGroupManager = function includeOwnerGroupManager() {
+		return this.getGr().getValue('owner_group_manager') === 'include';
+	};
+	p.getOwnerGroupFilter = function getOwnerGroupFilter() { return this.getGr().getValue('owner_group_filter'); };
+	p.getOwnerUserFilter = function getOwnerUserFilter() { return this.getGr().getValue('owner_user_filter'); };
+
+	// Members
+	p.getMemberRoles = function getMemberRoles() { return this.getGr().getValue('member_roles'); };
+	p.includeMemberGroupMembers = function includeMemberGroupMembers() {
+		return this.getGr().getValue('member_group_members') === 'include';
+	};
+	p.includeMemberGroupManager = function includeMemberGroupManager() {
+		return this.getGr().getValue('member_group_manager') === 'include';
+	};
+	p.getMemberGroupFilter = function getMemberGroupFilter() { return this.getGr().getValue('member_group_filter'); };
+	p.getMemberUserFilter = function getMemberUserFilter() { return this.getGr().getValue('member_user_filter'); };
+
+	// Users
+	p.getUserRoles = function getUserRoles() { return this.getGr().getValue('user_roles'); };
+	p.includeUserGroupMembers = function includeUserGroupMembers() {
+		return this.getGr().getValue('user_group_members') === 'include';
+	};
+	p.includeUserGroupManager = function includeUserGroupManager() {
+		return this.getGr().getValue('user_group_manager') === 'include';
+	};
+	p.getUserMemberFilter = function getUserMemberFilter() { return this.getGr().getValue('user_member_filter'); };
+	p.getUserGroupFilter = function getUserGroupFilter() { return this.getGr().getValue('user_group_filter'); };
+	p.getUserUserFilter = function getUserUserFilter() { return this.getGr().getValue('user_user_filter'); };
+
+	// Lanes
+	p.showUnassignedLane = function showUnassignedLane() { return Utils.getGlideTrueFalse(this.getGr(), 'unassigned_lane'); };
+	p.getUnassignedLaneLabel = function getUnassignedLaneLabel() { return this.getGr().getValue('unassigned_lane_label'); };
+	p.showOwnerLane = function showOwnerLane() { return Utils.getGlideTrueFalse(this.getGr(), 'owner_lane'); };
+	p.showManagerLane = function showManagerLane() { return Utils.getGlideTrueFalse(this.getGr(), 'manager_lane'); };
+	p.showMemberLanes = function showMemberLanes() { return Utils.getGlideTrueFalse(this.getGr(), 'member_lanes'); };
+
+	// Visibility
+	p.isUnassignedVisible = function isUnassignedVisible() {return Utils.getGlideTrueFalse(this.getGr(), 'unassigned_visible'); };
+	p.isUserVisible = function isUserVisible() { return Utils.getGlideTrueFalse(this.getGr(), 'user_visible'); };
+	p.isOwnerVisible = function isOwnerVisible() { return Utils.getGlideTrueFalse(this.getGr(), 'owner_visible'); };
+	p.isManagerVisible = function isManagerVisible() { return Utils.getGlideTrueFalse(this.getGr(), 'manager_visible'); };
+	p.areMembersVisible = function areMembersVisible() { return Utils.getGlideTrueFalse(this.getGr(), 'members_visible'); };
 
 	// Set active flag based on current state.
 	//
@@ -52,6 +116,22 @@ BoardBuilder.prototype = (function BoardBuilder_proto(s) {
 		return active;
 	};
 
+	p.synchVtbBookmark = function synchVtbBookmark(vtb, user) {
+		var boardName = vtb.getGr().getValue('name');
+		var bmGr = new GlideRecord('sys_ui_bookmark');
+		bmGr.addQuery('user', user.getSysId());
+		bmGr.addQuery('title', boardName);
+		bmGr.query();
+		if (!bmGr.next()) {
+			bmGr.initialize();
+		}
+		bmGr.setValue('user', user.getSysId());
+		bmGr.setValue('pinned', true);
+		bmGr.setValue('title', boardName);
+		bmGr.setValue('url', '/$vtb.do?sysparm_board=' + vtb.getSysId());
+		bmGr.insert();
+	};
+	
 	// Add members to a VTB associated with this BoardBuilder.
 	//
 	// Invoked as part of VTB creation.
@@ -70,12 +150,13 @@ BoardBuilder.prototype = (function BoardBuilder_proto(s) {
 		bb = this;
 		bbGr = bb.getGr();
 
-		bb.forNewEligibleMembers(vtb, group, function addMember(memberSysId) {
-			VtbMember.createRecord(function setFields(memberGr) {
-				memberGr.setValue('board', vtb.getSysId());
-				memberGr.setValue('user', memberSysId);
+		bb.forNewEligibleUsers(group, function addMember(user) {
+			VtbMember.createRecord(function setFields(vtbMemberGr) {
+				vtbMemberGr.setValue('board', vtb.getSysId());
+				vtbMemberGr.setValue('user', user.getSysId());
 			});
-		});
+			bb.synchVtbBookmark(vtb, user);
+		}, USER_TYPE.MEMBERS);
 	};
 
 	// Add lanes to a VTB this Board Builder is building.
@@ -99,30 +180,29 @@ BoardBuilder.prototype = (function BoardBuilder_proto(s) {
 		vtbGr = vtb.getGr();
 		buffer = [];
 
-		if (bbGr.getValue('task_assigned_to') === 'board_members') {
+		if (bb.areTasksAssignedToBoardMembers()) {
 			// Spell this out in case some group members are not board members.
 			buffer.push('assigned_toISEMPTY');
-			bb.forNewEligibleMembers(vtb, group, function addSysId(memberSysId) {
-				log.debug('setVtbFilter.addSysId({0})', memberSysId);
+			bb.forNewEligibleUsers(group, function addSysId(memberSysId) {
 				buffer.push('^ORassigned_to=');
 				buffer.push(memberSysId);
-			});
-		} else if (bbGr.getValue('task_assigned_to') === 'group_members') {
+			}, USER_TYPE.USERS);
+		} else if (bb.areTasksAssignedToGroupMembers()) {
 			buffer.push('assignment_group=');
 			buffer.push(group.getSysId());
 		}
-		filter = bbGr.getValue('board_filter');
+		filter = bb.getTaskFilter();
 		if (filter) {
-			buffer.push('^');
+			if (buffer.length > 0) buffer.push('^');
 			buffer.push(filter);
 		}
 
 		query = buffer.join('');
-		if (log.isDebugging()) {
-			log.debug('{0} setVtbFilter({1}, {2}, {3})={4}', 
-					  [bb.toString(), vtb.toString(), group.toString(),
-					   owner.toString(), query]);
-		}
+		// if (log.isDebugging()) {
+		// 	log.debug('{0} setVtbFilter({1}, {2}, {3})={4}', 
+		// 			  [bb.toString(), vtb.toString(), group.toString(),
+		// 			   owner.toString(), query]);
+		// }
 
 		vtbGr.setValue('filter', query);
 	};
@@ -144,9 +224,7 @@ BoardBuilder.prototype = (function BoardBuilder_proto(s) {
 		bbGr = bb.getGr();
 		vtbGr = vtb.getGr();
 
-		templateSysId = bbGr.getValue('template');
-		templateGr = GlideTemplate.get(templateSysId);
-		templateGr.apply(vtbGr);
+		bb.applyTemplate(vtb);
 
 		name = vtbGr.getValue('name');
 		if (name.match(/{\d+}/)) {
@@ -181,15 +259,15 @@ BoardBuilder.prototype = (function BoardBuilder_proto(s) {
 			});
 		}
 		vtb.insert();
-		this.synchVtbMembers(vtb, group, owner);
-		this.synchVtbLanes(vtb, group, owner);
+		bb.synchVtbMembers(vtb, group, owner);
+		bb.synchVtbLanes(vtb, group, owner);
 	};
 
 	// TODO: Owner Filter
 	// Given this Board Builder, a group, and an owner, make sure
 	// the owner has a copy of this Board Builder's task board.
 	p.synchVtbRecord = function synchVtbRecord(group, owner) { // 1
-		var members, bb, vtbs, vtb, filter, vtbGr, eligible;
+		var members, bb, vtbs, vtb, filter, userFilter, vtbGr, eligible;
 		bb = this;
 
 		// Create the vtb if it meets this builder's criteria
@@ -199,8 +277,8 @@ BoardBuilder.prototype = (function BoardBuilder_proto(s) {
 		});
 		vtbGr = new GlideRecord('vtb_board');
 		vtbGr.initialize();
-		filter = bb.getValue(bb.getGr().getValue('owner_user_filter'));
-		bb.setOwnedBoardQuery(vtbGr, group, owner, filter);
+		userFilter = bb.getOwnerUserFilter();
+		bb.setOwnedBoardQuery(vtbGr, group, owner, userFilter);
 		filter = vtbGr.getEncodedQuery();
 		if (!filter || GlideFilter.checkRecord(vtbGr, filter)) {
 			this.createVtbRecord(group, owner, vtb);
@@ -210,140 +288,61 @@ BoardBuilder.prototype = (function BoardBuilder_proto(s) {
 
 	// Apply a function once for each member of the supplied group that does
 	// not already own this VTB.
-	p.forNewEligibleOwners = function forNewEligibleOwners(group, addFn) {
-		var bb, requiredRoleSysIds, groupUserSysIds, users, once;
+	p.forNewEligibleUsers = function forNewEligibleUsers(group, addFn, type) {
+		var bb, once, requiredRoleSysIds, userFilter, user;
+		var groupUserSysIds = [];
+		var eligibleUserSysIds = [];
 
+		type = type || USER_TYPE.OWNERS;
 		bb = this;
-		requiredRoleSysIds = bb.getGr().getValue('owner_roles');
 		once = new Once();
+		requiredRoleSysIds = bb['get' + type + 'Roles']();
+		userFilter = bb['get' + type + 'UserFilter']();
 
 		// Find all the users in this group.
-		groupUserSysIds = [];
-		if (bb.getGr().getValue('owner_group_members') === 'Include') {
-			GroupMember.query(function filter(memberGr) {
-				memberGr.addQuery('group', group.getSysId());
-			}, function builder(memberGr) {
-				groupUserSysIds.push(memberGr.getValue('user'));
+		if (bb['include' + type + 'GroupMembers']()) {
+			GroupMember.query(function filter(userGr) {
+				userGr.addQuery('group', group.getSysId());
+			}, function builder(userGr) {
+				groupUserSysIds.push(userGr.getValue('user'));
 			});
 		}
-		if (bb.getGr().getValue('owner_group_manager') === 'Include') {
-			mgr = group.getManager();
-			if (mgr) {
-				groupUserSysIds.push(mgr.getSysId());
+		if (bb['include' + type + 'GroupManager']()) {
+			user = group.getManager();
+			if (user) {
+				groupUserSysIds.push(user.getSysId());
 			}
 		}
 
-		// Narrow based on the board builder filter conditions.
-		users = User.query(function filter(userGr) {
+		// Narrow users based on the board builder filter and role conditions.
+		User.query(function filter(userGr) {
 			userGr.addQuery('sys_id', 'IN', groupUserSysIds.join(','));
-			userGr.addEncodedQuery(bb.getGr().getValue('owner_user_filter'));
-			groupUserSysIds = [];
+			userGr.addEncodedQuery(userFilter);
 		}, function builder(userGr) {
 			var user = new User(userGr.getUniqueValue());
 			if (user.hasRoleSysIds(requiredRoleSysIds)) {
-				groupUserSysIds.push(user.getSysId());
+				eligibleUserSysIds.push(user.getSysId());
 				return user;
 			}
 		});
 
-		// Find existing VTBs.
+		// Find users with existing VTBs.
 		VtbBoard.query(function filter(vtbGr) {
 			vtbGr.addQuery('x_maog_vtbb_builder', bb.getSysId());
-			vtbGr.addQuery('owner', 'IN', groupUserSysIds);
+			vtbGr.addQuery('owner', 'IN', eligibleUserSysIds);
 		}, function builder(vtbGr) {
-			once.exists(vtbGr.getUniqueValue(), vtb.getKey());
+			once.exists(vtbGr.getUniqueValue(), vtbGr.getValue('owner'));
 		});
 
 		// Create new VTBs.
-		users.forEach(function tryToAddUser(user) {
-			log.debug('forNewEligibleOwners.tryToAddUser({0})', user.toString());
+		User.query(function filter(userGr) {
+			userGr.addQuery('sys_id', 'IN', eligibleUserSysIds.join(','));
+		}, function builder(userGr) {
+			var user = new User(userGr.getUniqueValue());
 			once.add(user, user.getSysId(), function addUser() {
-				log.debug('forNewEligibleOwners.tryToAddUser.addUser {0})', user.toString());
 				addFn(user);
 			});
 		});
-	};
-
-	// Apply a function once for each member of the supplied group that does
-	// not already own this VTB.
-	p.forNewEligibleMembers = function forNewEligibleMembers(vtb, group, addFn) {
-		var bb, requiredRoleSysIds, groupUserSysIds, mgr, members, once;
-
-		bb = this;
-		requiredRoleSysIds = bb.getGr().getValue('member_roles');
-		once = new Once();
-
-		// Find the desired members in this group.
-		groupUserSysIds = [];
-		if (bb.getGr().getValue('member_group_members') === 'Include') {
-			GroupMember.query(function filter(memberGr) {
-				memberGr.addQuery('group', group.getSysId());
-			}, function builder(memberGr) {
-				groupUserSysIds.push(memberGr.getValue('user'));
-			});
-		}
-		if (bb.getGr().getValue('member_group_manager') === 'Include') {
-			mgr = group.getManager();
-			if (mgr) {
-				groupUserSysIds.push(mgr.getSysId());
-			}
-		}
-
-		// Narrow based on member filter conditions.
-		members = User.query(function filter(userGr) {
-			userGr.addQuery('sys_id', 'IN', groupUserSysIds.join(','));
-			userGr.addEncodedQuery(bb.getGr().getValue('member_user_filter'));
-			groupUserSysIds = [];
-		}, function addMember(memberGr) {
-			var member = new User(memberGr.getUniqueValue());
-			if (member.hasRoleSysIds(requiredRoleSysIds)) {
-				groupUserSysIds.push(member.getSysId());
-				return member;
-			}
-		});
-
-		// Find existing board memberss.
-		VtbMember.query(function filter(vtbGr) {
-			vtbGr.addQuery('board', vtb.getSysId());
-		}, function builder(grMemberGr) {
-			var grMember = new VtbMember(grMemberGr);
-			var memberSysId = grMember.getValue('user');
-			var member = new User(memberSysId);
-			once.exists(member, member.getSysId);
-		});
-
-		// Create new board members.
-		groupUserSysIds.forEach(function tryToAddUser(memberSysId) {
-			log.debug('forNewEligibleMembers.tryToAddUser({0})', memberSysId);
-			once.add('x', memberSysId, function addUser() {
-				log.debug('forNewEligibleMembers.tryToAddUser.addUser {0})', memberSysId);
-				addFn(memberSysId);
-			});
-		});
-	};
-
-	p.getGroupTypes = function getGroupTypes(type) { // 1
-		type = type || BB.OWNERS;
-		var groupTypesStr = this.getGr().getValue(type + '_group_types');
-		var groupTypesSort = groupTypesStr.split(',').sort();
-		return groupTypesSort;
-	};
-
-	// The group must have all the group types in this Board
-	// Builder's Group Types field.  It also must match the
-	// group filter.
-	p.setGroupQueryString =  function setGroupQueryString(gr, type) { // 1
-		var bbGroupTypes, bbGroupTypesLen, groupQuery;
-		type = type || BB.OWNERS;
-
-		bbGroupTypes = this.getGroupTypes(type);
-		bbGroupTypesLen = bbGroupTypes.length;
-		for (var bbti = 0; bbti < bbGroupTypesLen; bbti++) {
-			gr.addQuery('type', 'LIKE', bbGroupTypes[bbti]);
-		}
-
-		groupQuery = this.getGr().getValue(type + '_group_filter');
-		gr.addEncodedQuery(groupQuery);
 	};
 
 	// Update BoardBuilderGroups to match this BoardBuilder.
@@ -378,16 +377,24 @@ BoardBuilder.prototype = (function BoardBuilder_proto(s) {
 		BoardBuilderGroup.query(function filter(gr) {
 			gr.addQuery('board_builder', bbSysId);
 		}, function rebuildBbg(bbgGr) {
-			new BoardBuilderGroup(bbGr).update();
-			once.exists(bbg, bbgKey(bbgGr.group));
+			once.exists(bbgGr.getUniqueValue(), bbgKey(bbgGr.group));
 		});
 
 		// Synch every Group that satisfies this Board Builder's
 		// Group conditions.
 		Group.query(function filter(groupGr) {
-			bb.setGroupQueryString(groupGr, BB.OWNERS);
+			var bbGroupTypes, bbGroupTypesLen, groupQuery;
+
+			bbGroupTypes = bb.getGroupTypes();
+			bbGroupTypesLen = bbGroupTypes.length;
+			for (var bbti = 0; bbti < bbGroupTypesLen; bbti++) {
+				groupGr.addQuery('type', 'CONTAINS', bbGroupTypes[bbti]);
+			}
+
+			groupQuery = bb.getOwnerGroupFilter();
+			groupGr.addEncodedQuery(groupQuery);
 		}, function process(groupGr) {
-			once.add(groupGr, bbgKey(groupGr.getUniqueValue), function tryGroup(groupGr) {
+			once.add(groupGr, bbgKey(groupGr.getUniqueValue()), function tryGroup(groupGr) {
 				var group = new Group(groupGr);
 				BoardBuilderGroup.createRecord(bb, group);
 			});
@@ -404,6 +411,40 @@ BoardBuilder.prototype = (function BoardBuilder_proto(s) {
 		}
 	};
 
+	// TODO: Finish 
+	s.forGroupBoardBuilders = function forGroupBoardBuilders(group) {
+		var user, applicableBbs, once;
+
+		user = this.getUser();
+		group = this.getGroup();
+		once = new Once();
+
+		// Find existing BoardBuilderGroups.
+		BoardBuilderGroup.query(function bbgFilter(bbgGr) {
+
+		}, function bbgBuilder(bbgGr) {
+
+		});
+
+		if (false) { // TODO: Remove
+			// Find applicable board builders
+			applicableBbs = group.getApplicableBoardBuilders();
+
+			// Find the user's boards that match any applicable board.
+			userBbs = user.findExistingBoards(applicableBbs);
+
+			// Remove applicable boards that have an existing board
+			newBbs = Utils.subtractArraysHashed(
+				applicableBbs, userBbs, function hash(val) {
+					return val.getSysId();
+				});
+
+			// Create boards for remaining board builders
+			newBbs.forEach(function f(bb) {
+				bb.buildBoard(group, user);
+			});
+		}
+	};
 
 	// This BoardBuilder was updated in such a way that its owner
 	// groups may have changed.  Invoked when BR "Board Builder
@@ -428,13 +469,13 @@ BoardBuilder.prototype = (function BoardBuilder_proto(s) {
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-12 18:31:44</sys_created_on>
         <sys_id>f6195ad3db62db00898be3a84b961938</sys_id>
-        <sys_mod_count>295</sys_mod_count>
+        <sys_mod_count>328</sys_mod_count>
         <sys_name>BoardBuilder</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_f6195ad3db62db00898be3a84b961938</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-07-20 13:10:06</sys_updated_on>
+        <sys_updated_on>2018-07-27 03:14:53</sys_updated_on>
     </sys_script_include>
 </record_update>

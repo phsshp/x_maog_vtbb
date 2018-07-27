@@ -1,24 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update>
-    <sys_dictionary action="INSERT_OR_UPDATE" element="include_none" table="x_maog_vtbb_board_builder">
+    <sys_dictionary action="INSERT_OR_UPDATE" element="unassigned_lane" table="x_maog_vtbb_board_builder">
         <active>true</active>
         <array>false</array>
         <array_denormalized>false</array_denormalized>
         <attributes/>
         <audit>false</audit>
-        <calculation><![CDATA[(function calculatedFieldValue(current) {
-
-	// Add your code here
-	return '';  // return the calculated value
-
-})(current);]]></calculation>
-        <choice/>
+        <calculation/>
+        <choice>0</choice>
         <choice_field/>
         <choice_table/>
-        <column_label>Include None</column_label>
+        <column_label>Unassigned Lane</column_label>
         <comments/>
         <create_roles/>
-        <default_value>true</default_value>
+        <default_value/>
         <defaultsort/>
         <delete_roles/>
         <dependent/>
@@ -28,7 +23,7 @@
         <dynamic_creation_script/>
         <dynamic_default_value/>
         <dynamic_ref_qual/>
-        <element>include_none</element>
+        <element>unassigned_lane</element>
         <element_reference>false</element_reference>
         <foreign_database/>
         <internal_type display_value="">boolean</internal_type>
@@ -51,16 +46,16 @@
         <staged>false</staged>
         <sys_class_name>sys_dictionary</sys_class_name>
         <sys_created_by>peter.smith</sys_created_by>
-        <sys_created_on>2018-07-17 05:43:06</sys_created_on>
-        <sys_id>f4d8fb5adb9f5f40898be3a84b9619f0</sys_id>
+        <sys_created_on>2018-07-25 22:05:39</sys_created_on>
+        <sys_id>9496a05ddb671300898be3a84b96194c</sys_id>
         <sys_mod_count>0</sys_mod_count>
-        <sys_name>Include None</sys_name>
+        <sys_name>Unassigned Lane</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy/>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
-        <sys_update_name>sys_dictionary_x_maog_vtbb_board_builder_include_none</sys_update_name>
+        <sys_update_name>sys_dictionary_x_maog_vtbb_board_builder_unassigned_lane</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-07-17 05:43:06</sys_updated_on>
+        <sys_updated_on>2018-07-25 22:05:39</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <unique>false</unique>

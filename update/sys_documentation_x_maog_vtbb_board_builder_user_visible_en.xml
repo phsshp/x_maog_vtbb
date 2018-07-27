@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update>
-    <sys_documentation element="include_none" label="Include None" language="en" table="x_maog_vtbb_board_builder">
+    <sys_documentation element="user_visible" label="User Visible" language="en" table="x_maog_vtbb_board_builder">
         <sys_documentation action="INSERT_OR_UPDATE">
-            <element>include_none</element>
+            <element>user_visible</element>
             <help/>
             <hint/>
-            <label>Include None</label>
+            <label>User Visible</label>
             <language>en</language>
             <name>x_maog_vtbb_board_builder</name>
-            <plural>Include Nones</plural>
+            <plural>User Visibles</plural>
             <sys_class_name>sys_documentation</sys_class_name>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-17 05:43:06</sys_created_on>
-            <sys_id>2df8f35edb9f5f40898be3a84b9619ab</sys_id>
+            <sys_created_on>2018-07-25 21:57:00</sys_created_on>
+            <sys_id>6d94201ddb671300898be3a84b961948</sys_id>
             <sys_mod_count>0</sys_mod_count>
-            <sys_name>Include None</sys_name>
+            <sys_name>User Visible</sys_name>
             <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
             <sys_policy/>
             <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
-            <sys_update_name>sys_documentation_x_maog_vtbb_board_builder_include_none_en</sys_update_name>
+            <sys_update_name>sys_documentation_x_maog_vtbb_board_builder_user_visible_en</sys_update_name>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-17 05:43:06</sys_updated_on>
+            <sys_updated_on>2018-07-25 21:57:00</sys_updated_on>
             <url/>
             <url_target/>
         </sys_documentation>
