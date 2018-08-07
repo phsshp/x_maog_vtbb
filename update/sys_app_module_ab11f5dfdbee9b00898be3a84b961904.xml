@@ -6,10 +6,8 @@
         <assessment/>
         <content_page/>
         <device_type/>
-        <filter table="x_maog_vtbb_board_builder">active=true^EQ<item endquery="false" field="active" goto="false" newquery="false" operator="=" or="false" value="true"/>
-            <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
-        </filter>
-        <hint>Builds a board</hint>
+        <filter/>
+        <hint>Builds a VIsual Task Board automatically</hint>
         <homepage/>
         <image/>
         <link_type>LIST</link_type>
@@ -21,7 +19,7 @@
         <override_menu_roles>false</override_menu_roles>
         <query/>
         <report/>
-        <roles>x_maog_vtbb.manager</roles>
+        <roles>x_maog_vtbb.manager,admin</roles>
         <survey/>
         <survey_overwrite>true</survey_overwrite>
         <sys_class_name>sys_app_module</sys_class_name>
@@ -30,7 +28,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>ab11f5dfdbee9b00898be3a84b961904</sys_id>
-        <sys_mod_count>3</sys_mod_count>
+        <sys_mod_count>5</sys_mod_count>
         <sys_name>Board Builders</sys_name>
         <sys_overrides/>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
@@ -38,11 +36,12 @@
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_app_module_ab11f5dfdbee9b00898be3a84b961904</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-06-25 14:04:56</sys_updated_on>
+        <sys_updated_on>2018-08-06 14:38:28</sys_updated_on>
         <timeline_page/>
         <title>Board Builders</title>
         <uncancelable>false</uncancelable>
         <view_name/>
         <window_name/>
+        <x_maog_vtbb_board/>
     </sys_app_module>
 </record_update>

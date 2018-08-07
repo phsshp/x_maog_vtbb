@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_metadata_link">
+    <sys_metadata_link action="INSERT_OR_UPDATE">
+        <directory>update</directory>
+        <documentkey>65949d5bdbdfd780d4b15eea4b9619cb</documentkey>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="x_maog_vtbb_board_builder">
+    <x_maog_vtbb_board_builder action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <add_to_bookmarks>false</add_to_bookmarks>
+        <add_to_menu>false</add_to_menu>
+        <board_filter table="u_work_request">active=true^sys_class_name=u_work_request^EQ<item endquery="false" field="active" goto="false" newquery="false" operator="=" or="false" value="true"/>
+            <item endquery="false" field="sys_class_name" goto="false" newquery="false" operator="=" or="false" value="u_work_request"/>
+            <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
+        </board_filter>
+        <bookmark_template/>
+        <delete_invalid>false</delete_invalid>
+        <description>This board shows Task states for tasks assigned to the members of this board's assignment group.  The coordinator/manager and all group members are members of the board.</description>
+        <field>state</field>
+        <manager_lane>false</manager_lane>
+        <manager_visible>false</manager_visible>
+        <member_group_filter table="sys_user_group">active=true^EQ<item endquery="false" field="active" goto="false" newquery="false" operator="=" or="false" value="true"/>
+            <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
+        </member_group_filter>
+        <member_group_manager>Include</member_group_manager>
+        <member_group_members>Include</member_group_members>
+        <member_lanes>false</member_lanes>
+        <member_roles name="fast">4adc8b14dbb30300f6dc5eea4b96199e</member_roles>
+        <member_user_filter table="sys_user">active=true^EQ<item endquery="false" field="active" goto="false" newquery="false" operator="=" or="false" value="true"/>
+            <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
+        </member_user_filter>
+        <members_visible>false</members_visible>
+        <module_template/>
+        <name>My Work Request Status</name>
+        <owner_group_filter table="sys_user_group">active=true^nameSTARTSWITHtest fast^EQ<item endquery="false" field="active" goto="false" newquery="false" operator="=" or="false" value="true"/>
+            <item endquery="false" field="name" goto="false" newquery="false" operator="STARTSWITH" or="false" value="test fast"/>
+            <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
+        </owner_group_filter>
+        <owner_group_manager>Include</owner_group_manager>
+        <owner_group_members>Include</owner_group_members>
+        <owner_group_types>ed8662aadbfbc30005dce3a84b961910</owner_group_types>
+        <owner_lane>false</owner_lane>
+        <owner_roles name="fast">4adc8b14dbb30300f6dc5eea4b96199e</owner_roles>
+        <owner_user_filter table="sys_user">active=true^user_nameSTARTSWITHpeter^EQ<item endquery="false" field="active" goto="false" newquery="false" operator="=" or="false" value="true"/>
+            <item endquery="false" field="user_name" goto="false" newquery="false" operator="STARTSWITH" or="false" value="peter"/>
+            <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
+        </owner_user_filter>
+        <owner_visible>false</owner_visible>
+        <state>Disabled</state>
+        <sys_class_name>x_maog_vtbb_board_builder</sys_class_name>
+        <sys_created_by>peter.smith</sys_created_by>
+        <sys_created_on>2018-07-19 20:18:53</sys_created_on>
+        <sys_id>65949d5bdbdfd780d4b15eea4b9619cb</sys_id>
+        <sys_mod_count>7</sys_mod_count>
+        <sys_name>My Work Request Status</sys_name>
+        <sys_package display_value="Global" source="global">global</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Global">global</sys_scope>
+        <sys_update_name>x_maog_vtbb_board_builder_65949d5bdbdfd780d4b15eea4b9619cb</sys_update_name>
+        <sys_updated_by>peter.smith</sys_updated_by>
+        <sys_updated_on>2018-07-25 13:39:18</sys_updated_on>
+        <table>u_work_request</table>
+        <task_assigned_to>group_members</task_assigned_to>
+        <template display_value="My Work Request Status">383b191fdbdfd780d4b15eea4b961905</template>
+        <unassigned_lane>false</unassigned_lane>
+        <unassigned_lane_label/>
+        <unassigned_visible>false</unassigned_visible>
+        <update_existing>false</update_existing>
+        <user_group_filter/>
+        <user_group_manager/>
+        <user_group_members/>
+        <user_member_filter/>
+        <user_roles/>
+        <user_user_filter/>
+        <user_visible>false</user_visible>
+    </x_maog_vtbb_board_builder>
+</record_update>
+]]></payload>
+        <sys_class_name>sys_metadata_link</sys_class_name>
+        <sys_created_by>peter.smith</sys_created_by>
+        <sys_created_on>2018-08-03 21:54:30</sys_created_on>
+        <sys_id>bc5aba8cdb7f1300898be3a84b9619ec</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>My Work Request Status</sys_name>
+        <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
+        <sys_update_name>sys_metadata_link_bc5aba8cdb7f1300898be3a84b9619ec</sys_update_name>
+        <sys_updated_by>peter.smith</sys_updated_by>
+        <sys_updated_on>2018-08-03 21:54:30</sys_updated_on>
+        <tablename>x_maog_vtbb_board_builder</tablename>
+    </sys_metadata_link>
+</record_update>

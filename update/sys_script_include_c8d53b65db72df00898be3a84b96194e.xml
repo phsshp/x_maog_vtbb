@@ -55,38 +55,37 @@ Alternatively, provide a different object to set aside the methods.</description
 
 		p.MODE = rw.MODE = MODE;
 
-		// If a this value wasn't passed to set, we'll need to use a
-		// shell class to put the prototype in place.
-		var ShellClass;
-		if (!p) {
-			ShellClass = Class.create();
-			p = ShellClass.p = {};
-		}
+		// Call this from your wrapped class.initialize().
+		// Supply a sysId, GlideRecord, or GlideElement.
+		p.set = rw.set = function set(wrap, mode, that) {
+			var my, sysId, gr, ge, displayValue;
+			if (mode === undefined) mode = MODE.PRIVATE;
+			my = {};
+			if (that) that.recordWrapper = my; // For Script Debugger
+			gr = my.gr = ge = my.ge = sysId = my.sysId = null;
 
-		// Accept either a SysID or a GlideRecord
-		// Allow sharing of GlideRecord as an optimization
-		p.set = rw.set = function set(grOrSysId, share, that) {
-			var my = {};
-			if (!that) {
-				that = new ShellClass();
-			}
-			that.recordWrapper = my;
-			var sysId, gr, incident;
-
-			if (grOrSysId === undefined) {
-				gr = my.gr = sysId = my.sysId = null;
-			} else if (typeof grOrSysId === 'string') {
-				sysId = my.sysId = grOrSysId;
-				gr = my.gr = null;  // Lazy load
-			} else if (typeof grOrSysId === 'object') {
-				sysId = my.sysId = grOrSysId.getUniqueValue() + '';
-				if (typeof grOrSysId.getUniqueValue() !== 'string') {
-					log.warning('typeof grOrSysId.getUniqueValue()={0}',
-								typeof grOrSysId.getUniqueValue());
+			if (wrap === undefined) {
+				// New record - leave everything null.
+			} else if (typeof wrap === 'string') {
+				// SysId only - lazy load if necessary.
+				sysId = my.sysId = wrap;
+			} else if (typeof wrap === 'object') {
+				// GlideElement or GlideRecord
+				if (typeof wrap.getUniqueValue === 'function') {
+					// GlideRecord
+					sysId = my.sysId = wrap.getUniqueValue();
+					gr = my.gr = (mode === MODE.SHARED ? wrap : null);
+					if (gr) displayValue = gr.getDisplayValue();
+				} else if (typeof wrap.getRefRecord === 'function') {
+					// GlideElement
+					sysId = my.sysId = wrap.toString();
+					ge = my.ge = wrap;
+					displayValue = ge.getDisplayValue();
 				}
-				gr = my.gr = share ? grOrSysId : null;
-			} // Otherwise lazy instantiate a record.
-			my.share = share;  // For Script Debugger
+			} else {
+				throw new TypeError('Need a Sys ID, GlideRecord, or GlideElement');
+			}
+			my.mode = mode;    // For Script Debugger
 			my.table = TABLE;  // For Script Debugger
 
 			// Return the SysID.  Does not need to fetch the GlideRecord.
@@ -105,55 +104,34 @@ Alternatively, provide a different object to set aside the methods.</description
 
 			// Get the GlideRecord in TABLE that matches the supplied Sys ID.
 			// Cache the GlideRecord for reuse.
-			// If sharing, check to see if the GlideRecord is corrupt.
 			p.getGr = function getGr() {
 				var isNew;
 
 				if (!gr) {
-					if (sysId) {
+					if (ge) {
+						gr = my.gr = ge.getRefRecord();
+					} else if (sysId) {
 						gr = my.gr = new GlideRecord(TABLE);
-						gr.get(sysId);
+						if (gr.get(sysId)) {
+							displayValue = gr.getDisplayValue();
+						} else {
+							throw new TypeError('No record in ' + TABLE + ' for Sys ID ' + sysId);
+						}
 					} else {
 						this.getSysId(); // Initialize a new record.
 					}
 					//if (log.isDebugging()) log.debug('{0} loaded', this.toString());
-				} else if (share && gr.sysId && sysId != gr.sys_id) {
-					new Incident()
-						.setShortDescription('RecordWrapper GlideRecord Sys ID Changed')
-						.setDescription('Shared GlideRecord Sys ID changed from {0} to {1}',
-										sysId, gr.getValue('sys_id'))
-						.insert(log.isDebugging()).addToErrorLog(log).throwError(TypeError);
+				} else if (gr.sysId && sysId != gr.sys_id) {
+					throw new TypeError('RecordWrapper GlideRecord Sys ID Changed');
 				}
 				return gr;
 			};
 
-			// Possible outcomes of changing the share state
-			// +---------+------------+------+-------------------------+
-			// |  Share  |  ShareNow  |  gr  |  Outcome                |
-			// +---------+------------+------+-------------------------+
-			// |    0    |     0      |  *   |  NC                     |
-			// +---------+------------+------+-------------------------+
-			// |    0    |     1      |  0   |  NC Meets Precondition  |
-			// +---------+------------+------+-------------------------+
-			// |    0    |     1      |  1   |  NC Already Shareable   |
-			// +---------+------------+------+-------------------------+
-			// |    1    |     0      |  0   |  NC Meets Precondition  |
-			// +---------+------------+------+-------------------------+
-			// |    1    |     0      |  1   |  Reset gr               |
-			// +---------+------------+------+-------------------------+
-			// |    1    |     1      |  *   |  NC                     |
-			// +---------+------------+------+-------------------------+
-
-			p.setShared = function setShared(shareNow) {
-				if (share && !shareNow && gr) {
-					gr = null;
-				}
-				share = !!shareNow;
-				log.info('{0} setShared({1})', this.toString(), shareNow);
-				return this;
+			p.getDisplayValue = function getDisplayValue() {
+				return displayValue; // Undefined until getGr().
 			};
 
-			p.toString = function toString(more) {
+			p.toString = function toString() {
 				var parts = [];
 				parts.push('[');
 				parts.push(PREFIX);
@@ -163,15 +141,11 @@ Alternatively, provide a different object to set aside the methods.</description
 				} else {
 					parts.push('(new)');
 				}
-				if (gr && gr.getDisplayValue()) {
+				if (displayValue) {
 					parts.push(' ');
-					parts.push(gr.getDisplayValue());
+					parts.push(displayValue);
 				}
-				if (more) {
-					parts.push(' ');
-					parts.push(more);
-				}
-				if (share) {
+				if (mode === MODE.SHARED) {
 					parts.push(' (shared)');
 				}
 				parts.push(']');
@@ -198,7 +172,10 @@ Alternatively, provide a different object to set aside the methods.</description
 				this.getGr().setForceUpdate(isOn);
 			};
 
-			p.getDisplayValue = function getDisplayValue() { return this.getGr().getDisplayValue(); };
+			p.getDisplayValue = function getDisplayValue() { 
+				var rwGr = this.getGr();
+				var dv = rwGr.getDisplayValue();
+				return dv; };
 			p.getUniqueValue = function getUniqueValue() { return this.getGr().getUniqueValue(); };
 			p.setValue = function setValue(n, v) { return this.getGr().setValue(n, v); };
 			p.getValue = function getValue(n) { return this.getGr().getValue(n); };
@@ -210,59 +187,72 @@ Alternatively, provide a different object to set aside the methods.</description
 		// Apply a filter to a GlideRecord.  The filter could be an
 		// encoded query string or a function.  Newer code uses the
 		// function.
-		function applyFilter(gr, filter) {
+		function applyFilter(enumGr, filter) {
 			if (typeof filter === 'function') {
-				filter(gr);
-			} else if (typeof filter === 'string' && filter) {
-				gr.addEncodedQuery(filter);
+				filter(enumGr);
+			} else if (typeof filter === 'string' && filter
+					   || filter === undefined || filter === null) {
+				enumGr.addEncodedQuery(filter);
+			} else {
+				new Incident().
+				setShortDescription('Filter must be a function or string').
+				setDescription('RecordWrapper.applyFilter was called incorrectly').
+				insert(log.isDebugging()).addToErrorLog(log).throwError(TypeError);
 			}
-			return this;
 		} rw.applyFilter = applyFilter;
 
-		// Make a GlideRecord query that calls back for further action.
-		//
-		// filter: Called before the gr.query() call.
-		// processor: Called from within the gr.next() loop.
-		//
-		// In your filter method, add queries to the GlideRecord and
-		// make other pre-query adjustments like setting the row limit.
-		//
-		// Your processor can be used one of two ways.  If you want to
-		// return an array of wrapped records, supply the subclass
-		// definition (BoardBuilder, etc.).  If you want to
-		//
-		// If you want to operate on the records without saving
-		// them in an array, return null from your processor.
-		//
-		// If you want to act on each record but not
-		rw.query = function query(filter, processor, share) {
-			var records = [], record, Constructor;
-			var gr = new GlideRecord(TABLE);
-
-			if (!processor) {
-				processor = function(gr) {
-					return new CLASS(gr, share);
-				};
+		// Assign an empty function a default function value.
+		// Create an incident if the input was not falsy or a function.
+		function fnSetup(fn, defaultFn) {
+			if (!fn) {
+				fn = defaultFn;
 			}
 
-			if (typeof processor !== 'function') {
+			if (typeof fn !== 'function') {
 				new Incident().
 				setShortDescription('Processor must be a function').
 				setDescription('RecordWrapper.query was called incorrectly').
 				insert(log.isDebugging()).addToErrorLog(log).throwError(TypeError);
 			}
 
-			applyFilter(gr, filter);
+			return fn;
+		}
 
-			gr.query();
+		// Set up a filter and run a query.  Return the GlideRecord
+		// containing the query (to call .next() on.)
+		function querySetup(filter, table) {
+			table = table || TABLE;
+			var enumGr = new GlideRecord(table);
+			enumGr.initialize();
 
-			if (log.isDebugging()) {
-				log.debug('query {0} returned {1} records: {2}',
-						  TABLE, gr.getRowCount(), gr.getEncodedQuery());
-			}
+			applyFilter(enumGr, filter);		
+			enumGr.query();
 
-			while (gr.next()) {
-				record = processor(gr);
+			myLog.info('query {0} returned {1} records: {2}',
+					   enumGr.getTableName(), enumGr.getRowCount(),
+					   enumGr.getEncodedQuery());
+
+			return enumGr;
+		}
+
+		// Make a GlideRecord query that calls back for further action.
+		//
+		// filter: Called before the gr.query() call.
+		// recordFn: Called from within the gr.next() loop.
+		//
+		// In your filter method, add queries to the GlideRecord and
+		// make other pre-query adjustments like setting the row limit.
+		rw.query = function query(filter, recordFn, table) {
+			var records = [], record, enumGr;
+
+			recordFn = fnSetup(recordFn, function(recordGr) {
+				return new CLASS(recordGr, MODE.PRIVATE);
+			});
+
+			enumGr = querySetup(filter, table);
+
+			while (enumGr.next()) {
+				record = recordFn(enumGr);
 				if (record) {
 					records.push(record);
 				}
@@ -272,9 +262,9 @@ Alternatively, provide a different object to set aside the methods.</description
 
 		rw.initRecord = function initRecord(builder) {
 			var wrapper = new CLASS();
-			var gr = wrapper.getGr();
+			var wrapGr = wrapper.getGr();
 			if (typeof builder === 'function') {
-				builder(gr, wrapper);
+				builder(wrapGr, wrapper);
 			}
 			return wrapper;
 		};
@@ -290,12 +280,12 @@ Alternatively, provide a different object to set aside the methods.</description
 		};
 
 		rw.deleteMultiple = function deleteMultiple(filter) {
-			var records = [], record, Constructor;
+			var records = [], record;
 			var gr = new GlideRecord(TABLE);
 
 			applyFilter(gr, filter);
 			gr.query();
-			log.info('deleteMultiple {0} {1} {2}', TABLE, gr.getRowCount(), gr.getEncodedQuery());
+			myLog.info('deleteMultiple {0} {1} {2}', TABLE, gr.getRowCount(), gr.getEncodedQuery());
 
 			gr.deleteMultiple();
 			return this;
@@ -318,19 +308,18 @@ Alternatively, provide a different object to set aside the methods.</description
 
 		return rw;
 	}; // End RecordWrapper.setup
-})(RecordWrapper); // End RecordWrapper_static
-]]></script>
+})(RecordWrapper); // End RecordWrapper_static]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-20 01:04:05</sys_created_on>
         <sys_id>c8d53b65db72df00898be3a84b96194e</sys_id>
-        <sys_mod_count>118</sys_mod_count>
+        <sys_mod_count>147</sys_mod_count>
         <sys_name>RecordWrapper</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_c8d53b65db72df00898be3a84b96194e</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-07-27 03:11:38</sys_updated_on>
+        <sys_updated_on>2018-08-06 18:51:12</sys_updated_on>
     </sys_script_include>
 </record_update>

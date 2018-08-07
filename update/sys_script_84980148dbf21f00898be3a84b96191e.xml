@@ -16,7 +16,52 @@
         <condition/>
         <description/>
         <execute_function>false</execute_function>
-        <filter_condition table="x_maog_vtbb_board_builder">active=true^EQ<item endquery="false" field="active" goto="false" newquery="false" operator="=" or="false" value="true"/>
+        <filter_condition table="x_maog_vtbb_board_builder">active=true^add_to_bookmarksVALCHANGES^ORadd_to_menuVALCHANGES^ORtemplateVALCHANGES^ORbookmark_orderVALCHANGES^ORbookmark_templateVALCHANGES^ORbookmark_titleVALCHANGES^ORbookmark_urlVALCHANGES^ORdelete_invalidVALCHANGES^ORfieldVALCHANGES^ORmanager_laneVALCHANGES^ORmanager_visibleVALCHANGES^ORmember_group_filterVALCHANGES^ORmember_group_membersVALCHANGES^ORmember_group_managerVALCHANGES^ORmember_group_membersVALCHANGES^ORmember_lanesVALCHANGES^ORmember_rolesVALCHANGES^ORmember_user_filterVALCHANGES^ORmembers_visibleVALCHANGES^ORmodule_orderVALCHANGES^ORmodule_templateVALCHANGES^ORmodule_titleVALCHANGES^ORmodule_urlVALCHANGES^ORowner_group_filterVALCHANGES^ORowner_group_managerVALCHANGES^ORowner_group_membersVALCHANGES^ORowner_group_typesVALCHANGES^ORowner_laneVALCHANGES^ORowner_rolesVALCHANGES^ORowner_user_filterVALCHANGES^ORowner_visibleVALCHANGES^ORboard_filterVALCHANGES^ORtableVALCHANGES^ORtask_assigned_toVALCHANGES^ORunassigned_laneVALCHANGES^ORunassigned_lane_labelVALCHANGES^ORunassigned_visibleVALCHANGES^ORupdate_existingVALCHANGES^ORuser_group_filterVALCHANGES^ORuser_group_managerVALCHANGES^ORuser_group_membersVALCHANGES^ORuser_member_filterVALCHANGES^ORuser_rolesVALCHANGES^ORuser_user_filterVALCHANGES^ORuser_visibleVALCHANGES^EQ<item endquery="false" field="active" goto="false" newquery="false" operator="=" or="false" value="true"/>
+            <item endquery="false" field="add_to_bookmarks" goto="false" newquery="false" operator="VALCHANGES" or="false" value=""/>
+            <item endquery="false" field="add_to_menu" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="template" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="bookmark_order" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="bookmark_template" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="bookmark_title" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="bookmark_url" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="delete_invalid" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="field" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="manager_lane" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="manager_visible" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="member_group_filter" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="member_group_members" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="member_group_manager" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="member_group_members" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="member_lanes" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="member_roles" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="member_user_filter" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="members_visible" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="module_order" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="module_template" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="module_title" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="module_url" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="owner_group_filter" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="owner_group_manager" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="owner_group_members" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="owner_group_types" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="owner_lane" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="owner_roles" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="owner_user_filter" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="owner_visible" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="board_filter" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="table" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="task_assigned_to" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="unassigned_lane" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="unassigned_lane_label" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="unassigned_visible" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="update_existing" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="user_group_filter" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="user_group_manager" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="user_group_members" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="user_member_filter" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="user_roles" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="user_user_filter" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
+            <item endquery="false" field="user_visible" goto="false" newquery="false" operator="VALCHANGES" or="true" value=""/>
             <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
         </filter_condition>
         <is_rest>false</is_rest>
@@ -42,7 +87,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>84980148dbf21f00898be3a84b96191e</sys_id>
-        <sys_mod_count>19</sys_mod_count>
+        <sys_mod_count>24</sys_mod_count>
         <sys_name>Board Builder Updated</sys_name>
         <sys_overrides/>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
@@ -50,7 +95,7 @@
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_84980148dbf21f00898be3a84b96191e</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-07-25 13:51:10</sys_updated_on>
+        <sys_updated_on>2018-08-05 03:38:51</sys_updated_on>
         <template/>
         <when>after</when>
     </sys_script>

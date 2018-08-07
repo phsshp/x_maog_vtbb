@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update>
-    <sys_ui_section caption="Users" section_id="83a72c5ddb671300898be3a84b9619ef" sys_domain="global" table="x_maog_vtbb_board_builder" version="3" view="">
+    <sys_ui_section caption="Assignees" section_id="83a72c5ddb671300898be3a84b9619ef" sys_domain="global" table="x_maog_vtbb_board_builder" version="3" view="">
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>user_group_members</element>
             <position>0</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-26 19:31:24</sys_created_on>
-            <sys_id>d2dc49e9db6f1300d4b15eea4b9619fb</sys_id>
+            <sys_created_on>2018-08-07 18:23:04</sys_created_on>
+            <sys_id>5640b619db33d300898be3a84b9619ad</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Users" display_value="Users" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">83a72c5ddb671300898be3a84b9619ef</sys_ui_section>
+            <sys_ui_section caption="Assignees" display_value="Assignees" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">83a72c5ddb671300898be3a84b9619ef</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-26 19:31:24</sys_updated_on>
+            <sys_updated_on>2018-08-07 18:23:04</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -19,13 +19,13 @@
             <element>user_group_manager</element>
             <position>1</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-26 19:31:24</sys_created_on>
-            <sys_id>56dc49e9db6f1300d4b15eea4b9619fb</sys_id>
+            <sys_created_on>2018-08-07 18:23:04</sys_created_on>
+            <sys_id>1e40b619db33d300898be3a84b9619ad</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Users" display_value="Users" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">83a72c5ddb671300898be3a84b9619ef</sys_ui_section>
+            <sys_ui_section caption="Assignees" display_value="Assignees" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">83a72c5ddb671300898be3a84b9619ef</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-26 19:31:24</sys_updated_on>
+            <sys_updated_on>2018-08-07 18:23:04</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -33,13 +33,13 @@
             <element>.split</element>
             <position>2</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-26 19:31:24</sys_created_on>
-            <sys_id>d6dc49e9db6f1300d4b15eea4b9619fb</sys_id>
+            <sys_created_on>2018-08-07 18:23:04</sys_created_on>
+            <sys_id>9e40b619db33d300898be3a84b9619ad</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Users" display_value="Users" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">83a72c5ddb671300898be3a84b9619ef</sys_ui_section>
+            <sys_ui_section caption="Assignees" display_value="Assignees" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">83a72c5ddb671300898be3a84b9619ef</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-26 19:31:24</sys_updated_on>
+            <sys_updated_on>2018-08-07 18:23:04</sys_updated_on>
             <sys_user/>
             <type>.split</type>
         </sys_ui_element>
@@ -47,13 +47,13 @@
             <element>user_roles</element>
             <position>3</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-26 19:31:24</sys_created_on>
-            <sys_id>5adc49e9db6f1300d4b15eea4b9619fb</sys_id>
+            <sys_created_on>2018-08-07 18:23:04</sys_created_on>
+            <sys_id>1240b619db33d300898be3a84b9619ae</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Users" display_value="Users" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">83a72c5ddb671300898be3a84b9619ef</sys_ui_section>
+            <sys_ui_section caption="Assignees" display_value="Assignees" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">83a72c5ddb671300898be3a84b9619ef</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-26 19:31:24</sys_updated_on>
+            <sys_updated_on>2018-08-07 18:23:04</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -61,13 +61,13 @@
             <element>.end_split</element>
             <position>4</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-26 19:31:24</sys_created_on>
-            <sys_id>dadc49e9db6f1300d4b15eea4b9619fb</sys_id>
+            <sys_created_on>2018-08-07 18:23:04</sys_created_on>
+            <sys_id>9240b619db33d300898be3a84b9619ae</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Users" display_value="Users" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">83a72c5ddb671300898be3a84b9619ef</sys_ui_section>
+            <sys_ui_section caption="Assignees" display_value="Assignees" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">83a72c5ddb671300898be3a84b9619ef</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-26 19:31:24</sys_updated_on>
+            <sys_updated_on>2018-08-07 18:23:04</sys_updated_on>
             <sys_user/>
             <type>.end_split</type>
         </sys_ui_element>
@@ -75,13 +75,13 @@
             <element>user_member_filter</element>
             <position>5</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-26 19:31:24</sys_created_on>
-            <sys_id>5edc49e9db6f1300d4b15eea4b9619fb</sys_id>
+            <sys_created_on>2018-08-07 18:23:04</sys_created_on>
+            <sys_id>1640b619db33d300898be3a84b9619ae</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Users" display_value="Users" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">83a72c5ddb671300898be3a84b9619ef</sys_ui_section>
+            <sys_ui_section caption="Assignees" display_value="Assignees" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">83a72c5ddb671300898be3a84b9619ef</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-26 19:31:24</sys_updated_on>
+            <sys_updated_on>2018-08-07 18:23:04</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -89,13 +89,13 @@
             <element>user_group_filter</element>
             <position>6</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-26 19:31:24</sys_created_on>
-            <sys_id>dedc49e9db6f1300d4b15eea4b9619fb</sys_id>
+            <sys_created_on>2018-08-07 18:23:04</sys_created_on>
+            <sys_id>9640b619db33d300898be3a84b9619ae</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Users" display_value="Users" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">83a72c5ddb671300898be3a84b9619ef</sys_ui_section>
+            <sys_ui_section caption="Assignees" display_value="Assignees" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">83a72c5ddb671300898be3a84b9619ef</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-26 19:31:24</sys_updated_on>
+            <sys_updated_on>2018-08-07 18:23:04</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -103,18 +103,18 @@
             <element>user_user_filter</element>
             <position>7</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-26 19:31:24</sys_created_on>
-            <sys_id>52dc49e9db6f1300d4b15eea4b9619fc</sys_id>
+            <sys_created_on>2018-08-07 18:23:04</sys_created_on>
+            <sys_id>1a40b619db33d300898be3a84b9619ae</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Users" display_value="Users" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">83a72c5ddb671300898be3a84b9619ef</sys_ui_section>
+            <sys_ui_section caption="Assignees" display_value="Assignees" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">83a72c5ddb671300898be3a84b9619ef</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-26 19:31:24</sys_updated_on>
+            <sys_updated_on>2018-08-07 18:23:04</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_section action="INSERT_OR_UPDATE">
-            <caption>Users</caption>
+            <caption>Assignees</caption>
             <header>false</header>
             <name>x_maog_vtbb_board_builder</name>
             <roles/>
@@ -124,15 +124,15 @@
             <sys_domain>global</sys_domain>
             <sys_domain_path>/</sys_domain_path>
             <sys_id>83a72c5ddb671300898be3a84b9619ef</sys_id>
-            <sys_mod_count>0</sys_mod_count>
-            <sys_name>Users</sys_name>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_name>Assignees</sys_name>
             <sys_overrides/>
             <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
             <sys_policy/>
             <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
             <sys_update_name>sys_ui_section_83a72c5ddb671300898be3a84b9619ef</sys_update_name>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-25 22:10:29</sys_updated_on>
+            <sys_updated_on>2018-08-07 18:23:03</sys_updated_on>
             <sys_user/>
             <title>false</title>
             <view display_value="Default view" name="NULL">Default view</view>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_documentation element="invalidated" label="Invalidated" language="en" table="x_maog_vtbb_board_builder">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>invalidated</element>
+            <help/>
+            <hint/>
+            <label>Invalidated</label>
+            <language>en</language>
+            <name>x_maog_vtbb_board_builder</name>
+            <plural>Invalidated</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-08-05 02:00:35</sys_created_on>
+            <sys_id>4b3cb8e8db3b5300898be3a84b961987</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Invalidated</sys_name>
+            <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
+            <sys_update_name>sys_documentation_x_maog_vtbb_board_builder_invalidated_en</sys_update_name>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-08-05 02:00:35</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

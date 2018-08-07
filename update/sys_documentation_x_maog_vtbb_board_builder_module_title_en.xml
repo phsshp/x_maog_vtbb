@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update>
-    <sys_documentation element="x_maog_vtbb_builder" label="Builder" language="en" table="vtb_lane">
+    <sys_documentation element="module_title" label="Module Title" language="en" table="x_maog_vtbb_board_builder">
         <sys_documentation action="INSERT_OR_UPDATE">
-            <element>x_maog_vtbb_builder</element>
+            <element>module_title</element>
             <help/>
             <hint/>
-            <label>Builder</label>
+            <label>Module Title</label>
             <language>en</language>
-            <name>vtb_lane</name>
-            <plural>Builders</plural>
+            <name>x_maog_vtbb_board_builder</name>
+            <plural>Module Titles</plural>
             <sys_class_name>sys_documentation</sys_class_name>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-01 23:51:03</sys_created_on>
-            <sys_id>468899eddb4b9f40d4b15eea4b9619a5</sys_id>
+            <sys_created_on>2018-08-04 03:45:29</sys_created_on>
+            <sys_id>caaa8c58db335300898be3a84b96194f</sys_id>
             <sys_mod_count>0</sys_mod_count>
-            <sys_name>Builder</sys_name>
+            <sys_name>Module Title</sys_name>
             <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
             <sys_policy/>
             <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
-            <sys_update_name>sys_documentation_vtb_lane_x_maog_vtbb_builder_en</sys_update_name>
+            <sys_update_name>sys_documentation_x_maog_vtbb_board_builder_module_title_en</sys_update_name>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-01 23:51:03</sys_updated_on>
+            <sys_updated_on>2018-08-04 03:45:29</sys_updated_on>
             <url/>
             <url_target/>
         </sys_documentation>

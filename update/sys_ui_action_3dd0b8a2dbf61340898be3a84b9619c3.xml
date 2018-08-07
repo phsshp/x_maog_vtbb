@@ -20,7 +20,7 @@
         <list_link>false</list_link>
         <list_save_with_form_button>false</list_save_with_form_button>
         <list_style/>
-        <name>Add Group VTBs</name>
+        <name>Update Member's Built Boards</name>
         <onclick/>
         <order>100</order>
         <script><![CDATA[action.setRedirectURL(current);
@@ -35,15 +35,15 @@ new x_maog_vtbb.GroupMember(current, true).added();]]></script>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>3dd0b8a2dbf61340898be3a84b9619c3</sys_id>
-        <sys_mod_count>19</sys_mod_count>
-        <sys_name>Add Group VTBs</sys_name>
+        <sys_mod_count>21</sys_mod_count>
+        <sys_name>Update Member's Built Boards</sys_name>
         <sys_overrides/>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy/>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_ui_action_3dd0b8a2dbf61340898be3a84b9619c3</sys_update_name>
-        <sys_updated_by>aswain@maynardcooper.com</sys_updated_by>
-        <sys_updated_on>2018-07-19 21:42:57</sys_updated_on>
+        <sys_updated_by>peter.smith</sys_updated_by>
+        <sys_updated_on>2018-08-03 13:22:12</sys_updated_on>
         <table>sys_user_grmember</table>
         <ui11_compatible>true</ui11_compatible>
         <ui16_compatible>true</ui16_compatible>

@@ -120,6 +120,114 @@ User.prototype = (function User_proto(s) {
 		return this.hasRoleSysIds(s.getSysIdsFromRoleNames(roleNameList));
 	};
 
+	// Apply a function once for each member of the supplied group as
+	// filtered by the BoardBuilder.
+	s.forEligibleUsers = function forNewEligibleUsers(bb, group, addFn, type) {
+		var userOnce, requiredRoleSysIds, userFilter, user;
+		var includeMembers, includeManager;
+		var groupUserSysIds = [];
+		var eligibleUserSysIds = [];
+
+		type = type || USER_TYPE.OWNERS;
+		userOnce = new Once('eligibleUserOnce');
+		requiredRoleSysIds = bb['get' + type + 'Roles']();
+		includeMembers = bb['include' + type + 'GroupMembers']();
+		includeManager = bb['include' + type + 'GroupManager']();
+		userFilter = bb['get' + type + 'UserFilter']();
+
+		// Find Sys IDs for all the users in this group.
+		group.forUsers(function userInGroup(user) {
+			groupUserSysIds.push(user.getSysId());
+		}, includeManager, includeMembers);
+
+		// Narrow users based on the board builder filter and role conditions.
+		User.query(function userInBuilder(userGr) {
+			userGr.addQuery('sys_id', 'IN', groupUserSysIds.join(','));
+			if (userFilter) userGr.addEncodedQuery(userFilter);
+		}, function narrowUsersBuilder(userGr) {
+			var user = new User(userGr, rw.MODE.SHARED);
+			if (user.hasRoleSysIds(requiredRoleSysIds)) {
+				eligibleUserSysIds.push(user.getSysId());
+			}
+		});
+
+		// Call the function once for each user.
+		User.query(function eligibleUser(userGr) {
+			
+		});
+		
+		// Find users with existing VTBs.
+		VtbBoard.query(function filter(vtbGr) {
+			vtbGr.addQuery('x_maog_vtbb_builder', bb.getSysId());
+			vtbGr.addQuery('owner', 'IN', eligibleUserSysIds);
+		}, function builder(vtbGr) {
+			userOnce.exists(vtbGr.getUniqueValue(), vtbGr.getValue('owner'));
+		});
+
+		// Create new VTBs.
+		User.query(function filter(userGr) {
+			userGr.addQuery('sys_id', 'IN', eligibleUserSysIds.join(','));
+		}, function builder(userGr) {
+			var userSysId = userGr.getUniqueValue();
+			var user = new User(userSysId);
+			userOnce.add(user, userSysId, function addUser() {
+				addFn(user);
+			});
+		});
+	};
+
+	// Apply a function once for each member of the supplied group that does
+	// not already own this VTB.
+	s.forNewEligibleUsers = function forNewEligibleUsers(bb, group, addFn, type) {
+		var userOnce, requiredRoleSysIds, userFilter, user;
+		var includeMembers, includeManager;
+		var groupUserSysIds = [];
+		var eligibleUserSysIds = [];
+
+		type = type || USER_TYPE.OWNERS;
+		userOnce = new Once('eligibleUserOnce');
+		requiredRoleSysIds = bb['get' + type + 'Roles']();
+		includeMembers = bb['include' + type + 'GroupMembers']();
+		includeManager = bb['include' + type + 'GroupManager']();
+		userFilter = bb['get' + type + 'UserFilter']();
+
+		// Find Sys IDs for all the users in this group.
+		group.forUsers(function addGroupUserSysId(user) {
+			groupUserSysIds.push(user.getSysId());
+		}, includeManager, includeMembers);
+
+		// Narrow users based on the board builder filter and role conditions.
+		User.query(function narrorUsersQuery(userGr) {
+			userGr.addQuery('sys_id', 'IN', groupUserSysIds.join(','));
+			userGr.addEncodedQuery(userFilter);
+		}, function narrowUsersBuilder(userGr) {
+			var user = new User(userGr.getUniqueValue());
+			if (user.hasRoleSysIds(requiredRoleSysIds)) {
+				eligibleUserSysIds.push(user.getSysId());
+				return user;
+			}
+		});
+
+		// Find users with existing VTBs.
+		VtbBoard.query(function filter(vtbGr) {
+			vtbGr.addQuery('x_maog_vtbb_builder', bb.getSysId());
+			vtbGr.addQuery('owner', 'IN', eligibleUserSysIds);
+		}, function builder(vtbGr) {
+			userOnce.exists(vtbGr.getUniqueValue(), vtbGr.getValue('owner'));
+		});
+
+		// Create new VTBs.
+		User.query(function filter(userGr) {
+			userGr.addQuery('sys_id', 'IN', eligibleUserSysIds.join(','));
+		}, function builder(userGr) {
+			var userSysId = userGr.getUniqueValue();
+			var user = new User(userSysId);
+			userOnce.add(user, userSysId, function addUser() {
+				addFn(user);
+			});
+		});
+	};
+
 	s.query = rw.query;
 
 	return p;
@@ -128,13 +236,13 @@ User.prototype = (function User_proto(s) {
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-12 18:44:32</sys_created_on>
         <sys_id>8c0c9697db62db00898be3a84b96190e</sys_id>
-        <sys_mod_count>99</sys_mod_count>
+        <sys_mod_count>101</sys_mod_count>
         <sys_name>User</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_8c0c9697db62db00898be3a84b96190e</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-07-27 02:58:59</sys_updated_on>
+        <sys_updated_on>2018-07-31 19:05:14</sys_updated_on>
     </sys_script_include>
 </record_update>

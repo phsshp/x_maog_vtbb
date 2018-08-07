@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_properties_category">
+    <sys_properties_category action="INSERT_OR_UPDATE">
+        <name>VTB Debug Properties</name>
+        <sys_class_name>sys_properties_category</sys_class_name>
+        <sys_created_by>peter.smith</sys_created_by>
+        <sys_created_on>2018-08-05 20:01:18</sys_created_on>
+        <sys_id>4e9374f4dbff5300898be3a84b96193d</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>VTB Debug Properties</sys_name>
+        <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
+        <sys_update_name>sys_properties_category_4e9374f4dbff5300898be3a84b96193d</sys_update_name>
+        <sys_updated_by>peter.smith</sys_updated_by>
+        <sys_updated_on>2018-08-05 20:05:37</sys_updated_on>
+        <title><![CDATA[<p>Properties to support Visual Task Board Builder testing and debugging.</p>]]></title>
+    </sys_properties_category>
+    <sys_translated_text action="delete_multiple" query="documentkey=4e9374f4dbff5300898be3a84b96193d"/>
+</record_update>

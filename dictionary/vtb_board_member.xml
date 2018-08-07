@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <database>
     <element label="Board Member (Board to Users)" max_length="40" name="vtb_board_member" read_roles="admin" type="collection">
-        <element default="javascript:VtbMember.internalName(current);" display="true" label="Internal Name" max_length="100" name="x_maog_vtbb_internal_name" type="string"/>
+        <element default="javascript:VtbMember.internalName(current);" display="true" label="Internal Name" max_length="100" name="x_maog_vtbb_internal_name" read_only="true" type="string"/>
     </element>
 </database>

@@ -17,6 +17,8 @@ VtbBoard.prototype = (function VtbBoard_proto(s) {
 
 	var rw = RecordWrapper.setup(p, s, TABLE, 'VTB', log);
 
+	var WORK_REQUEST_MENU = '9656ce8cdbf7430005dce3a84b961941';
+
 	p.initialize = function initialize(grOrSysId, share) {
 		rw.set(grOrSysId, share, this);
 	};
@@ -31,37 +33,413 @@ VtbBoard.prototype = (function VtbBoard_proto(s) {
 		};
 	})(p.toString);
 
-	p.rebuildBoard = function rebuildBoard() {
-		var vtbGr = this.getGr();
-		var group = vtbGr.assignment_group;
-		var owner = vtbGr.owner;
-		var bbSysId = vtbGr.x_maog_vtbb_builder;
-		var bb = new BoardBuilder(bbSysId);
-
-		this.deleteRecord();
-		bb.synchVtbRecord(group, owner);
+	p.getBoardBuilder = function getBoardBuilder() {
+		return new BoardBuilder(this.getGr().x_maog_vtbb_builder);
 	};
 
-	p.getKey = function getKey() { return s.getKeyFromGr(this.getGr()); };
+	p.getOwner = function getOwner() { return new User(this.getGr().owner); };
 
-	s.makeKey = function makeKey(builderGr, groupGr, ownerGr) {
-		var buffer = [];
-		buffer.push(builderGr);
-		buffer.push(groupGr);
-		buffer.push(ownerGr);
-		return buffer.join(',');
+	p.getAssignmentGroup = function getAssignmentGroup() {
+		return new Group(this.getGr().group);
 	};
 
-	s.getKeyFromGr = function getKeyFromGr(vtbGr) {
-		return s.makeKey(
-		vtbGr.getValue('x_maog_vtbb_builder'),
-		vtbGr.getValue('assignment_group'),
-		vtbGr.getValue('owner'));
+	function findGroupSpecificRoleName(bb, group) {
+		var uhrGa, buffer, answer;
+
+		uhrGa = new GlideAggregate('sys_group_has_role');
+		uhrGa.addQuery('group', group.getSysId());
+		uhrGa.addEncodedQuery(bb.getModuleRoleFilter());
+		uhrGa.groupBy('role');
+		uhrGa.addAggregate('COUNT', 'role');
+
+		uhrGa.query();
+		if (uhrGa.getRowCount() !== 1) {
+			var errorSummary, errorDescription;
+
+			buffer = [];
+			buffer.push('Group ');
+			buffer.push(group.toString());
+			buffer.push(' group-specific role is ');
+			buffer.push(uhrGa.getRowCount === 0 ? 'missing.' : 'not unique.');
+			errorSummary = buffer.join('');
+
+			buffer.push('  The group\s roles are');
+			while (uhrGa.next()) {
+				buffer.push('\n  ');
+				buffer.push(uhrGa.role.getDisplayValue());
+			}
+
+			buffer.push('\n\nReview these roles and the navigation section of the');
+			buffer.push('\nVisual Task Board Builder:\n\n    "');
+			buffer.push(bb.getDisplayName());
+			buffer.push('"\n\nIts Module Role Filter is:');
+			buffer.push('\n\n    ');
+			buffer.push(bb.getModuleRoleFilter());
+			errorDescription = buffer.join('');
+
+			new Incident().
+			setShortDescription('Filter must be a function or string').
+			setDescription('RecordWrapper.applyFilter was called incorrectly').
+			insert(log.isDebugging()).addToErrorLog(log).throwError(TypeError);
+			return '';
+		}
+
+		uhrGa.next();
+		return uhrGa.role.name + '';
+	}
+
+	p.synchVtbModule = function synchVtbModule(bb, group, user) {
+		var vtb, boardName, modGr, templateId, template, title, url, updating;
+
+		if (!bb.addToMenu()) return;
+
+		vtb = this;
+		boardName = vtb.getGr().getValue('name');
+		modGr = new GlideRecord('sys_app_module');
+		modGr.addQuery('x_maog_vtbb_board', vtb.getSysId());
+		modGr.query();
+
+		if (!modGr.next()) {
+			if (!bb.updateExisting()) return;
+			modGr.initialize();
+			modGr.setNewGuidValue(gs.generateGUID());
+			updating = true;
+		}
+
+		// Template stopped working.
+		if (false) {
+			modGr.insert();
+			templateId = modGr.getValue('module_template');
+			template = GlideTemplate.get(templateId);
+			template.apply(modGr);
+			modGr.update();
+		}
+
+		modGr.setValue('x_maog_vtbb_board', vtb.getSysId());
+
+		modGr.setValue('user', user.getSysId());
+
+		modGr.setValue('application', WORK_REQUEST_MENU);
+
+		title = bb.getModuleTitle();
+		title = gs.getMessage(title, group.getDisplayValue());
+		modGr.setValue('title', title);
+
+		url = bb.getModuleUrl();
+		url = gs.getMessage(url, vtb.getSysId());
+		modGr.setValue('query', url);
+
+		modGr.setValue('link_type', 'DIRECT');
+		modGr.setValue('roles', findGroupSpecificRoleName(bb, group));
+
+		modGr.setValue('module_order', bb.getModuleOrder());
+
+		log.debug('{0} {1} [Module {2} {3}]', this + '',
+				  updating ? 'Updating' : 'Adding',
+				  modGr.getUniqueValue(), title);
+		modGr.update();
+	};
+
+	p.synchVtbBookmark = function synchVtbBookmark(bb, group, user) {
+		var vtb, vtbId, vtbGr, userId, bmGr, templateId, template, title, url, updating;
+
+		if (!bb.addToBookmarks()) return;
+
+		vtb = this;
+		vtbId = vtb.getSysId();
+		vtbGr = vtb.getGr();
+		userId = user.getSysId();
+
+		bmGr = new GlideRecord('sys_ui_bookmark');
+		bmGr.addQuery('x_maog_vtbb_board', vtbId);
+		bmGr.addQuery('user', userId);
+		bmGr.query();
+
+
+		if (!bmGr.next()) {
+			bmGr.initialize();
+			bmGr.setNewGuidValue(gs.generateGUID());
+			updating = true;
+		} else if (!bb.updateExisting()) {
+			return;
+		}
+
+		// Template stopped working.
+		if (false) {
+			bmGr.insert();
+			templateId = bb.getBookmarkTemplate(templateId);
+			template = GlideTemplate.get();
+			template.apply(bmGr);
+			bmGr.update();
+		}
+
+		bmGr.setValue('x_maog_vtbb_board', vtbId);
+		bmGr.setValue('user', userId);
+		bmGr.setValue('pinned', true);
+		bmGr.setValue('order', bb.getBookmarkOrder());
+
+		title = bb.getBookmarkTitle();
+		title = gs.getMessage(title, group.getDisplayValue());
+		bmGr.setValue('title', title);
+
+		url = bb.getBookmarkUrl();
+		bmGr.setValue('url', gs.getMessage(url, vtb.getSysId()));
+
+		log.debug('{0} [Bookmark {1} {2}]',
+				  updating ? 'updating' : 'adding',
+				  bmGr.getUniqueValue(), title);
+		bmGr.update();
+	};
+
+	// Add lanes to a VTB this Board Builder is building.
+	// Precondition: Given this BoardBuilder, a group satisfying
+	//  the postconditions for synchBoardBuilderGroups, and a
+	//  VTB corresponding to a user meeting this BoardBuilder's
+	//  conditions for board ownership,
+	// Postcondition: There exists exactly one VtbLane record
+	//  for each value (specified by Task Table and Lane Field)
+	//  that satisfies this BoardBuilder's Lane Conditions.
+	//
+	p.synchVtbLanes = function synchVtbLanes(bb, group, owner) {
+		VtbLane.synchLanes(bb, this, group, owner);
+	};
+
+	// Build the VTB Filter
+	p.setVtbFilter = function setVtbFilter(bb, group, owner) {
+		var bbGr, vtb, vtbGr, buffer, ownerSysIds = [], filter, query;
+
+		bbGr = bb.getGr();
+		vtb = this;
+		vtbGr = vtb.getGr();
+		buffer = [];
+
+		if (bb.areTasksAssignedToBoardMembers()) {
+
+			// Specify individual board members because
+			// the group may have been filtered.
+			buffer.push('assigned_toISEMPTY');
+			VtbMember.query(
+				function memberFiltery(memberGr) {
+					memberGr.addQuery('board', vtb.getSysId());
+				},
+				function memberAction(memberGr) {
+					buffer.push('^ORassigned_to=');
+					buffer.push(memberSysId);
+				}
+			);
+
+		} else if (bb.areTasksAssignedToGroupMembers()) {
+			buffer.push('assignment_group=');
+			buffer.push(group.getSysId());
+		}
+
+		filter = bb.getTaskFilter();
+		if (filter) {
+			if (buffer.length > 0) buffer.push('^');
+			buffer.push(filter);
+		}
+
+		query = buffer.join('');
+		if (log.isDebugging()) {
+			log.debug('{0} setVtbFilter({1}, {2}, {3})={4}',
+					  [bb.toString(), vtb.toString(), group.toString(),
+					   owner.toString(), query]);
+		}
+
+		vtbGr.setValue('filter', query);
+	};
+
+	// Update this VTB.  Assumes VTB values were already set.
+	p.synch = function synch(bb, group, owner) {
+		var vtb = this;
+
+		VtbMember.synchVtbMembers(bb, vtb, group);
+
+		// Has to happen after members are updated.
+		this.setVtbFilter(bb, group, owner);
+		this.update();
+
+		VtbLane.synch(bb, vtb, group, owner);
+		this.synchVtbModule(bb, group, owner);
+	};
+
+	// Initialize a VtbBoard record based on this Board Builder.
+	//
+	// Preconditions: Given this BoardBuilder, a group satisfying
+	//  the postconditions for synchBbgs, and a
+	//  VTB corresponding to a user meeting this BoardBuilder's
+	//  conditions for board ownership,
+	// Postconditions: The VTB's values are initialized from
+	//  this BoardBuilder's configuration values including the
+	//  template and the owner.
+	//
+	s.setVtbValues = function setVtbValues(vtbGr, bb, group, owner, bbg) { // 1
+		var bbId, templateSysId, templateGr, name, filter;
+
+		// Board Template
+		GlideTemplate.get(bb.getTemplate()).apply(vtbGr);
+
+		// Substitute group name into name.
+		name = vtbGr.getValue('name');
+		if (name && name.match(/{\d+}/)) {
+			name = gs.getMessage(name, group.getDisplayValue());
+		}
+		vtbGr.setValue('name', name);
+
+		vtbGr.setValue('x_maog_vtbb_builder', bb.getSysId());
+		vtbGr.setValue('x_maog_vtbb_board_builder_group', bbg.getSysId());
+
+		vtbGr.setValue('table', bb.getTaskTable()); // Task Table
+		vtbGr.setValue('field', bb.getLaneField()); // Lane Field
+		vtbGr.setValue('assignment_group', group.getSysId());
+		vtbGr.setValue('owner', owner.getSysId());
+	};
+
+	// Create VTBs for a Board Builder Group's eligible owners.
+	//
+	// Preconditions: Given a Board Builder Group specifying
+	//  one Board Builder and one Group that satisfies the
+	//  Board Builder's owner group membership conditions
+	//  (see BoardBuilderGroup.synchBbgs)
+	// Postcondition: There exists one VTB owned by the
+	//  user that satisfies the Board Builder's ownership
+	//  conditions, with appropriate member and lane
+	//  records and lane hiding based on the Board Builder's
+	//  constraints.
+	//
+	s.synchGroupVtbs = function synchGroupVtbs(bb, group, bbg) {
+		var bbId, groupId, vtbGr, vtbOnce, updating;
+		var ownerUserFilter, ownerRoleIds;
+
+		bbId = bb.getSysId();
+		groupId = group.getSysId();
+		function makeKey(ownerId) { return [bbId, groupId, ownerId].join('.'); }
+
+		vtbOnce = new Once('vtbOnce');
+
+		// Find the VTBs that already exist for this builder and group.
+		VtbBoard.query(
+			function filter(vtbGr) {
+				vtbGr.addQuery('x_maog_vtbb_builder', bbId);
+				vtbGr.addQuery('assignment_group', groupId);
+			},
+			function process(vtbGr) {
+				vtbOnce.exists(vtbGr.getUniqueValue(), makeKey(vtbGr.getValue('owner')));
+			}
+		);
+
+		// Filter for eligible owners.  Synchronize their vtb records.
+		// Create vtb records if they don't already exist.
+		ownerUserFilter = bb.getOwnerUserFilter(); // Owner User Filter
+		ownerRoleIds = bb.getOwnerRoles();         // Owner Roles
+		group.forUsers(
+			function vtbOwnerFilter(ownerGr) {
+				if (ownerUserFilter) ownerGr.addEncodedQuery(ownerUserFilter);
+			}, function eligibleVtb(ownerGr) {
+				var owner = new User(ownerGr, rw.MODE.SHARED);
+				vtbOnce.update(
+					undefined, makeKey(owner.getSysId()),
+					function updateVtb(vtbId, key, state) {
+						var vtb, vtbGr, updating;
+						updating = (state === Once.STATE.EXISTS);
+
+						if (owner.hasRoleSysIds(ownerRoleIds)) {
+
+							// Get out if not the first time.
+							if (state !== Once.STATE.ADDED && !updating) return;
+
+							// Don't update if updateExisting is not on.
+							if (updating && !bb.updateExisting()) return;
+
+							vtb = new VtbBoard(vtbId);
+							vtbGr = vtb.getGr();
+							s.setVtbValues(vtbGr, bb, group, owner, bbg);
+							log.info('{0} VTB {1}',
+									 (updating ? 'updating' : 'adding'),
+									 vtb + '');
+							vtb.update();
+							vtb.synch(bb, group, owner);
+						}
+					}
+				);
+			},
+			bb.includeOwnerGroupManager(),
+			bb.includeOwnerGroupMembers()
+		);
+
+		// Delete redundant VTBS
+		if (bb.deleteInvalid()) {
+			vtbOnce.removeRemaining(function getBbg(vtbId) {
+				return vtbId;
+			});
+		}
+	};
+
+	var PREFS = [
+		'.activeAside',
+		'.card-details',
+		'.compactCards',
+		'.hiddenLanes',
+		'.showCardInfo',
+		'.showCoverImage',
+		'.showLabelNames',
+		'.showMemberNames',
+		'.showQuickPicker',
+	];
+
+	// Rather than cleaning up the preferences for just the deleted
+	// VTB record, clean up all strays.  The queries are about the
+	// same complexity, and this can run asynch.
+	s.cleanupUserPreferences = function cleanupUserPreferences() {
+		var prefGr, prefOr, vtbIds, prefVtbId, prefName;
+
+		// Get the list of all existing VTB Sys IDs.
+		vtbIds = [];
+		this.query(
+			function noop() {},
+			function addVtbId(vtbGr) {
+				vtbIds.push(vtbGr.getUniqueValue());
+			}
+		);
+
+		prefGr = new GlideRecord('sys_user_preference');
+
+		// This prefix is common for all VTB-specific preferences.
+		prefGr.addQuery('name', 'STARTSWITH', 'vtb.board.');
+
+		// Limit to the specific suffixes used in VTB-specific preferences.
+		PREFS.forEach(function addPrefQuery(name, i) {
+			if (i === 0) {
+				prefOr = prefGr.addQuery('name', 'ENDSWITH', name);
+			} else {
+				prefOr.addOrCondition('name', 'ENDSWITH', name);
+			}
+		});
+
+		// Exclude any preference containing a Sys ID of an existing VTB.
+		vtbIds.forEach(
+			function excludeVtb(vtbId) {
+				prefGr.addQuery('name', 'DOES NOT CONTAIN', vtbId);
+			}
+		);
+
+		prefGr.query();
+
+		log.debug('Cleaning up {0} user preference records using query: {1}',
+				 prefGr.getRowCount(), prefGr.getEncodedQuery());
+
+		if (log.isDebugging()) {
+			while (prefGr.next()) {
+				log.debug('Removing user preference  ' + prefGr.getValue('name'));
+			}
+		}
+		prefGr.deleteMultiple();
 	};
 
 	s.initRecord = rw.initRecord;
 	s.createRecord = rw.createRecord;
 	s.deleteRecord = rw.deleteRecord;
+	s.update = rw.update;
 	s.query = rw.query;
 
 	return p;
@@ -70,13 +448,13 @@ VtbBoard.prototype = (function VtbBoard_proto(s) {
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-19 18:09:15</sys_created_on>
         <sys_id>4e639261dbbe9f00898be3a84b961966</sys_id>
-        <sys_mod_count>47</sys_mod_count>
+        <sys_mod_count>171</sys_mod_count>
         <sys_name>VtbBoard</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_4e639261dbbe9f00898be3a84b961966</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-07-27 02:58:42</sys_updated_on>
+        <sys_updated_on>2018-08-07 18:05:48</sys_updated_on>
     </sys_script_include>
 </record_update>

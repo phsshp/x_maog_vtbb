@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_documentation element="last_calculated" label="Last Calculated" language="en" table="x_maog_vtbb_board_builder">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>last_calculated</element>
+            <help/>
+            <hint/>
+            <label>Last Calculated</label>
+            <language>en</language>
+            <name>x_maog_vtbb_board_builder</name>
+            <plural>Last Calculated</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-08-05 01:56:52</sys_created_on>
+            <sys_id>386bb8e8db3b5300898be3a84b961970</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Last Calculated</sys_name>
+            <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
+            <sys_update_name>sys_documentation_x_maog_vtbb_board_builder_last_calculated_en</sys_update_name>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-08-05 01:56:52</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

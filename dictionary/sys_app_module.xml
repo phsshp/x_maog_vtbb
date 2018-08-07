@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element attributes="no_list_protection=true,all_tables.text_index_translations=true,update_synch=true" audit="true" extends="sys_metadata" label="Module" max_length="40" name="sys_app_module" read_roles="admin" text_index="true" type="collection">
+        <element label="Board" max_length="32" name="x_maog_vtbb_board" read_only="true" reference="vtb_board" reference_cascade_rule="delete" reference_qual="active=true^EQ" reference_qual_condition="active=true^EQ" type="reference"/>
+        <index name="index">
+            <element name="x_maog_vtbb_board"/>
+        </index>
+    </element>
+</database>

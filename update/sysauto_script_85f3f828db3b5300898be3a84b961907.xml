@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sysauto_script">
+    <sysauto_script action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <condition><![CDATA[VtbUpdater.isWorkAvailable();]]></condition>
+        <conditional>true</conditional>
+        <name>Board Builder Schedule</name>
+        <run_as display_value="Peter Smith">4e3f4c7cdb63fa0024c9dfea5e961956</run_as>
+        <run_as_tz/>
+        <run_dayofmonth>1</run_dayofmonth>
+        <run_dayofweek>1</run_dayofweek>
+        <run_period>1970-01-01 00:00:15</run_period>
+        <run_start>2018-08-05 01:24:24</run_start>
+        <run_time>1970-01-01 06:00:00</run_time>
+        <run_type>periodically</run_type>
+        <script><![CDATA[VtbUpdater.doWork();]]></script>
+        <sys_class_name>sysauto_script</sys_class_name>
+        <sys_created_by>peter.smith</sys_created_by>
+        <sys_created_on>2018-08-05 01:31:07</sys_created_on>
+        <sys_id>85f3f828db3b5300898be3a84b961907</sys_id>
+        <sys_mod_count>7</sys_mod_count>
+        <sys_name>Board Builder Schedule</sys_name>
+        <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
+        <sys_update_name>sysauto_script_85f3f828db3b5300898be3a84b961907</sys_update_name>
+        <sys_updated_by>peter.smith</sys_updated_by>
+        <sys_updated_on>2018-08-07 00:13:14</sys_updated_on>
+        <upgrade_safe>false</upgrade_safe>
+    </sysauto_script>
+</record_update>

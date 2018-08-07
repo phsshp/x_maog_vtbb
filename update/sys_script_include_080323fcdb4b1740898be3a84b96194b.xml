@@ -21,19 +21,6 @@ VtbMember.prototype = (function VtbMember_proto(s) {
 		rw.set(grOrSysId, share, this);
 	};
 
-	// TODO:  For breakpoint.  Can collapse after unit test.
-	s.createRecord = function createRecord() {
-		return rw.createRecord.apply(null, arguments);
-	};
-
-	// TODO: For breakpoint.  Can collapse after unit test.
-	p.insert = (function wrapInsert() {
-		var insert = p.insert;
-		return function VtbInsert() {
-			return insert.apply(null, arguments);
-		};
-	});
-
 	s.query = rw.query;
 
 	s.internalName = function internalName(vtmGr) {
@@ -49,19 +36,110 @@ VtbMember.prototype = (function VtbMember_proto(s) {
 		return buffer.join('');
 	};
 
+	// Add members to a VTB associated with this BoardBuilder.
+	//
+	// Invoked as part of VTB creation.
+	//
+	// Precondition: Given this BoardBuilder, a group satisfying
+	//  the postconditions for synchBbgs, and a
+	//  VTB corresponding to a user meeting this BoardBuilder's
+	//  conditions for board ownership,
+	// Postcondition: There exists exactly one VtbMember record
+	//  that satisfies this BoardBuilder and Group's membership
+	//  conditions.
+	//
+	s.synchVtbMembers = function synchVtbMembers(bb, vtb, group) {
+		var vtmOnce;
+		var includeMembers, includeManager, memberUserFilter, memberRoleIds;
+
+		if (log.isDebugging()) {
+			log.debug('{0}.synchVtbMembers({1}, {2})', TYPE,
+					  bb.toString(), group.toString());
+		}
+
+		// Register member records that already exist for this board.
+		vtmOnce = new Once('vtmOnce');		
+		s.query(
+			function filter(vtmGr) {
+				vtmGr.addQuery('board', vtb.getSysId());
+			},
+			function process(vtmGr) {
+				var vtmId = vtmGr.getUniqueValue();
+				var key = vtmGr.getValue('user');
+				vtmOnce.exists(vtmId, key);
+			}
+		);
+
+		// Create records for new members
+		includeMembers = bb.includeMemberGroupMembers(); // Member Group Members
+		includeManager = bb.includeMemberGroupManager(); // Member Group Manager
+		memberUserFilter = bb.getMemberUserFilter(); // Member User Filter
+		memberRoleIds = bb.getMemberRoles(); // Member Roles
+		group.forUsers(
+			function filterBoardMembers(memberGr) {
+				if (memberUserFilter) memberGr.addEncodedQuery(memberUserFilter);
+			},
+			function addMember(memberGr) {
+				var member = new User(memberGr, rw.MODE.SHARED);
+				if (member.hasRoleSysIds(memberRoleIds)) {
+					vtmOnce.update(
+						null, member.getSysId(),
+						function synchVtm(vtmId, key, state) {
+							var updating, vtm;
+							
+							updating = (state === Once.STATE.EXISTS);
+
+							if (state !== Once.STATE.ADDED && !updating) return;
+							if (updating && !bb.updateExisting()) return;
+
+							if (!updating) {
+								vtm = s.createRecord(
+									function setupVtm(vtmGr) {
+										vtmGr.setValue('board', vtb.getSysId());
+										vtmGr.setValue('user', key);
+									}
+								);
+							}
+
+							if (log.isDebugging()) {
+								if (updating) {
+									log.debug('[VTM {0} {1} [{2}]] synchronizing', vtmId, bb.toString(), key);
+								} else {
+									log.debug('{0} added', vtm.toString());
+								}
+							}
+							vtb.synchVtbBookmark(bb, group, member);
+						}
+					);
+				}
+			},
+			includeManager, includeMembers,
+			rw.MODE.SHARED
+		);
+
+		// Delete redundant members
+		if (bb.deleteInvalid()) {
+			vtbOnce.removeRemaining(function getVtm(vtmId) {
+				return vtmId;
+			});
+		}
+	};
+
+	s.createRecord = rw.createRecord;
+
 	return p;
 })(VtbMember);  // End VtbMember_proto]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-30 02:00:34</sys_created_on>
         <sys_id>080323fcdb4b1740898be3a84b96194b</sys_id>
-        <sys_mod_count>20</sys_mod_count>
+        <sys_mod_count>35</sys_mod_count>
         <sys_name>VtbMember</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_080323fcdb4b1740898be3a84b96194b</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-07-27 02:58:20</sys_updated_on>
+        <sys_updated_on>2018-08-05 04:55:49</sys_updated_on>
     </sys_script_include>
 </record_update>

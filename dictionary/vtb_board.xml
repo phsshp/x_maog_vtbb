@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <database>
     <element audit="true" label="Visual Task Board" max_length="40" name="vtb_board" type="collection">
-        <element label="Builder" max_length="32" name="x_maog_vtbb_builder" reference="x_maog_vtbb_board_builder" reference_qual="active=true^EQ" reference_qual_condition="active=true^EQ" type="reference"/>
+        <element label="Board Builder Group" max_length="32" name="x_maog_vtbb_board_builder_group" read_only="true" reference="x_maog_vtbb_board_builder_group" reference_cascade_rule="delete" type="reference"/>
+        <element label="Builder" max_length="32" name="x_maog_vtbb_builder" read_only="true" reference="x_maog_vtbb_board_builder" reference_cascade_rule="delete" reference_qual="active=true^EQ" reference_qual_condition="active=true^EQ" type="reference"/>
         <element label="Internal Name" max_length="120" name="x_maog_vtbb_internal_name" read_only="true" type="string"/>
         <index name="index">
             <element name="x_maog_vtbb_builder"/>

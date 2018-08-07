@@ -25,104 +25,179 @@ Member functions:&#13;
 - removeRemaining(removeFn)&#13;
    - removeFn(obj): Called for every existing object that was not also passed to add().</description>
         <name>Once</name>
-        <script><![CDATA[Once = function Once() {
+        <script><![CDATA[Once = (function Once_static() {
+	var TYPE = 'Once';
+
+	var log = x_spar2_log.Logger.getLogger(TYPE, gs.getCurrentScopeName());
+
+	var STATE = {};
+	var EXISTS =  STATE.EXISTS  = 'exists';  // Registered via exists() method.
+	var ADDED =   STATE.ADDED   = 'added';   // Added via add() or update() method.
+	var UPDATED = STATE.UPDATED = 'updated'; // Updated via update() method.
+	var REMOVED = STATE.REMOVED = 'removed'; // Removed 
+
 	var o_forOwnProperties = Utils.o_forOwnProperties;
-	var keys = {};
-	var STATE = Once.STATE = {};
-	var ADDED = STATE.ADDED = 'added ';
-	var EXISTS = STATE.EXISTS = 'saw ';
-	var REMOVED = STATE.REMOVED = 'removed ';
 
-	function process(obj, key, newState, objFn, updFn) {
-		var data, state;
+	var Once = function Once(nameForLogging) {
+		var keys = {};
 
-		if (key !== undefined) {
-			data = keys[key];
+		nameForLogging = nameForLogging || 'Once ' + gs.generateGUID();
+		nameForLogging = '[' + nameForLogging + ']';
 
-			if (data === undefined) {
-				keys[key] = data = { state: newState, obj: obj };
-				if (objFn && newState === ADDED) objFn(data.obj, key, data.state);
+		// Register a pre-existing object.
+		this.exists = function exists(obj, key, updFn) {
+			var data;
+
+			if (key === null) key = '';
+			if (key !== undefined) {
+				if (data === undefined) {
+					keys[key] = data = { obj: obj, key: key };
+					log.info('{0} saw: {1}: {2}', nameForLogging, key + '', obj.toString());
+				} else {
+					data = keys[key];
+					log.debug('{0} re-saw: {1}: {2}', nameForLogging, data.key + '', data.obj.toString());
+				}
+				if (updFn) updFn(data.obj, key, data.state);
+				data.state = STATE.EXISTS;
 			} else {
-				state = data.state;
-				if (state !== ADDED && newState === ADDED) {
-					data.state = ADDED;
-					data.obj = obj;
-					if (objFn) objFn(data.obj, key, data.state);
+				throw new TypeError(
+					gs.getMessage('{0} key undefined for obj={1}',
+								  nameForLogging, obj + ''));
+			}
+		};
+
+		// Add object if it has not already been seen.
+		this.add = function add(obj, key, objFn, updFn) {
+			var data, oldState;
+
+			if (key === null) key = '';
+			if (key !== undefined) {
+				data = keys[key];
+				if (data === undefined) {
+					keys[key] = data = { obj: obj, key: key };	
+					if (objFn) {
+						objFn(obj, key, data.state);
+						log.info('{0} add: {1}: {2}', nameForLogging, 
+								 key + '', obj + '' /* Could be nil */);
+					}
+				} else {
+					data = keys[key];
+					log.debug('{0} skip: {1}: {2}', nameForLogging,
+							  key + '', data.obj.toString());
+				}
+				if (updFn) updFn(data.obj, data.key, data.state);
+				data.state = STATE.ADDED;
+			} else {
+				throw new TypeError(
+					gs.getMessage('{0} key undefined for obj={1}',
+								  nameForLogging, obj + ''));
+			}
+		};
+
+		// Do something to an object whether it has been seen or not.
+		this.update = function update(obj, key, updFn) {
+			var data, oldState;
+
+			if (key === null) key = '';
+			if (key !== undefined) {
+				data = keys[key];
+				if (data === undefined) {
+					keys[key] = data = { obj: obj, key: key, state: STATE.ADDED };	
+					log.info('{0} update add: {1} {2}: {3}', nameForLogging,
+							 typeof key, key + '', obj + '' /* could be primitive */);
+				} else {
+					data = keys[key];
+					if (data.state === STATE.EXISTS) {
+						log.info('{0} update: {1} {2}: {3}', nameForLogging,
+								 typeof key, key + '', obj + '' /* could be primitive */);
+					}
+				}
+				if (updFn) updFn(data.obj, data.key, data.state);
+				data.state = STATE.UPDATED;
+			} else {
+				throw new TypeError(
+					gs.getMessage('{0} key undefined for obj={1}',
+								  nameForLogging, obj + ''));
+			}
+		};
+
+		// Do something to objects that already existed.
+		this.forExisting = function forExisting(updFn) {
+			o_forOwnProperties(keys, function remove(data, key) {
+				if (data.state === EXISTS) {
+					updFn(data.obj, key, data.state);
+				}
+			});
+		};
+
+		this.removeRemaining = function removeRemaining(idFn) {
+			var ids = [], tableGr;
+			this.forExisting(function collectRemaining(obj, key) {
+				ids.push(idFn(obj, key));
+			});
+			ids = ids.join(',');
+			tableGr = new GlideRecord(CLASS);
+			tableGr.query('sys_id', 'IN', ids);
+			tableGr.deleteMultiple();
+			log.debug('{0} removed {1} records in {2}', nameForLogging,
+					  tableGr.getRowCount(), ids);
+		};
+
+		this.forEach = function forEach(fn) {
+			for (var key in keys) {
+				if (keys.hasOwnProperty(key)) {
+					var data = keys[key];
+					fn(data.obj, data.key, data.state);
 				}
 			}
-			if (updFn) updFn(data.obj, key, data.state);
-		}
-	}
+		};
 
-	// Register a pre-existing object.
-	this.exists = function exists(obj, key, updFn) {
-		process(obj, key, EXISTS, null, updFn);
-	};
-
-	// Add object with no matching key.
-	this.add = function add(obj, key, objFn, updFn) {
-		process(obj, key, ADDED, objFn, updFn);
-	};
-
-	// Delete objects that exist but were not mentioned by add.
-	this.removeRemaining = function removeRemaining(removeFn) {
-		o_forOwnProperties(keys, function remove(data, key) {
-			if (data.state === EXISTS) {
-				data.state = REMOVED;
-				removeFn(data.obj);
-			}
-		});
-	};
-
-	this.forEach = function forEach(fn) {
-		for (var key in keys) {
-			if (keys.hasOwnProperty(key)) {
-				var data = keys[key];
-				fn(data.obj, key, data.state);
-			}
-		}
-	};
-
-	this.toString = function toString() {
-		var buffer = [];
-		this.forEach(function(obj, key, state) {
-			buffer.push(state);
-			buffer.push(key.toString());
-			buffer.push(': ');
-			buffer.push(obj.toString());
-			buffer.push('\n');
-		});
-		return buffer.join('');
-	};
-
-	Once.Descriptor = function Descriptor(key, obj, more) {
-		this.key = key;
-		this.obj = obj;
-		this.more = more;
-		this.toString = function() {
-			var buffer = ['['];
-			buffer.push(key.toString());
-			buffer.push(' ');
-			buffer.push(obj.toString());
-			buffer.push(' (');
-			buffer.push(more.toString());
-			buffer.push(')]');
+		this.toString = function toString() {
+			var buffer = [];
+			this.forEach(function(obj, key, state) {
+				buffer.push(state);
+				buffer.push(key.toString());
+				buffer.push(': ');
+				buffer.push(obj.toString());
+				buffer.push('\n');
+			});
 			return buffer.join('');
 		};
+
+		Once.Descriptor = function Descriptor(key, obj, more) {
+			this.key = key;
+			this.obj = obj;
+			this.more = more;
+			this.toString = function() {
+				var buffer = ['[Descriptor '];
+				buffer.push(key + '');
+				buffer.push(' ');
+				buffer.push(obj + '');
+				if (more !== undefined) {
+					buffer.push(' (');
+					buffer.push(more + '');
+					buffer.push(')');
+				}
+				buffer.push(']');
+				return buffer.join('');
+			};
+		};
 	};
-};
-Once.prototype = { type: 'Once' };]]></script>
+	Once.STATE = STATE;
+	Once.log = log;
+	return Once;
+})();]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-07-15 14:39:50</sys_created_on>
         <sys_id>41d7df7ddbdb5780d4b15eea4b96190a</sys_id>
-        <sys_mod_count>11</sys_mod_count>
+        <sys_mod_count>46</sys_mod_count>
         <sys_name>Once</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_41d7df7ddbdb5780d4b15eea4b96190a</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-07-26 22:41:30</sys_updated_on>
+        <sys_updated_on>2018-08-06 17:08:03</sys_updated_on>
     </sys_script_include>
 </record_update>

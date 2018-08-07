@@ -37,7 +37,7 @@
         <name>vtb_board_member</name>
         <next_element/>
         <primary>false</primary>
-        <read_only>false</read_only>
+        <read_only>true</read_only>
         <read_roles/>
         <reference/>
         <reference_cascade_rule/>
@@ -53,14 +53,14 @@
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-07-20 04:35:24</sys_created_on>
         <sys_id>22958b53dbd31b80d4b15eea4b961967</sys_id>
-        <sys_mod_count>2</sys_mod_count>
+        <sys_mod_count>3</sys_mod_count>
         <sys_name>Internal Name</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy/>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_dictionary_vtb_board_member_x_maog_vtbb_internal_name</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-07-20 05:50:53</sys_updated_on>
+        <sys_updated_on>2018-08-04 03:17:49</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <unique>false</unique>

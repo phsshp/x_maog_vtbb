@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_documentation element="x_maog_vtbb_board" label="Board" language="en" table="sys_ui_bookmark">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>x_maog_vtbb_board</element>
+            <help/>
+            <hint/>
+            <label>Board</label>
+            <language>en</language>
+            <name>sys_ui_bookmark</name>
+            <plural>Boards</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-07-30 20:57:30</sys_created_on>
+            <sys_id>66e6c2f2db23d300d4b15eea4b96198d</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Board</sys_name>
+            <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
+            <sys_update_name>sys_documentation_sys_ui_bookmark_x_maog_vtbb_board_en</sys_update_name>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-07-30 20:57:30</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

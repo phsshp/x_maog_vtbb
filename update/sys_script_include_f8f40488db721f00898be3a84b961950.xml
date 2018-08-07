@@ -28,102 +28,139 @@ BoardBuilderGroup.prototype = (function BoardBuilderGroup_proto(s) {
 
 	// Add a new link between a board builder and a group.
 	s.createRecord = function createRecord(bb, group) {
-		var bbg = rw.createRecord(function createBbg(gr) {
-			gr.setValue('board_builder', bb.getSysId());
-			gr.setValue('group', group.getSysId());
-		});
+		var bbg = rw.createRecord(
+			function createBbg(bbgGr) {
+				bbgGr.setValue('board_builder', bb.getSysId());
+				bbgGr.setValue('group', group.getSysId());
+			}
+		);
 		return bbg;
 	};
 
 	p.getBoardBuilder = function getBoardBuilder() {
-		if (!this.boardBuilder) {
-			var bbSysId = this.getGr().getValue('board_builder');
-			this.boardBuilder = new BoardBuilder(bbSysId);
-		}
-		return this.boardBuilder;
+		return new BoardBuilder(this.getGr().board_builder);
 	};
 
 	p.getGroup = function getGroup() {
-		if (!this.group) {
-			var groupSysId = this.getGr().getValue('group');
-			this.group = new Group(groupSysId);
-		}
-		return this.group;
+		return new Group(this.getGr().group);
 	};
 
-	// Create VTBs for this Board Builder Group's eligible owners.
+	// Update BoardBuilderGroups to match one BoardBuilder.
 	//
-	// Preconditions: Given a Board Builder Group specifying
-	//  one Board Builder and one Group that satisfies that
-	//  Board Builder's owner group membership conditions
-	//  (see BoardBuilder.synchBbgs)
-	// Postcondition: There exists one VTB for each
-	//  user that is a member of or manager for the group
-	//  that satisifes the Board Builder's ownership
-	//  conditions.
-	// Exception: There may be additional VTBs that used to
-	//  meet the preconditions but no longer do.  We do not
-	//  delete VTBs.
+	// Called indirectly by BR "Board Builder Updated"
 	//
-	p.synchBbgVtbs = function synchBbgVtbs(rebuild) { // 1
-		var bb, bbSysId, bbg, bbgSysId, group, groupSysId, once;
+	// Note that a BoardBuilderGroup record is NEVER updated.
+	// It is created or deleted and otherwise remains constant.
+	// Modifying its references is not a valid test.
+	//
+	// Also note that business rules react to creation or deletion
+	// of a BoardbuilderGroup.
+	//
+	// Precondition:   Given one BoardBuilder
+	// Postcondition:  For this board and every Group
+	//  that satisfies the BoardBuilder's ownership conditions
+	//  there exists exactly one BoardBuilderGroup record
+	//  associating the BoardBuilder and the Group.
+	//
+	s.synchBbgs = function synchBbgs(bb) {
+		var bbSysId = bb.getSysId();
+		var groupMap = {};
+		var deleteIds = [];
+		var EXISTS = 1, MATCHED = 2;
+		var bbgOnce = new Once('bbgOnce');
 
-		bbg = this;
-		bbgSysId = bbg.getSysId();
-		bb = bbg.getBoardBuilder();
-		bbSysId = bb.getSysId();
-		group = bbg.getGroup();
-		groupSysId = group.getSysId();
-		once = new Once();		
+		function bbgKey(groupId) { return bbSysId + '.' + groupId; }
 
-		if (log.isDebugging()) {
-			log.debug('{0} synchBbgVtbs{1}', this.toString(), (rebuild ? ' (rebuild)' : ''));
-		}
+		// Get existing builder groups that reference this board builder.
+		// Add their Sys IDs to the bbgGroupMap.
+		BoardBuilderGroup.query(
+			function bbgFilter(bbgGr) {
+				bbgGr.addQuery('board_builder', bbSysId);
+			}, 
+			function existingBbg(bbgGr) {
+				var key, value;
 
-		// Find VTBs that already exist for this board and group.
-		VtbBoard.query(function filter(gr) {
-			gr.addQuery('assignment_group', group.getSysId());
-			gr.addQuery('x_maog_vtbb_builder', bb.getSysId());
-		}, function process(vtbGr) {
-			var owner = new Owner(vtbGr.owner);
-			var key = VtbBoard.makeKey(bbSysId, groupSysId, owner.getSysId());
-			var vtb = new VtbBoard(vtbGr);
-			if (rebuild) {
-				bb.setVtbValues(vtb, group, owner);
-				bb.setVtbFilter(vtb, group, owner);
-			}
-			once.exists(vtb, key);
-		});
-
-		// Add new VTBs
-		bb.forNewEligibleUsers(group, function addNewVtb(owner) {
-			var key = VtbBoard.makeKey(bbSysId, groupSysId, owner.getSysId());
-			once.add(null, key, function addBbgBoard() {
-				bb.createVtbRecord(group, owner, null);
+				key = bbgKey(bbgGr.getValue('group'));
+				value = bbgGr.getUniqueValue();
+				bbgOnce.exists(value, key);
 			});
-		}, BoardBuilder.USER_TYPE.OWNERS);
+
+		// Synch every BBG that satisfies this Board Builder's
+		// Group conditions.  Create new BBGs as needed.
+		// If updateExisting is on, synch existing BBGs as well
+		Group.query(
+			function groupFilter(groupGr) {
+				var bbGroupTypes, bbGroupTypesLen, groupQuery;
+
+				// Owner Group Types
+				bbGroupTypes = bb.getGroupTypes();
+				bbGroupTypesLen = bbGroupTypes.length;
+				for (var bbti = 0; bbti < bbGroupTypesLen; bbti++) {
+					groupGr.addQuery('type', 'CONTAINS', bbGroupTypes[bbti]);
+				}
+
+				// Owner Group Filter
+				groupQuery = bb.getOwnerGroupFilter();
+				if (groupQuery) groupGr.addEncodedQuery(groupQuery);
+			},
+			function addBbg(groupGr) {
+				var groupId = groupGr.getUniqueValue();
+				bbgOnce.update(
+					null, bbgKey(groupId),
+					function synchGroup(bbgId, key, state) {
+						var group, bbg;
+
+						if (state === Once.STATE.ADDED) {
+							log.info('inserting BBG for {0} {1}',
+									 bb + '', group + '');
+							bbg = rw.createRecord(
+								function createBbg(bbgGr) {
+									bbgGr.setValue('board_builder', bbSysId);
+									bbgGr.setValue('group', groupId);
+								} // Triggers insert BR that calls bbg.added()
+							);
+							log.debug('{0} insert completed', bbg.toString());
+						} else if (state === Once.STATE.EXISTS && bb.updateExisting()) {
+							bbg = new BoardBuilderGroup(bbgId);
+							bbg.getGr();
+							group = new Group(groupGr, rw.MODE.SHARED);
+							log.info('{0} synchronizing', bbg.toString());
+							VtbBoard.synchGroupVtbs(bb, group, bbg);
+						}
+					}
+				);
+			});
+
+		// Remove board builder groups that are no longer eligible.
+		if (bb.deleteInvalid()) {
+			bbgOnce.removeRemaining(
+				function getGroupId(bbgId) {
+					return bbgId;
+				}
+			);
+		}
 	};
 
 	// Invoked by BR "Board Builder Group Added"
-	//
 	p.added = function added() {
-		if (log.isDebugging) log.debug('{0} record inserted', this.toString());
-		this.synchBbgVtbs();
+		var group = this.getGroup();
+		var bb = this.getBoardBuilder();
+		VtbBoard.synchGroupVtbs(bb, group, this);
 	};
-	
+
 	return p;
 })(BoardBuilderGroup);  // End BoardBuilderGroup_proto]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-14 15:39:17</sys_created_on>
         <sys_id>f8f40488db721f00898be3a84b961950</sys_id>
-        <sys_mod_count>141</sys_mod_count>
+        <sys_mod_count>179</sys_mod_count>
         <sys_name>BoardBuilderGroup</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_f8f40488db721f00898be3a84b961950</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-07-27 03:00:15</sys_updated_on>
+        <sys_updated_on>2018-08-06 23:07:35</sys_updated_on>
     </sys_script_include>
 </record_update>

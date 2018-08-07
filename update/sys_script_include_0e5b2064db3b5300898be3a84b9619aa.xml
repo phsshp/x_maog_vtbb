@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_maog_vtbb.VtbUpdater</api_name>
+        <client_callable>false</client_callable>
+        <description>Used by  the "Visual Task Board Updater" job to recompute task boards periodically.  Currently this is grossly inefficient.  It just recalculates everything.  If this is too expensive we can explore alternative implementations.</description>
+        <name>VtbUpdater</name>
+        <script><![CDATA[var VtbUpdater = Class.create();
+VtbUpdater.prototype = (function VtbUpdater_proto(s) {
+	var TYPE = 'VtbUpdater';
+	var log = x_spar2_log.Logger.getLogger(TYPE);
+
+	var p = {};
+
+	var QUEUE = 'x_maog_vtbb_event_queue';
+
+	var delayIntervalSeconds = 
+		Math.max(gs.getProperty('x_maog_vtbb.DelayIntervalSeconds', 500), 30);
+	var delayIntervalHours = delayIntervalSeconds / (60 * 60);
+
+	var forceIntervalSeconds = 
+		Math.max(gs.getProperty('x_maog_vtbb.ForceIntervalSeconds', 500), 300);
+
+	var catchErrors = gs.getProperty('x_maog_vtbb.CatchSchedulerThrownErrors', 'pass_through') === 'catch';
+	var errorCatcher = Utils.getErrorCatcher(catchErrors);
+
+	var slice = Function.prototype.apply.bind(Array.prototype.slice);
+
+	function bbFilter(bbGr) {
+		var bbOr, now, actBy;
+
+		// Calculate a time in the past.  That time progresses as we poll.
+		// When updated becomes less than that time we need to recalculate.
+		actBy = new GlideDateTime();
+		actBy.addSeconds(-forceIntervalSeconds);
+
+		bbGr.addActiveQuery();
+		bbOr = bbGr.addNullQuery('invalidated');
+		bbOr.addOrCondition('last_calculated', '=', 'NULL');
+		bbOr.addOrCondition(
+			'invalidated', 'MORETHAN',
+			'last_calculated@hour@after@' + delayIntervalHours);
+		bbOr.addOrCondition('sys_updated_on', '<=', actBy);
+		if (log.isDebugging()) {
+			log.debug('query(actBy={1}) {0}, ', bbGr.getEncodedQuery(),
+					  actBy.getDisplayValue());
+		}
+	}
+
+	// There is work to be done
+	s.isWorkAvailable = function isWorkAvailable() {
+		var needWork = false;
+
+		BoardBuilder.query(
+			function isWorkFilter(bbGr) {
+				bbFilter(bbGr);
+				bbGr.setLimit(1);
+			},
+			function foundWork(bbGr) {
+				needWork = true;
+			}
+		);
+		log.debug('isWorkAvailable=' + needWork);
+		return needWork;
+	};
+
+	// Peform the work now.
+	s.doWork = function doWork() {
+		var errInfo;
+
+		BoardBuilder.query(
+			bbFilter,
+			function foundOneBoardBuilder(bbGr) {
+				var started, bb;
+
+				started = new GlideDateTime();
+				errorCatcher(
+					function runOneBuilder() {
+						bb = new BoardBuilder(bbGr, RecordWrapper.MODE.SHARED);
+
+						if (!bbGr.invalidated) {
+							bbGr.invalidated = started;
+						}
+
+						log.debug('VtbUpdater calculating {0} sys_updated_on={1}' +
+								  ' invalidated={2} last_calculated={3}',
+								  bb.toString(),
+								  bbGr.sys_updated_on ? bbGr.sys_updated_on : '(empty)',
+								  bbGr.invalidated ? bbGr.invalidated : '(empty)',
+								  bbGr.last_calculated ? bbGr.last_calculated : '(empty)');
+
+						bb.synch();
+
+						bbGr.update();
+					},
+					function catchClause(e) {
+						log.error(e.toString());
+					},
+					function finallyClause(argsArr, errorInfo) {
+
+					}
+				);
+
+				VtbBoard.cleanupUserPreferences();
+			}
+		);
+	};
+
+	s.invalidateBoardBuilder = function invalidateBoardBuilder(bb) {
+		var bbGr;
+
+		bbGr = bb.getGr();
+		bbGr.invalidated = new GlideDateTime();
+		bbGr.update();
+	};
+
+	s.calculating = function calculating(wrapper) {
+		wrapper.getGr().last_calculated = new GlideDateTime();
+	};
+
+	return p;
+})(VtbUpdater); // End VtbUpdater_proto]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>peter.smith</sys_created_by>
+        <sys_created_on>2018-08-05 01:53:10</sys_created_on>
+        <sys_id>0e5b2064db3b5300898be3a84b9619aa</sys_id>
+        <sys_mod_count>57</sys_mod_count>
+        <sys_name>VtbUpdater</sys_name>
+        <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
+        <sys_update_name>sys_script_include_0e5b2064db3b5300898be3a84b9619aa</sys_update_name>
+        <sys_updated_by>peter.smith</sys_updated_by>
+        <sys_updated_on>2018-08-07 21:08:25</sys_updated_on>
+    </sys_script_include>
+</record_update>

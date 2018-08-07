@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <database>
     <element attributes="iterativeDelete=true,metadata_link_exempt=true" label="Group Member" max_length="40" name="sys_user_grmember" sizeclass="14988" type="collection">
-        <element label="Internal Name" max_length="100" name="x_maog_vtbb_internal_name" type="string"/>
+        <element label="Internal Name" max_length="100" name="x_maog_vtbb_internal_name" read_only="true" type="string"/>
     </element>
 </database>

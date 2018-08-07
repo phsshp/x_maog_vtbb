@@ -7,7 +7,7 @@
         <content_page/>
         <device_type/>
         <filter/>
-        <hint/>
+        <hint>Relates a Group to a Board Builder</hint>
         <homepage/>
         <image/>
         <link_type>LIST</link_type>
@@ -15,7 +15,7 @@
         <mobile_title>Board Builder Groups</mobile_title>
         <mobile_view_name>Mobile</mobile_view_name>
         <name>x_maog_vtbb_board_builder_group</name>
-        <order>1200</order>
+        <order>3100</order>
         <override_menu_roles>false</override_menu_roles>
         <query/>
         <report/>
@@ -28,7 +28,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>37f60d08dbf21f00898be3a84b9619c5</sys_id>
-        <sys_mod_count>2</sys_mod_count>
+        <sys_mod_count>5</sys_mod_count>
         <sys_name>Board Builder Groups</sys_name>
         <sys_overrides/>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
@@ -36,11 +36,12 @@
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_app_module_37f60d08dbf21f00898be3a84b9619c5</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-06-18 16:23:20</sys_updated_on>
+        <sys_updated_on>2018-08-05 20:17:49</sys_updated_on>
         <timeline_page/>
         <title>Board Builder Groups</title>
         <uncancelable>false</uncancelable>
         <view_name/>
         <window_name/>
+        <x_maog_vtbb_board/>
     </sys_app_module>
 </record_update>

@@ -10,7 +10,7 @@
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy/>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
-        <sys_ui_action display_value="Add BB VTBs">6c20de13db62db00898be3a84b9619e9</sys_ui_action>
+        <sys_ui_action display_value="Update Board Builder Groups">6c20de13db62db00898be3a84b9619e9</sys_ui_action>
         <sys_update_name>sys_ui_action_role_bc70dedfdb22db00898be3a84b961924</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
         <sys_updated_on>2018-06-12 17:54:37</sys_updated_on>

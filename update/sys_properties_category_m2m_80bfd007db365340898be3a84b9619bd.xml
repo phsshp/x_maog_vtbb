@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update table="sys_properties_category_m2m">
     <sys_properties_category_m2m action="INSERT_OR_UPDATE">
-        <category display_value="VTB Builder Properties">595e1883db365340898be3a84b961965</category>
-        <order>592</order>
+        <category display_value="VTB Debug Properties">4e9374f4dbff5300898be3a84b96193d</category>
+        <order>780</order>
         <property display_value="x_maog_vtbb.VtbBoard.log.level" name="x_maog_vtbb.VtbBoard.log.level">ba9e9883db365340898be3a84b9619ab</property>
         <sys_class_name>sys_properties_category_m2m</sys_class_name>
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-24 01:17:53</sys_created_on>
         <sys_id>80bfd007db365340898be3a84b9619bd</sys_id>
-        <sys_mod_count>5</sys_mod_count>
-        <sys_name>x_maog_vtbb.VtbBoard.log.level.VTB Builder Properties</sys_name>
+        <sys_mod_count>8</sys_mod_count>
+        <sys_name>x_maog_vtbb.VtbBoard.log.level.VTB Debug Properties</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy/>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_properties_category_m2m_80bfd007db365340898be3a84b9619bd</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-07-06 00:42:49</sys_updated_on>
+        <sys_updated_on>2018-08-05 20:02:33</sys_updated_on>
     </sys_properties_category_m2m>
 </record_update>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Bookmark" max_length="40" name="sys_ui_bookmark" type="collection">
+        <element label="Board" max_length="32" name="x_maog_vtbb_board" read_only="true" reference="vtb_board" reference_cascade_rule="delete" reference_qual="active=true^EQ" reference_qual_condition="active=true^EQ" type="reference"/>
+        <index name="index">
+            <element name="x_maog_vtbb_board"/>
+        </index>
+    </element>
+</database>

@@ -8,114 +8,181 @@
         <description>ServiceNow does not allow polyfills in its Rhino container.</description>
         <name>Utils</name>
         <script><![CDATA[var Utils = Class.create();
-Utils.a_forEach = function a_forEach(a, f) {
-	var len = a.length;
-	for (var i = 0; i < len; i++) {
-		f(a[i], i, a);
-	}
-};
-
-Utils.o_forOwnProperties = function o_forOwnProperties(o, fn) {
-	for (var k in o) {
-		if (o.hasOwnProperty(k)) {
-			fn(o[k], k, o);
+(function Utils_static(s) {
+	Utils.a_forEach = function a_forEach(a, f) {
+		var len = a.length;
+		for (var i = 0; i < len; i++) {
+			f(a[i], i, a);
 		}
-	}
-};
+	};
 
-// From VTB_Utils
-Utils.cloneGlideRecord = function cloneGlideRecord(oldGr, className) {
-	var newGr, key, value, msg;
-	className = className || oldGr.getTableName();
+	Utils.o_forOwnProperties = function o_forOwnProperties(o, fn) {
+		for (var k in o) {
+			if (o.hasOwnProperty(k)) {
+				fn(o[k], k, o);
+			}
+		}
+	};
 
-	newGr = new GlideRecordSecure(className);
-	newGr.initialize();
+	// From VTB_Utils
+	Utils.cloneGlideRecord = function cloneGlideRecord(oldGr, className) {
+		var newGr, key, value, msg;
+		className = className || oldGr.getTableName();
 
-	for (key in oldGr) {
-		if (!oldGr.hasOwnProperty(key)) continue;
-		value = oldGr[key];
-		if (value === undefined) continue;
-		if (IGNORE[key]) continue;
-		newGr.setValue(key, value.getValue());
-	}
-};
+		newGr = new GlideRecordSecure(className);
+		newGr.initialize();
 
-// Given arrays A and B, compute A - B.
-// Requires a unique hash for values in the arrays.
-Utils.subtractArraysHashed = function subtractArrayHashed(a, b, hash) {
-	var answer, bMap;
+		for (key in oldGr) {
+			if (!oldGr.hasOwnProperty(key)) continue;
+			value = oldGr[key];
+			if (value === undefined) continue;
+			if (IGNORE[key]) continue;
+			newGr.setValue(key, value.getValue());
+		}
+	};
 
-	if (typeof hash !== 'function') {
-		throw new TypeError('hash must be a function');
-	}
+	// Given arrays A and B, compute A - B.
+	// Requires a unique hash for values in the arrays.
+	Utils.subtractArraysHashed = function subtractArrayHashed(a, b, hash) {
+		var answer, bMap;
 
-	bMap = b.reduce(function(accum, bVal) {
-		var hashVal = hash(bVal);
-
-		if (hashVal == undefined) {
-			throw new TypeError(
-				'Hash of {0} is undefined',
-				bVal);
+		if (typeof hash !== 'function') {
+			throw new TypeError('hash must be a function');
 		}
 
-		var oldVal = accum[hashVal];
+		bMap = b.reduce(function(accum, bVal) {
+			var hashVal = hash(bVal);
 
-		if (oldVal !== undefined) {
-			throw new TypeError(
-				'Duplicate hash value {0} for {1}, {2}',
-				hashVal, accum[hashVal], bVal);
+			if (hashVal == undefined) {
+				throw new TypeError(
+					'Hash of {0} is undefined',
+					bVal);
+			}
+
+			var oldVal = accum[hashVal];
+
+			if (oldVal !== undefined) {
+				throw new TypeError(
+					'Duplicate hash value {0} for {1}, {2}',
+					hashVal, accum[hashVal], bVal);
+			}
+
+			accum[hashVal] = bVal;
+			return accum;
+		}, {});
+
+		answer = a.reduce(function(accum, aVal) {
+			var hashVal = hash(aVal);
+
+			if (hashVal == undefined) {
+				throw new TypeError(
+					'Hash of {0} is undefined',
+					aVal);
+			}
+
+			if (!bMap.hasOwnProperty(hashVal)) {
+				accum.push(aVal);
+			}
+			return accum;
+		}, []);
+		return answer;
+	};
+
+	Utils.getTrueFalse = function getTrueFalse(rawValue) {
+		var answer = false;
+		switch (rawValue) {
+			case '1':
+				answer = true;
+				break;
+			case true:
+				answer = true;
+				break;
+			case 'true':
+				answer = true;
+				break;
+			default:
+				// Do nothing
+		}
+		return answer;
+	};
+
+	Utils.getGlideTrueFalse = function getGlideTrueFalse(gr, fieldName) {
+		return Utils.getTrueFalse(gr.getValue(fieldName));
+	};
+
+	// Try to pry useful error information out of Rhino.
+	function getErrorInfo(e) {
+		var message = '';
+		var stackTraceStr = '', stackTraceArr, stackTraceBuf = [];
+		var errorInfo = {};
+
+		if (e.rhinoException && e.rhinoException.getScriptStackTrace) {
+			try {
+				stackTraceStr = e.rhinoException.getScriptStackTrace();
+			} catch (ignore) { }
+		} else if (e.javaException && e.rhinoException.getScriptStackTrace) {
+			try {
+				stackTraceArr = e.javaException.getStackTrace();
+				stackTraceArr.forEach(
+					function addFrame(f) {
+						stackTraceBuf.push('\n\t');
+						stackTraceBuf.push(f);
+					}
+				);
+				stackTraceStr = stackTraceBuf.join('');
+			} catch (ignore) { }
 		}
 
-		accum[hashVal] = bVal;
-		return accum;
-	}, {});
-
-	answer = a.reduce(function(accum, aVal) {
-		var hashVal = hash(aVal);
-
-		if (hashVal == undefined) {
-			throw new TypeError(
-				'Hash of {0} is undefined',
-				aVal);
-		}
-
-		if (!bMap.hasOwnProperty(hashVal)) {
-			accum.push(aVal);
-		}
-		return accum;
-	}, []);
-	return answer;
-};
-
-Utils.getGlideTrueFalse = function getGlideTrueFalse(gr, fieldName) {
-	var rawValue = gr.getValue(fieldName);
-	var answer = false;
-	switch (rawValue) {
-		case '1':
-			answer = true;
-			break;
-		case true:
-			answer = true;
-			break;
-		case 'true':
-			answer = true;
-			break;
-		default:
-			// Do nothing
+		// Don't try to set properties on e in case it is closed.
+		errorInfo.error = e;
+		errorInfo.fileName = e.fileName;
+		errorInfo.message = message = e.message;
+		errorInfo.line = e.lineNumber;
+		errorInfo.name = e.name;
+		errorInfo.sourceName = e.sourceName;
+		errorInfo.stack = stackTraceStr;
+		errorInfo.toString = e.toString.bind(errorInfo);
+		return errorInfo;
 	}
-	return answer;
-};]]></script>
+
+	s.getErrorCatcher = function getErrorCatcher(turnedOn) {
+		var errorInfo;
+
+		if (turnedOn) {
+			return function catcher(tryFn, catchFn, finallyFn, argsArr) {
+				try {
+					tryFn.call(null, argsArr);
+				} catch (e) {
+					errorInfo = getErrorInfo(e);
+					if (typeof catchFn === 'function') {
+						catchFn(errorInfo, argsArr);
+					}
+				} finally {
+					if (typeof finallyFn === 'function') {
+						finallyFn.call(argsArr, errorInfo);
+					}
+				}
+			};
+		} else {
+			return function passThrough(tryFn, catchFn, finallyFn, argsArr) {
+				tryFn.call(null, tryFn, catchFn, finallyFn, argsArr);
+			};
+		}
+	};
+
+})(Utils);
+]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-16 20:05:02</sys_created_on>
         <sys_id>d6341b24db765f00898be3a84b96193b</sys_id>
-        <sys_mod_count>11</sys_mod_count>
+        <sys_mod_count>15</sys_mod_count>
         <sys_name>Utils</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_d6341b24db765f00898be3a84b96193b</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-06-24 22:14:02</sys_updated_on>
+        <sys_updated_on>2018-08-07 21:05:54</sys_updated_on>
     </sys_script_include>
 </record_update>
