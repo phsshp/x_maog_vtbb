@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_properties">
+    <sys_properties action="INSERT_OR_UPDATE">
+        <choices>Error=error,Warning=warn,Information=info,Debug=debug</choices>
+        <description>Level of messages about the GrWrapper module.</description>
+        <ignore_cache>false</ignore_cache>
+        <is_private>false</is_private>
+        <name>x_maog_vtbb.GrWrapper.log.level</name>
+        <read_roles/>
+        <suffix>x_maog_vtbb.GrWrapper.log.level</suffix>
+        <sys_class_name>sys_properties</sys_class_name>
+        <sys_created_by>peter.smith</sys_created_by>
+        <sys_created_on>2018-08-09 04:27:01</sys_created_on>
+        <sys_id>83148ab9dbb31b00d4b15eea4b9619c3</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_maog_vtbb.GrWrapper.log.level</sys_name>
+        <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
+        <sys_update_name>sys_properties_83148ab9dbb31b00d4b15eea4b9619c3</sys_update_name>
+        <sys_updated_by>peter.smith</sys_updated_by>
+        <sys_updated_on>2018-08-09 04:27:01</sys_updated_on>
+        <type>choicelist</type>
+        <value>warn</value>
+        <write_roles>x_maog_vtbb.manager,x_spar2_log.log_admin</write_roles>
+    </sys_properties>
+    <sys_translated_text action="delete_multiple" query="documentkey=83148ab9dbb31b00d4b15eea4b9619c3"/>
+</record_update>

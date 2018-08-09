@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_properties_category_m2m">
+    <sys_properties_category_m2m action="INSERT_OR_UPDATE">
+        <category display_value="VTB Debug Properties">4e9374f4dbff5300898be3a84b96193d</category>
+        <order>735</order>
+        <property display_value="x_maog_vtbb.GrWrapper.log.level" name="x_maog_vtbb.GrWrapper.log.level">83148ab9dbb31b00d4b15eea4b9619c3</property>
+        <sys_class_name>sys_properties_category_m2m</sys_class_name>
+        <sys_created_by>peter.smith</sys_created_by>
+        <sys_created_on>2018-08-09 04:27:35</sys_created_on>
+        <sys_id>533486f9dbb31b00d4b15eea4b9619ff</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>x_maog_vtbb.GrWrapper.log.level.VTB Debug Properties</sys_name>
+        <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
+        <sys_update_name>sys_properties_category_m2m_533486f9dbb31b00d4b15eea4b9619ff</sys_update_name>
+        <sys_updated_by>peter.smith</sys_updated_by>
+        <sys_updated_on>2018-08-09 04:28:15</sys_updated_on>
+    </sys_properties_category_m2m>
+</record_update>

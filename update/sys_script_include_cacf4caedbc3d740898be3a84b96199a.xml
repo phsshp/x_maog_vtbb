@@ -21,12 +21,14 @@ Incident.prototype = (function Incident_proto(s) {
 	var TYPE = 'Incident';
 	var TABLE = s.TABLE = 'incident';
 	var log = s.log = x_spar2_log.Logger.getLogger(TYPE, gs.getCurrentScopeName());
-	var rw = RecordWrapper.setup(p, s, TABLE, 'INC', log);
 
 	var insertEnabled = gs.getProperty('x_maog_vtbb.createIncidentsForErrors', 'Enable');
 
-	p.initialize = function initialize(shortDescription) {
-		//rw.set(grOrSysId, share, this);
+	var SPEC = { table: TABLE, prefix: 'INC', classFn: s, log: log };
+
+	GrWrapper.mixProto(p);
+	p.initialize = function initialize(wrap, mode) {
+		//new GrWrapper(wrap, mode, SPEC).mixThis(this);
 		if (shortDescription) this.setShortDescription(shortDescription);
 	};
 
@@ -158,13 +160,13 @@ Incident.prototype = (function Incident_proto(s) {
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-07-04 23:03:05</sys_created_on>
         <sys_id>cacf4caedbc3d740898be3a84b96199a</sys_id>
-        <sys_mod_count>31</sys_mod_count>
+        <sys_mod_count>32</sys_mod_count>
         <sys_name>Incident</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_cacf4caedbc3d740898be3a84b96199a</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-07-27 02:59:25</sys_updated_on>
+        <sys_updated_on>2018-08-09 05:05:17</sys_updated_on>
     </sys_script_include>
 </record_update>

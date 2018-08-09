@@ -16,25 +16,14 @@ BoardBuilderGroup.prototype = (function BoardBuilderGroup_proto(s) {
 	var EXISTS = 1, MATCHED = 2;
 
 	var log = s.log = x_spar2_log.Logger.getLogger(TYPE, gs.getCurrentScopeName());
-	var rw = RecordWrapper.setup(p, s, TABLE, 'BBG', log);
 
 	var call = Function.prototype.call;
 
-	s.query = rw.query;
+	var SPEC = { table: TABLE, prefix: 'BBG', classFn: s, log: log };
 
-	p.initialize = function initialize(grOrSysId, share) {
-		this.set(grOrSysId, share, this);
-	};
-
-	// Add a new link between a board builder and a group.
-	s.createRecord = function createRecord(bb, group) {
-		var bbg = rw.createRecord(
-			function createBbg(bbgGr) {
-				bbgGr.setValue('board_builder', bb.getSysId());
-				bbgGr.setValue('group', group.getSysId());
-			}
-		);
-		return bbg;
+	GrWrapper.mixProto(p);
+	p.initialize = function initialize(wrap, mode) {
+		new GrWrapper(wrap, mode, SPEC).mixThis(this);
 	};
 
 	p.getBoardBuilder = function getBoardBuilder() {
@@ -113,17 +102,15 @@ BoardBuilderGroup.prototype = (function BoardBuilderGroup_proto(s) {
 						if (state === Once.STATE.ADDED) {
 							log.info('inserting BBG for {0} {1}',
 									 bb + '', group + '');
-							bbg = rw.createRecord(
-								function createBbg(bbgGr) {
-									bbgGr.setValue('board_builder', bbSysId);
-									bbgGr.setValue('group', groupId);
-								} // Triggers insert BR that calls bbg.added()
-							);
+							bbg = new BoardBuilderGroup();
+							bbg.setValue('board_builder', bbSysId);
+							bbg.setValue('group', groupId);
+							bbg.update();
 							log.debug('{0} insert completed', bbg.toString());
 						} else if (state === Once.STATE.EXISTS && bb.updateExisting()) {
 							bbg = new BoardBuilderGroup(bbgId);
 							bbg.getGr();
-							group = new Group(groupGr, rw.MODE.SHARED);
+							group = new Group(groupGr, GrWrapper.MODE.SHARED);
 							log.info('{0} synchronizing', bbg.toString());
 							VtbBoard.synchGroupVtbs(bb, group, bbg);
 						}
@@ -148,19 +135,32 @@ BoardBuilderGroup.prototype = (function BoardBuilderGroup_proto(s) {
 		VtbBoard.synchGroupVtbs(bb, group, this);
 	};
 
+	// Add a new link between a board builder and a group.
+	s.createRecord = function createRecord(bb, group) {
+		var bbg = new BoardBuilderGroup();
+		bbg.setValue('board_builder', bb.getSysId());
+		bbg.setValue('group', group.getSysId());
+		bbg.update();
+		return bbg;
+	};
+
+	s.query = function query(filterFn, recordFn) {
+		GrWrapper.query(filterFn, recordFn, SPEC);
+	};
+
 	return p;
 })(BoardBuilderGroup);  // End BoardBuilderGroup_proto]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-14 15:39:17</sys_created_on>
         <sys_id>f8f40488db721f00898be3a84b961950</sys_id>
-        <sys_mod_count>181</sys_mod_count>
+        <sys_mod_count>185</sys_mod_count>
         <sys_name>BoardBuilderGroup</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_f8f40488db721f00898be3a84b961950</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-08-09 02:00:46</sys_updated_on>
+        <sys_updated_on>2018-08-09 05:02:02</sys_updated_on>
     </sys_script_include>
 </record_update>

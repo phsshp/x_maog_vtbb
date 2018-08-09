@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_maog_vtbb.GrSupport</api_name>
+        <client_callable>false</client_callable>
+        <description>GlideRecord Wrapper Support Functions</description>
+        <name>GrSupport</name>
+        <script><![CDATA[var GrSupport = Class.create();
+GrSupport.prototype = (function GrSupport_proto(s) {
+	var p = {};
+	var TYPE = p.type = 'GrSupport';
+	
+	p.initialize = function initalize(CLASS, TABLE, PREFIX, log) {
+		
+	};
+	
+			// Apply a filter to a GlideRecord.  The filter could be an
+		// encoded query string or a function.  Newer code uses the
+		// function.
+		function applyFilter(enumGr, filter) {
+			if (typeof filter === 'function') {
+				filter(enumGr);
+			} else if (typeof filter === 'string' && filter
+					   || filter === undefined || filter === null) {
+				enumGr.addEncodedQuery(filter);
+			} else {
+				new Incident().
+				setShortDescription('Filter must be a function or string').
+				setDescription('RecordWrapper.applyFilter was called incorrectly').
+				insert(log.isDebugging()).addToErrorLog(log).throwError(TypeError);
+			}
+		} rw.applyFilter = applyFilter;
+
+		// Assign an empty function a default function value.
+		// Create an incident if the input was not falsy or a function.
+		function fnSetup(fn, defaultFn) {
+			if (!fn) {
+				fn = defaultFn;
+			}
+
+			if (typeof fn !== 'function') {
+				new Incident().
+				setShortDescription('Processor must be a function').
+				setDescription('RecordWrapper.query was called incorrectly').
+				insert(log.isDebugging()).addToErrorLog(log).throwError(TypeError);
+			}
+
+			return fn;
+		}
+
+		// Set up a filter and run a query.  Return the GlideRecord
+		// containing the query (to call .next() on.)
+		function querySetup(filter, table) {
+			table = table || TABLE;
+			var enumGr = new GlideRecord(table);
+			enumGr.initialize();
+
+			applyFilter(enumGr, filter);		
+			enumGr.query();
+
+			myLog.info('query {0} returned {1} records: {2}',
+					   enumGr.getTableName(), enumGr.getRowCount(),
+					   enumGr.getEncodedQuery());
+
+			return enumGr;
+		}
+
+		// Make a GlideRecord query that calls back for further action.
+		//
+		// filter: Called before the gr.query() call.
+		// recordFn: Called from within the gr.next() loop.
+		//
+		// In your filter method, add queries to the GlideRecord and
+		// make other pre-query adjustments like setting the row limit.
+		rw.query = function query(filter, recordFn, table) {
+			var records = [], record, enumGr;
+
+			recordFn = fnSetup(recordFn, function(recordGr) {
+				return new CLASS(recordGr, MODE.PRIVATE);
+			});
+
+			enumGr = querySetup(filter, table);
+
+			while (enumGr.next()) {
+				record = recordFn(enumGr);
+				if (record) {
+					records.push(record);
+				}
+			}
+			return records;
+		};
+
+		rw.createRecord = function createRecord(builder, share) {
+			var wrapper = rw.initRecord(builder);
+			wrapper.insert();
+			return wrapper;
+		};
+
+
+		rw.deleteMultiple = function deleteMultiple(filter) {
+			var records = [], record;
+			var gr = new GlideRecord(TABLE);
+
+			applyFilter(gr, filter);
+			gr.query();
+			myLog.info('deleteMultiple {0} {1} {2}', TABLE, gr.getRowCount(), gr.getEncodedQuery());
+
+			gr.deleteMultiple();
+			return this;
+		};
+
+
+	
+	
+})(GrSupport);]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>peter.smith</sys_created_by>
+        <sys_created_on>2018-08-09 02:40:33</sys_created_on>
+        <sys_id>e1ab6d31dbb31b00d4b15eea4b961962</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>GrSupport</sys_name>
+        <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
+        <sys_update_name>sys_script_include_e1ab6d31dbb31b00d4b15eea4b961962</sys_update_name>
+        <sys_updated_by>peter.smith</sys_updated_by>
+        <sys_updated_on>2018-08-09 04:20:34</sys_updated_on>
+    </sys_script_include>
+</record_update>

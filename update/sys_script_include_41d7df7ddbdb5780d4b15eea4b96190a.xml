@@ -32,7 +32,7 @@ Once.prototype = (function Once_proto(s) {
 
 	var log = x_spar2_log.Logger.getLogger(TYPE, gs.getCurrentScopeName());
 
-	var STATE = {};
+	var STATE = s.STATE = {};
 	var EXISTS =  STATE.EXISTS  = 'exists';  // Registered via exists() method.
 	var ADDED =   STATE.ADDED   = 'added';   // Added via add() or update() method.
 	var UPDATED = STATE.UPDATED = 'updated'; // Updated via update() method.
@@ -185,21 +185,19 @@ Once.prototype = (function Once_proto(s) {
 			};
 		};
 	};
-	s.STATE = STATE;
-	s.log = log;
 	return p;
 })(Once);]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-07-15 14:39:50</sys_created_on>
         <sys_id>41d7df7ddbdb5780d4b15eea4b96190a</sys_id>
-        <sys_mod_count>49</sys_mod_count>
+        <sys_mod_count>50</sys_mod_count>
         <sys_name>Once</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_41d7df7ddbdb5780d4b15eea4b96190a</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-08-09 01:59:03</sys_updated_on>
+        <sys_updated_on>2018-08-09 04:49:57</sys_updated_on>
     </sys_script_include>
 </record_update>

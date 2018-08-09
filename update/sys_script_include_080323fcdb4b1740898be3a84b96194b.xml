@@ -15,13 +15,12 @@ VtbMember.prototype = (function VtbMember_proto(s) {
 
 	var log = s.log = x_spar2_log.Logger.getLogger(TYPE, gs.getCurrentScopeName());
 
-	var rw = RecordWrapper.setup(p, s, TABLE, 'VTM', log);
+	var SPEC = { table: TABLE, prefix: 'VTM', classFn: s, log: log };
 
-	p.initialize = function initialize(grOrSysId, share) {
-		rw.set(grOrSysId, share, this);
+	GrWrapper.mixProto(p);
+	p.initialize = function initialize(wrap, mode) {
+		new GrWrapper(wrap, mode, SPEC).mixThis(this);
 	};
-
-	s.query = rw.query;
 
 	s.internalName = function internalName(vtmGr) {
 		var buffer = ['['];
@@ -80,25 +79,23 @@ VtbMember.prototype = (function VtbMember_proto(s) {
 				if (memberUserFilter) memberGr.addEncodedQuery(memberUserFilter);
 			},
 			function addMember(memberGr) {
-				var member = new User(memberGr, rw.MODE.SHARED);
+				var member = new User(memberGr, GrWrapper.MODE.SHARED);
 				if (member.hasRoleSysIds(memberRoleIds)) {
 					vtmOnce.update(
 						null, member.getSysId(),
 						function synchVtm(vtmId, key, state) {
 							var updating, vtm;
-							
+
 							updating = (state === Once.STATE.EXISTS);
 
 							if (state !== Once.STATE.ADDED && !updating) return;
 							if (updating && !bb.updateExisting()) return;
 
 							if (!updating) {
-								vtm = s.createRecord(
-									function setupVtm(vtmGr) {
-										vtmGr.setValue('board', vtb.getSysId());
-										vtmGr.setValue('user', key);
-									}
-								);
+								vtm = new VtbMember();
+								vtm.setValue('board', vtb.getSysId());
+								vtm.setValue('user', key);
+								vtm.update();
 							}
 
 							if (log.isDebugging()) {
@@ -114,7 +111,7 @@ VtbMember.prototype = (function VtbMember_proto(s) {
 				}
 			},
 			includeManager, includeMembers,
-			rw.MODE.SHARED
+			GrWrapper.MODE.SHARED
 		);
 
 		// Delete redundant members
@@ -125,7 +122,9 @@ VtbMember.prototype = (function VtbMember_proto(s) {
 		}
 	};
 
-	s.createRecord = rw.createRecord;
+	s.query = function query(filterFn, recordFn) {
+		GrWrapper.query(filterFn, recordFn, SPEC);
+	};
 
 	return p;
 })(VtbMember);  // End VtbMember_proto]]></script>
@@ -133,13 +132,13 @@ VtbMember.prototype = (function VtbMember_proto(s) {
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-30 02:00:34</sys_created_on>
         <sys_id>080323fcdb4b1740898be3a84b96194b</sys_id>
-        <sys_mod_count>37</sys_mod_count>
+        <sys_mod_count>40</sys_mod_count>
         <sys_name>VtbMember</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_080323fcdb4b1740898be3a84b96194b</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-08-09 02:07:08</sys_updated_on>
+        <sys_updated_on>2018-08-09 05:48:45</sys_updated_on>
     </sys_script_include>
 </record_update>
