@@ -75,12 +75,12 @@ Alternatively, provide a different object to set aside the methods.</description
 					// GlideRecord
 					sysId = my.sysId = wrap.getUniqueValue();
 					gr = my.gr = (mode === MODE.SHARED ? wrap : null);
-					if (gr) displayValue = gr.getDisplayValue();
+					if (gr) my.displayValue = displayValue = gr.getDisplayValue();
 				} else if (typeof wrap.getRefRecord === 'function') {
 					// GlideElement
 					sysId = my.sysId = wrap.toString();
 					ge = my.ge = wrap;
-					displayValue = ge.getDisplayValue();
+					my.displayValue = displayValue = ge.getDisplayValue();
 				}
 			} else {
 				throw new TypeError('Need a Sys ID, GlideRecord, or GlideElement');
@@ -113,7 +113,7 @@ Alternatively, provide a different object to set aside the methods.</description
 					} else if (sysId) {
 						gr = my.gr = new GlideRecord(TABLE);
 						if (gr.get(sysId)) {
-							displayValue = gr.getDisplayValue();
+							my.displayValue = displayValue = gr.getDisplayValue();
 						} else {
 							throw new TypeError('No record in ' + TABLE + ' for Sys ID ' + sysId);
 						}
@@ -291,21 +291,6 @@ Alternatively, provide a different object to set aside the methods.</description
 			return this;
 		};
 
-		rw.arrayToString = function arrayToString(arr) {
-			var r = arr.map(function(val) {
-				return val.toString();
-			});
-			return r.join(',');
-		};
-
-		rw.arrayToSysIds = function arrayToSysIds(arr) {
-			var r = a.map(arr, function(accum, val) {
-				accum.push(val.getSysId());
-				return accum;
-			}, []);
-			return r.join(',');
-		};
-
 		return rw;
 	}; // End RecordWrapper.setup
 })(RecordWrapper); // End RecordWrapper_static]]></script>
@@ -313,13 +298,13 @@ Alternatively, provide a different object to set aside the methods.</description
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-20 01:04:05</sys_created_on>
         <sys_id>c8d53b65db72df00898be3a84b96194e</sys_id>
-        <sys_mod_count>147</sys_mod_count>
+        <sys_mod_count>151</sys_mod_count>
         <sys_name>RecordWrapper</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_c8d53b65db72df00898be3a84b96194e</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-08-06 18:51:12</sys_updated_on>
+        <sys_updated_on>2018-08-09 02:08:19</sys_updated_on>
     </sys_script_include>
 </record_update>

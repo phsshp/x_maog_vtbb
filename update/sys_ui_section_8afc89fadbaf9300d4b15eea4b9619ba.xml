@@ -5,13 +5,13 @@
             <element>add_to_menu</element>
             <position>0</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-06 15:36:59</sys_created_on>
-            <sys_id>7ba0c9c9dbbb9700d4b15eea4b961992</sys_id>
+            <sys_created_on>2018-08-08 22:17:50</sys_created_on>
+            <sys_id>8b9fa471db331b00d4b15eea4b961947</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Navigation" display_value="Navigation" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">8afc89fadbaf9300d4b15eea4b9619ba</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-06 15:36:59</sys_updated_on>
+            <sys_updated_on>2018-08-08 22:17:50</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -19,13 +19,13 @@
             <element>module_title</element>
             <position>1</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-06 15:36:59</sys_created_on>
-            <sys_id>fba0c9c9dbbb9700d4b15eea4b961992</sys_id>
+            <sys_created_on>2018-08-08 22:17:50</sys_created_on>
+            <sys_id>0f9fa471db331b00d4b15eea4b961947</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Navigation" display_value="Navigation" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">8afc89fadbaf9300d4b15eea4b9619ba</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-06 15:36:59</sys_updated_on>
+            <sys_updated_on>2018-08-08 22:17:50</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -33,13 +33,13 @@
             <element>module_url</element>
             <position>2</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-06 15:36:59</sys_created_on>
-            <sys_id>7fa0c9c9dbbb9700d4b15eea4b961992</sys_id>
+            <sys_created_on>2018-08-08 22:17:50</sys_created_on>
+            <sys_id>8f9fa471db331b00d4b15eea4b961947</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Navigation" display_value="Navigation" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">8afc89fadbaf9300d4b15eea4b9619ba</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-06 15:36:59</sys_updated_on>
+            <sys_updated_on>2018-08-08 22:17:50</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -47,111 +47,139 @@
             <element>module_order</element>
             <position>3</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-06 15:36:59</sys_created_on>
-            <sys_id>ffa0c9c9dbbb9700d4b15eea4b961992</sys_id>
+            <sys_created_on>2018-08-08 22:17:50</sys_created_on>
+            <sys_id>039fa471db331b00d4b15eea4b961948</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Navigation" display_value="Navigation" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">8afc89fadbaf9300d4b15eea4b9619ba</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-06 15:36:59</sys_updated_on>
+            <sys_updated_on>2018-08-08 22:17:50</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>module_roles</element>
+            <position>4</position>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-08-08 22:17:50</sys_created_on>
+            <sys_id>839fa471db331b00d4b15eea4b961948</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Navigation" display_value="Navigation" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">8afc89fadbaf9300d4b15eea4b9619ba</sys_ui_section>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-08-08 22:17:50</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>.split</element>
-            <position>4</position>
+            <position>5</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-06 15:37:00</sys_created_on>
-            <sys_id>73a0c9c9dbbb9700d4b15eea4b961993</sys_id>
+            <sys_created_on>2018-08-08 22:17:50</sys_created_on>
+            <sys_id>079fa471db331b00d4b15eea4b961948</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Navigation" display_value="Navigation" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">8afc89fadbaf9300d4b15eea4b9619ba</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-06 15:37:00</sys_updated_on>
+            <sys_updated_on>2018-08-08 22:17:50</sys_updated_on>
             <sys_user/>
             <type>.split</type>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>add_to_bookmarks</element>
-            <position>5</position>
+            <position>6</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-06 15:37:00</sys_created_on>
-            <sys_id>f3a0c9c9dbbb9700d4b15eea4b961993</sys_id>
+            <sys_created_on>2018-08-08 22:17:50</sys_created_on>
+            <sys_id>879fa471db331b00d4b15eea4b961948</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Navigation" display_value="Navigation" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">8afc89fadbaf9300d4b15eea4b9619ba</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-06 15:37:00</sys_updated_on>
+            <sys_updated_on>2018-08-08 22:17:50</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>bookmark_title</element>
-            <position>6</position>
+            <position>7</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-06 15:37:00</sys_created_on>
-            <sys_id>77a0c9c9dbbb9700d4b15eea4b961993</sys_id>
+            <sys_created_on>2018-08-08 22:17:50</sys_created_on>
+            <sys_id>0b9fa471db331b00d4b15eea4b961948</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Navigation" display_value="Navigation" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">8afc89fadbaf9300d4b15eea4b9619ba</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-06 15:37:00</sys_updated_on>
+            <sys_updated_on>2018-08-08 22:17:50</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>bookmark_url</element>
-            <position>7</position>
+            <position>8</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-06 15:37:00</sys_created_on>
-            <sys_id>f7a0c9c9dbbb9700d4b15eea4b961993</sys_id>
+            <sys_created_on>2018-08-08 22:17:50</sys_created_on>
+            <sys_id>8b9fa471db331b00d4b15eea4b961948</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Navigation" display_value="Navigation" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">8afc89fadbaf9300d4b15eea4b9619ba</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-06 15:37:00</sys_updated_on>
+            <sys_updated_on>2018-08-08 22:17:50</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>bookmark_order</element>
-            <position>8</position>
+            <position>9</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-06 15:37:00</sys_created_on>
-            <sys_id>7ba0c9c9dbbb9700d4b15eea4b961993</sys_id>
+            <sys_created_on>2018-08-08 22:17:50</sys_created_on>
+            <sys_id>0f9fa471db331b00d4b15eea4b961948</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Navigation" display_value="Navigation" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">8afc89fadbaf9300d4b15eea4b9619ba</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-06 15:37:00</sys_updated_on>
+            <sys_updated_on>2018-08-08 22:17:50</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>.end_split</element>
-            <position>9</position>
+            <position>10</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-06 15:37:00</sys_created_on>
-            <sys_id>fba0c9c9dbbb9700d4b15eea4b961993</sys_id>
+            <sys_created_on>2018-08-08 22:17:50</sys_created_on>
+            <sys_id>8f9fa471db331b00d4b15eea4b961948</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Navigation" display_value="Navigation" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">8afc89fadbaf9300d4b15eea4b9619ba</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-06 15:37:00</sys_updated_on>
+            <sys_updated_on>2018-08-08 22:17:50</sys_updated_on>
             <sys_user/>
             <type>.end_split</type>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>module_role_filter</element>
-            <position>10</position>
+            <element>module_group_roles</element>
+            <position>11</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-06 15:37:00</sys_created_on>
-            <sys_id>7fa0c9c9dbbb9700d4b15eea4b961993</sys_id>
+            <sys_created_on>2018-08-08 22:17:50</sys_created_on>
+            <sys_id>039fa471db331b00d4b15eea4b961949</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Navigation" display_value="Navigation" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">8afc89fadbaf9300d4b15eea4b9619ba</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-06 15:37:00</sys_updated_on>
+            <sys_updated_on>2018-08-08 22:17:50</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>module_owner_roles</element>
+            <position>12</position>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-08-08 22:17:50</sys_created_on>
+            <sys_id>839fa471db331b00d4b15eea4b961949</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Navigation" display_value="Navigation" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">8afc89fadbaf9300d4b15eea4b9619ba</sys_ui_section>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-08-08 22:17:50</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>

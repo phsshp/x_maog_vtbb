@@ -2,86 +2,100 @@
 <record_update>
     <sys_ui_section caption="Lanes" section_id="d194ecd9db671300898be3a84b961934" sys_domain="global" table="x_maog_vtbb_board_builder" version="3" view="">
         <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>member_lanes</element>
+            <element>board_member_lanes</element>
             <position>0</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-01 20:16:17</sys_created_on>
-            <sys_id>caa09c63db631700d4b15eea4b9619eb</sys_id>
+            <sys_created_on>2018-08-08 01:23:05</sys_created_on>
+            <sys_id>0360d4e9dbf3d300898be3a84b961948</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Lanes" display_value="Lanes" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">d194ecd9db671300898be3a84b961934</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-01 20:16:17</sys_updated_on>
+            <sys_updated_on>2018-08-08 01:23:05</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>group_member_lanes</element>
+            <position>1</position>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-08-08 01:23:05</sys_created_on>
+            <sys_id>c760d4e9dbf3d300898be3a84b961948</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Lanes" display_value="Lanes" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">d194ecd9db671300898be3a84b961934</sys_ui_section>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-08-08 01:23:05</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>manager_lane</element>
-            <position>1</position>
+            <position>2</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-01 20:16:17</sys_created_on>
-            <sys_id>4ea09c63db631700d4b15eea4b9619eb</sys_id>
+            <sys_created_on>2018-08-08 01:23:05</sys_created_on>
+            <sys_id>4b60d4e9dbf3d300898be3a84b961948</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Lanes" display_value="Lanes" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">d194ecd9db671300898be3a84b961934</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-01 20:16:17</sys_updated_on>
+            <sys_updated_on>2018-08-08 01:23:05</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>owner_lane</element>
-            <position>2</position>
+            <position>3</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-01 20:16:17</sys_created_on>
-            <sys_id>cea09c63db631700d4b15eea4b9619eb</sys_id>
+            <sys_created_on>2018-08-08 01:23:05</sys_created_on>
+            <sys_id>cb60d4e9dbf3d300898be3a84b961948</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Lanes" display_value="Lanes" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">d194ecd9db671300898be3a84b961934</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-01 20:16:17</sys_updated_on>
+            <sys_updated_on>2018-08-08 01:23:05</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>.split</element>
-            <position>3</position>
+            <position>4</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-01 20:16:17</sys_created_on>
-            <sys_id>42a09c63db631700d4b15eea4b9619ec</sys_id>
+            <sys_created_on>2018-08-08 01:23:05</sys_created_on>
+            <sys_id>4f60d4e9dbf3d300898be3a84b961948</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Lanes" display_value="Lanes" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">d194ecd9db671300898be3a84b961934</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-01 20:16:17</sys_updated_on>
+            <sys_updated_on>2018-08-08 01:23:05</sys_updated_on>
             <sys_user/>
             <type>.split</type>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>unassigned_lane</element>
-            <position>4</position>
+            <position>5</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-01 20:16:17</sys_created_on>
-            <sys_id>c2a09c63db631700d4b15eea4b9619ec</sys_id>
+            <sys_created_on>2018-08-08 01:23:05</sys_created_on>
+            <sys_id>cf60d4e9dbf3d300898be3a84b961948</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Lanes" display_value="Lanes" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">d194ecd9db671300898be3a84b961934</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-01 20:16:17</sys_updated_on>
+            <sys_updated_on>2018-08-08 01:23:05</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>unassigned_lane_label</element>
-            <position>5</position>
+            <position>6</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-01 20:16:17</sys_created_on>
-            <sys_id>46a09c63db631700d4b15eea4b9619ec</sys_id>
+            <sys_created_on>2018-08-08 01:23:05</sys_created_on>
+            <sys_id>4360d4e9dbf3d300898be3a84b961949</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Lanes" display_value="Lanes" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">d194ecd9db671300898be3a84b961934</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-01 20:16:17</sys_updated_on>
+            <sys_updated_on>2018-08-08 01:23:05</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>

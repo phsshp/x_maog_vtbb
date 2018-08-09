@@ -23,6 +23,8 @@ VtbLane.prototype = (function VtbLane_proto(s) {
 	var UNASSIGNED = '';
 	function isUnassigned(value) { return value === null || value === ''; }
 
+	var NL = '\n';
+
 	p.initialize = function initialize(grOrSysId, share) {
 		rw.set(grOrSysId, share, this);
 	}; // End initialize
@@ -48,14 +50,16 @@ VtbLane.prototype = (function VtbLane_proto(s) {
 					dsc = new Dsc(key, label, order);
 					dsc.vtlId = vtlGr.getUniqueValue();
 					laneOnce.exists(dsc, key);
-					log.debug('{0} Found lane [lane:{1} key:{2} label:{3}]',
-							  vtb + '', dsc.vtlId + '', key + '', label);
+					if (false && log.isDebugging()) {
+						log.debug('{0} Found lane [lane:{1} key:{2} label:{3}]',
+								  vtb + '', dsc.vtlId + '', key + '', label);
+					}
 				}
 			);
 		}
 
 		function synchVtbLane(dsc, key, state) {
-			var vtl, vtlId, vtbId, label, updating;
+			var vtl, vtlGr, vtlId, vtbId, label, updating;
 
 			label = dsc.obj;
 			vtbId = vtb.getSysId();
@@ -77,7 +81,7 @@ VtbLane.prototype = (function VtbLane_proto(s) {
 					vtlGr.setValue('order', ++highOrder);
 
 					vtl = new VtbLane(vtlGr, rw.MODE.SHARED);
-					log.debug('updated {0}', vtl + '');
+					log.debug('updated {0} owner is {1}', vtl + '', owner + '');
 
 					vtlGr.update();
 				} else {
@@ -135,12 +139,13 @@ VtbLane.prototype = (function VtbLane_proto(s) {
 
 		// Set visibility after lanes are created below
 		function setUserLaneVisibility() {
-			var showUnassigned, showManager, showOwner, showMembers, showUser;
+			var showUnassigned, showManager, showOwner, showBoardMembers, showGroupMembers, showUser, buf;
 
 			showUnassigned = bb.isUnassignedVisible();
 			showManager = bb.isManagerVisible();
 			showOwner = bb.isOwnerVisible();	
-			showMembers = bb.areMembersVisible();
+			showBoardMembers = bb.areBoardMembersVisible();
+			showGroupMembers = bb.areGroupMembersVisible();
 			showUser = bb.isUserVisible();	
 
 			// Iterate to create a preference for each user with a lane.
@@ -157,13 +162,45 @@ VtbLane.prototype = (function VtbLane_proto(s) {
 					hide = [];
 					laneOnce.forEach(
 						function hideLanes(innerDsc, innerKey, innertState) {
-							var show = showMembers && innerDsc.member ||
-								showUser && innerDsc.member && innerKey === userId ||
+							var show = showBoardMembers && innerDsc.boardMember ||
+								showGroupMembers && innerDsc.groupMember ||
+								showUser && (innerDsc.boardMember || innerDsc.groupMember) && innerKey === userId ||
 								showUnassigned && innerDsc.unassigned ||
 								showManager && innerDsc.manager ||
 								showOwner && innerDsc.owner;
 							if (!show) {
 								hide.push(innerDsc.vtlId);
+								if (false && log.isDebugging()) {
+									buf = [];
+									buf.push('\t\tshowBoardMembers' + '=' + showBoardMembers + NL);
+									buf.push(NL);
+									buf.push('\t\tinnerDsc.boardMember' + '=' + innerDsc.boardMember + NL);
+									buf.push(NL);
+									buf.push('\t\tshowGroupMembers' + '=' + showGroupMembers + NL);
+									buf.push(NL);
+									buf.push('\t\tinnerDsc.groupMember' + '=' + innerDsc.groupMember + NL);
+									buf.push(NL);
+									buf.push('\t\tshowUser' + '=' + showUser + NL);
+									buf.push(NL);
+									buf.push('\t\tinnerDsc.member' + '=' + innerDsc.member + NL);
+									buf.push(NL);
+									buf.push('\t\tinnerKey' + '=' + innerKey + NL);
+									buf.push(NL);
+									buf.push('\t\tuserId' + '=' + userId + NL);
+									buf.push(NL);
+									buf.push('\t\tshowUnassigned' + '=' + showUnassigned + NL);
+									buf.push(NL);
+									buf.push('\t\tinnerDsc.unassigned' + '=' + innerDsc.unassigned + NL);
+									buf.push(NL);
+									buf.push('\t\tshowManager' + '=' + showManager + NL);
+									buf.push(NL);
+									buf.push('\t\tinnerDsc.manager' + '=' + innerDsc.manager + NL);
+									buf.push(NL);
+									buf.push('\t\tshowOwner' + '=' + showOwner + NL);
+									buf.push(NL);
+									buf.push('\t\tinnerDsc.owner' + '=' + innerDsc.owner + NL);
+									log.debug('Hiding lane ' + NL + buf.join(''));
+								}
 							}
 						}
 					);
@@ -187,12 +224,14 @@ VtbLane.prototype = (function VtbLane_proto(s) {
 						prefGr.setValue('value', hide);
 						prefGr.setValue('system', false);
 
-						if (updating) {
-							log.debug('updating user preference {0} {1} {2}={3}',
-									  prefGr.getUniqueValue(), outerDsc.obj, prefName, hide);
-						} else {
-							log.info('adding user preference {0} {1} {2}={3}',
-									 prefGr.getUniqueValue(), outerDsc.obj, prefName, hide);
+						if (false && log.isDebugging()) {
+							if (updating) {
+								log.debug('updating user preference {0} {1} {2}={3}',
+										  prefGr.getUniqueValue(), outerDsc.obj, prefName, hide);
+							} else {
+								log.info('adding user preference {0} {1} {2}={3}',
+										 prefGr.getUniqueValue(), outerDsc.obj, prefName, hide);
+							}
 						}
 						prefGr.update();
 					}
@@ -200,8 +239,35 @@ VtbLane.prototype = (function VtbLane_proto(s) {
 			);
 		}
 
+		function sortLanes() {
+			var order = 0, vtlGr;
+
+			// Unassigned comes first.
+			vtlGr = new GlideRecord('vtb_lane');
+			vtlGr.addQuery('board', vtb.getSysId());
+			vtlGr.addNullQuery('value');
+			vtlGr.query();
+			if (vtlGr.next()) {
+				vtlGr.order = order++;
+			}
+			vtlGr.update();
+
+			// Sort other lanes.
+			vtlGr = new GlideRecord('vtb_lane');
+			vtlGr.addQuery('board', vtb.getSysId());
+			vtlGr.addNotNullQuery('value');
+			vtlGr.orderBy('name');
+
+			vtlGr.query();
+
+			while (vtlGr.next()) {
+				vtlGr.order = order++;
+				vtlGr.update();
+			}
+		}
+
 		function createUserContent() {
-			var mgr, dsc;
+			var mgr, dsc, userUserFilter, userRoleIds;
 
 			// Create User Lanes
 			if (bb.showUnassignedLane()) {
@@ -240,10 +306,9 @@ VtbLane.prototype = (function VtbLane_proto(s) {
 				);
 			}
 
-			// For every board member, create a lane if member lanes
-			// were requested.  Collect information we need in the
-			// boards array.
-			if (bb.showMemberLanes()) {
+			// If board member lanes were requested, add every user
+			// who is a board member.
+			if (bb.showBoardMemberLanes()) {
 				VtbMember.query(
 					function vtbMemberFilter(vtmGr) {
 						vtmGr.query('board', vtb.getSysId());
@@ -254,14 +319,48 @@ VtbLane.prototype = (function VtbLane_proto(s) {
 						dsc = new Dsc(userId, userName);
 						laneOnce.update(
 							dsc, userId,
-							function memberLane(oldDsc, key, state) {
+							function BoardMemberLane(oldDsc, key, state) {
 								synchVtbLane(oldDsc, key, state);
-								oldDsc.member = true;
+								oldDsc.boardMember = true;
 							}
 						);
 					}
 				);
 			}
+
+			log.debug('VtbLane before groupMemberLanes owner is {0}', owner + '');
+
+			// If group member lanes were requested, add every user
+			// who is a group member.
+			if (bb.showGroupMemberLanes()) {
+				userUserFilter = bb.getUserUserFilter(); // Member User Filter
+				userRoleIds = bb.getUserRoles(); // Member Roles
+				group.forUsers(
+					function groupMemberFilter(memberGr) {
+						if (userUserFilter) memberGr.addEncodedQuery(userUserFilter);
+						log.debug('VtbLane groupMemberFilter owner is {0}', owner + '');
+					},
+					function groupMemberActions(memberGr) {
+						var updating, userId, userName;
+						userId = memberGr.getUniqueValue();
+						userName = memberGr.getDisplayValue();
+						dsc = new Dsc(userId, userName);
+						laneOnce.update(
+							dsc, userId,
+							function groupMemberLane(oldDsc, key, state) {
+								synchVtbLane(oldDsc, key, state);
+								oldDsc.groupMember = true;
+							}
+						);
+					},
+					bb.includeUserGroupMembers(),
+					bb.includeMemberGroupManager()
+				);
+			}
+
+			log.debug('VtbLane after groupMemberLanes owner is {0}', owner + '');
+
+			sortLanes();
 			setUserLaneVisibility();
 		}
 
@@ -314,13 +413,13 @@ VtbLane.prototype = (function VtbLane_proto(s) {
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-07-07 22:14:31</sys_created_on>
         <sys_id>f85ab317dbcb5380d4b15eea4b96194b</sys_id>
-        <sys_mod_count>105</sys_mod_count>
+        <sys_mod_count>131</sys_mod_count>
         <sys_name>VtbLane</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_f85ab317dbcb5380d4b15eea4b96194b</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-08-07 00:04:12</sys_updated_on>
+        <sys_updated_on>2018-08-09 02:34:54</sys_updated_on>
     </sys_script_include>
 </record_update>

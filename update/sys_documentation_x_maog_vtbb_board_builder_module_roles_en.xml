@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update>
-    <sys_documentation element="members_visible" label="Members Visible" language="en" table="x_maog_vtbb_board_builder">
+    <sys_documentation element="module_roles" label="Module Roles" language="en" table="x_maog_vtbb_board_builder">
         <sys_documentation action="INSERT_OR_UPDATE">
-            <element>members_visible</element>
+            <element>module_roles</element>
             <help/>
-            <hint/>
-            <label>Members Visible</label>
+            <hint>Roles required to see this in the navigation pane</hint>
+            <label>Module Roles</label>
             <language>en</language>
             <name>x_maog_vtbb_board_builder</name>
-            <plural>Members Visibles</plural>
+            <plural>Module Roles</plural>
             <sys_class_name>sys_documentation</sys_class_name>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-25 22:05:39</sys_created_on>
-            <sys_id>d096a05ddb671300898be3a84b96194b</sys_id>
-            <sys_mod_count>0</sys_mod_count>
-            <sys_name>Members Visible</sys_name>
+            <sys_created_on>2018-08-08 17:02:48</sys_created_on>
+            <sys_id>dc87afe9db7fd700d4b15eea4b961956</sys_id>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_name>Module Roles</sys_name>
             <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
             <sys_policy/>
             <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
-            <sys_update_name>sys_documentation_x_maog_vtbb_board_builder_members_visible_en</sys_update_name>
+            <sys_update_name>sys_documentation_x_maog_vtbb_board_builder_module_roles_en</sys_update_name>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-25 22:05:39</sys_updated_on>
+            <sys_updated_on>2018-08-08 17:04:17</sys_updated_on>
             <url/>
             <url_target/>
         </sys_documentation>

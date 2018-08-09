@@ -43,52 +43,83 @@ VtbBoard.prototype = (function VtbBoard_proto(s) {
 		return new Group(this.getGr().group);
 	};
 
-	function findGroupSpecificRoleName(bb, group) {
-		var uhrGa, buffer, answer;
+	function findGroupSpecificRoleIds(bb, group) {
+		var roleGa, roleFilter, roleIds;
 
-		uhrGa = new GlideAggregate('sys_group_has_role');
-		uhrGa.addQuery('group', group.getSysId());
-		uhrGa.addEncodedQuery(bb.getModuleRoleFilter());
-		uhrGa.groupBy('role');
-		uhrGa.addAggregate('COUNT', 'role');
+		roleIds = [];
 
-		uhrGa.query();
-		if (uhrGa.getRowCount() !== 1) {
-			var errorSummary, errorDescription;
+		roleFilter = bb.getModuleGroupRoles();
+		if (roleFilter) {
+			roleGa = new GlideAggregate('sys_group_has_role');
+			roleGa.addQuery('group', group.getSysId());
+			roleGa.addEncodedQuery(roleFilter);
+			roleGa.groupBy('role');
+			roleGa.addAggregate('COUNT', 'role');
 
-			buffer = [];
-			buffer.push('Group ');
-			buffer.push(group.toString());
-			buffer.push(' group-specific role is ');
-			buffer.push(uhrGa.getRowCount === 0 ? 'missing.' : 'not unique.');
-			errorSummary = buffer.join('');
-
-			buffer.push('  The group\s roles are');
-			while (uhrGa.next()) {
-				buffer.push('\n  ');
-				buffer.push(uhrGa.role.getDisplayValue());
+			roleGa.query();
+			while (roleGa.next()) {
+				roleIds.push(roleGa.getValue('role'));
 			}
+		}
+		return roleIds;
+	}
 
-			buffer.push('\n\nReview these roles and the navigation section of the');
-			buffer.push('\nVisual Task Board Builder:\n\n    "');
-			buffer.push(bb.getDisplayName());
-			buffer.push('"\n\nIts Module Role Filter is:');
-			buffer.push('\n\n    ');
-			buffer.push(bb.getModuleRoleFilter());
-			errorDescription = buffer.join('');
+	function findOwnerSpecificRoleIds(bb, owner) {
+		var roleGa, roleFilter, roleIds;
 
-			new Incident().
-			setShortDescription('Filter must be a function or string').
-			setDescription('RecordWrapper.applyFilter was called incorrectly').
-			insert(log.isDebugging()).addToErrorLog(log).throwError(TypeError);
+		roleIds = [];
+
+		roleFilter = bb.getModuleOwnerRoles();
+		if (roleFilter) {
+			roleGa = new GlideAggregate('sys_user_has_role');
+			roleGa.addQuery('user', owner.getSysId());
+			roleGa.addEncodedQuery(roleFilter);
+			roleGa.groupBy('role');
+			roleGa.addAggregate('COUNT', 'role');
+
+			roleGa.query();
+			while (roleGa.next()) {
+				roleIds.push(roleGa.getValue('role'));
+			}
+		}
+		return roleIds;
+	}
+
+	function calculateRoleNames(bb, group, owner) {
+		var allRoleIds, staticRoleIds, roleNames, roleGr;
+
+		allRoleIds = [];
+
+		staticRoleIds = bb.getModuleRoles();
+		if (staticRoleIds) {
+			allRoleIds.concat(staticRoleIds.split(','));
+		}
+		allRoleIds = allRoleIds.concat(findGroupSpecificRoleIds(bb, group));
+		allRoleIds = allRoleIds.concat(findOwnerSpecificRoleIds(bb, owner));
+
+		if (allRoleIds.length === 0) {
+			if (log.isDebugging()) {
+				log.debug('No roles found for group {0} and owner {1}', 
+						  group.getDisplayValue(), owner.getDisplayValue());
+			}
 			return '';
 		}
 
-		uhrGa.next();
-		return uhrGa.role.name + '';
+		roleNames = [];
+		roleGr = new GlideRecord('sys_user_role');
+		roleGr.addQuery('sys_id', 'IN', allRoleIds.join(','));
+		roleGr.query();
+		while (roleGr.next()) {
+			roleNames.push(roleGr.getDisplayValue());
+		}
+		if (log.isDebugging()) {
+			log.debug('Roles for group {0} and owner {1}: {2}', group.getDisplayValue(),
+					  owner.getDisplayValue(), roleNames.join(','));
+		}
+		return roleNames.join(',');
 	}
 
-	p.synchVtbModule = function synchVtbModule(bb, group, user) {
+	p.synchVtbModule = function synchVtbModule(bb, group, owner) {
 		var vtb, boardName, modGr, templateId, template, title, url, updating;
 
 		if (!bb.addToMenu()) return;
@@ -117,8 +148,6 @@ VtbBoard.prototype = (function VtbBoard_proto(s) {
 
 		modGr.setValue('x_maog_vtbb_board', vtb.getSysId());
 
-		modGr.setValue('user', user.getSysId());
-
 		modGr.setValue('application', WORK_REQUEST_MENU);
 
 		title = bb.getModuleTitle();
@@ -130,9 +159,9 @@ VtbBoard.prototype = (function VtbBoard_proto(s) {
 		modGr.setValue('query', url);
 
 		modGr.setValue('link_type', 'DIRECT');
-		modGr.setValue('roles', findGroupSpecificRoleName(bb, group));
+		modGr.setValue('roles', calculateRoleNames(bb, group, owner));
 
-		modGr.setValue('module_order', bb.getModuleOrder());
+		modGr.setValue('order', bb.getModuleOrder());
 
 		log.debug('{0} {1} [Module {2} {3}]', this + '',
 				  updating ? 'Updating' : 'Adding',
@@ -240,7 +269,7 @@ VtbBoard.prototype = (function VtbBoard_proto(s) {
 		}
 
 		query = buffer.join('');
-		if (log.isDebugging()) {
+		if (false && log.isDebugging()) {
 			log.debug('{0} setVtbFilter({1}, {2}, {3})={4}',
 					  [bb.toString(), vtb.toString(), group.toString(),
 					   owner.toString(), query]);
@@ -259,7 +288,10 @@ VtbBoard.prototype = (function VtbBoard_proto(s) {
 		this.setVtbFilter(bb, group, owner);
 		this.update();
 
+		log.debug('VtbBoard before VtbLane.synch owner is {0}', owner + '');
 		VtbLane.synch(bb, vtb, group, owner);
+		log.debug('VtbBoard after VtbLane.synch owner is {0}', owner + '');
+
 		this.synchVtbModule(bb, group, owner);
 	};
 
@@ -354,9 +386,9 @@ VtbBoard.prototype = (function VtbBoard_proto(s) {
 							vtb = new VtbBoard(vtbId);
 							vtbGr = vtb.getGr();
 							s.setVtbValues(vtbGr, bb, group, owner, bbg);
-							log.info('{0} VTB {1}',
+							log.info('{0} VTB {1} with owner {2}',
 									 (updating ? 'updating' : 'adding'),
-									 vtb + '');
+									 vtb.getDisplayValue(), owner.getDisplayValue());
 							vtb.update();
 							vtb.synch(bb, group, owner);
 						}
@@ -426,7 +458,7 @@ VtbBoard.prototype = (function VtbBoard_proto(s) {
 		prefGr.query();
 
 		log.debug('Cleaning up {0} user preference records using query: {1}',
-				 prefGr.getRowCount(), prefGr.getEncodedQuery());
+				  prefGr.getRowCount(), prefGr.getEncodedQuery());
 
 		if (log.isDebugging()) {
 			while (prefGr.next()) {
@@ -448,13 +480,13 @@ VtbBoard.prototype = (function VtbBoard_proto(s) {
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-19 18:09:15</sys_created_on>
         <sys_id>4e639261dbbe9f00898be3a84b961966</sys_id>
-        <sys_mod_count>171</sys_mod_count>
+        <sys_mod_count>199</sys_mod_count>
         <sys_name>VtbBoard</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_4e639261dbbe9f00898be3a84b961966</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-08-07 18:05:48</sys_updated_on>
+        <sys_updated_on>2018-08-09 02:08:10</sys_updated_on>
     </sys_script_include>
 </record_update>

@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update>
-    <sys_dictionary action="INSERT_OR_UPDATE" element="bookmark_url" table="x_maog_vtbb_board_builder">
+    <sys_dictionary action="INSERT_OR_UPDATE" element="module_group_roles" table="x_maog_vtbb_board_builder">
         <active>true</active>
         <array>false</array>
         <array_denormalized>false</array_denormalized>
-        <attributes/>
+        <attributes>staticDependent=sys_group_has_role</attributes>
         <audit>false</audit>
-        <calculation/>
+        <calculation><![CDATA[(function calculatedFieldValue(current) {
+
+	// Add your code here
+	return '';  // return the calculated value
+
+})(current);]]></calculation>
         <choice/>
         <choice_field/>
         <choice_table/>
-        <column_label>Bookmark URL</column_label>
+        <column_label>Module Group Roles</column_label>
         <comments/>
         <create_roles/>
-        <default_value>/$vtb.do?sysparm_board={0}</default_value>
+        <default_value/>
         <defaultsort/>
         <delete_roles/>
         <dependent/>
@@ -23,12 +28,12 @@
         <dynamic_creation_script/>
         <dynamic_default_value/>
         <dynamic_ref_qual/>
-        <element>bookmark_url</element>
+        <element>module_group_roles</element>
         <element_reference>false</element_reference>
         <foreign_database/>
-        <internal_type display_value="URL">url</internal_type>
+        <internal_type display_value="Conditions">conditions</internal_type>
         <mandatory>false</mandatory>
-        <max_length>1024</max_length>
+        <max_length>1000</max_length>
         <name>x_maog_vtbb_board_builder</name>
         <next_element/>
         <primary>false</primary>
@@ -46,16 +51,16 @@
         <staged>false</staged>
         <sys_class_name>sys_dictionary</sys_class_name>
         <sys_created_by>peter.smith</sys_created_by>
-        <sys_created_on>2018-08-04 03:45:29</sys_created_on>
-        <sys_id>46aa8c58db335300898be3a84b961953</sys_id>
+        <sys_created_on>2018-08-08 22:14:37</sys_created_on>
+        <sys_id>cace6c31db331b00d4b15eea4b9619fe</sys_id>
         <sys_mod_count>3</sys_mod_count>
-        <sys_name>Bookmark URL</sys_name>
+        <sys_name>Module Group Roles</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy/>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
-        <sys_update_name>sys_dictionary_x_maog_vtbb_board_builder_bookmark_url</sys_update_name>
+        <sys_update_name>sys_dictionary_x_maog_vtbb_board_builder_module_group_roles</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-08-08 01:03:43</sys_updated_on>
+        <sys_updated_on>2018-08-08 22:41:05</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <unique>false</unique>

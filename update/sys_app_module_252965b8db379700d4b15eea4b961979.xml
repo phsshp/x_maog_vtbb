@@ -15,7 +15,7 @@
         <mobile_title>VTB User Preferences</mobile_title>
         <mobile_view_name>Mobile</mobile_view_name>
         <name/>
-        <order>3050</order>
+        <order>1800</order>
         <override_menu_roles>false</override_menu_roles>
         <query>sysauto_script.do?sys_id=85f3f828db3b5300898be3a84b961907</query>
         <report/>
@@ -28,7 +28,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>252965b8db379700d4b15eea4b961979</sys_id>
-        <sys_mod_count>4</sys_mod_count>
+        <sys_mod_count>5</sys_mod_count>
         <sys_name>Board Builder Schedule</sys_name>
         <sys_overrides/>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
@@ -36,7 +36,7 @@
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_app_module_252965b8db379700d4b15eea4b961979</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-08-06 00:12:12</sys_updated_on>
+        <sys_updated_on>2018-08-08 18:08:00</sys_updated_on>
         <timeline_page/>
         <title>Board Builder Schedule</title>
         <uncancelable>false</uncancelable>

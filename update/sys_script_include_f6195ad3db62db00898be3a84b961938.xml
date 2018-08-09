@@ -99,14 +99,16 @@ BoardBuilder.prototype = (function BoardBuilder_proto(s) {
 	p.getUnassignedLaneLabel = function getUnassignedLaneLabel() { return this.getGr().getValue('unassigned_lane_label'); };
 	p.showOwnerLane = function showOwnerLane() { return Utils.getGlideTrueFalse(this.getGr(), 'owner_lane'); };
 	p.showManagerLane = function showManagerLane() { return Utils.getGlideTrueFalse(this.getGr(), 'manager_lane'); };
-	p.showMemberLanes = function showMemberLanes() { return Utils.getGlideTrueFalse(this.getGr(), 'member_lanes'); };
+	p.showBoardMemberLanes = function showBoardMemberLanes() { return Utils.getGlideTrueFalse(this.getGr(), 'board_member_lanes'); };
+	p.showGroupMemberLanes = function showGroupMemberLanes() { return Utils.getGlideTrueFalse(this.getGr(), 'group_member_lanes'); };
 
 	// Visibility
 	p.isUnassignedVisible = function isUnassignedVisible() {return Utils.getGlideTrueFalse(this.getGr(), 'unassigned_visible'); };
 	p.isUserVisible = function isUserVisible() { return Utils.getGlideTrueFalse(this.getGr(), 'user_visible'); };
 	p.isOwnerVisible = function isOwnerVisible() { return Utils.getGlideTrueFalse(this.getGr(), 'owner_visible'); };
 	p.isManagerVisible = function isManagerVisible() { return Utils.getGlideTrueFalse(this.getGr(), 'manager_visible'); };
-	p.areMembersVisible = function areMembersVisible() { return Utils.getGlideTrueFalse(this.getGr(), 'members_visible'); };
+	p.areBoardMembersVisible = function areBoardMembersVisible() { return Utils.getGlideTrueFalse(this.getGr(), 'board_members_visible'); };
+	p.areGroupMembersVisible = function areGroupMembersVisible() { return Utils.getGlideTrueFalse(this.getGr(), 'group_members_visible'); };
 
 	// Navigation
 	p.addToMenu = function addToMenu() { return Utils.getGlideTrueFalse(this.getGr(), 'add_to_menu'); };
@@ -114,12 +116,14 @@ BoardBuilder.prototype = (function BoardBuilder_proto(s) {
 	p.getModuleTitle = function getModuleTitle() { return this.getGr().getValue('module_title'); };
 	p.getModuleUrl = function getModuleUrl() { return this.getGr().getValue('module_url'); };
 	p.getModuleOrder = function getModuleOrder() { return this.getGr().getValue('module_order'); };
+	p.getModuleGroupRoles = function getModuleGroupRoles() { return this.getGr().getValue('module_group_roles'); };
+	p.getModuleOwnerRoles = function getModuleOwnerRoles() { return this.getGr().getValue('module_owner_roles'); };
+	p.getModuleRoles = function getModuleRoles() { return this.getGr().getValue('module_roles'); };
 	p.addToBookmarks = function addToBookmarks() { return Utils.getGlideTrueFalse(this.getGr(), 'add_to_bookmarks'); };
 	p.getBookmarkTemplate = function getBookmarkTemplate() { return this.getGr().getValue('bookmark_template'); };
 	p.getBookmarkTitle = function getBookmarkTitle() { return this.getGr().getValue('bookmark_title'); };
 	p.getBookmarkUrl = function getBookmarkUrl() { return this.getGr().getValue('bookmark_url'); };
 	p.getBookmarkOrder = function getBookmarkOrder() { return this.getGr().getValue('bookmark_order'); };
-	p.getModuleRoleFilter = function getModuleRoleFilter() { return this.getGr().getValue('module_role_filter'); };
 
 	p.invalidate = function invalidate(update) {
 		var bbGr = this.getGr();
@@ -170,13 +174,13 @@ BoardBuilder.prototype = (function BoardBuilder_proto(s) {
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-12 18:31:44</sys_created_on>
         <sys_id>f6195ad3db62db00898be3a84b961938</sys_id>
-        <sys_mod_count>370</sys_mod_count>
+        <sys_mod_count>376</sys_mod_count>
         <sys_name>BoardBuilder</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_f6195ad3db62db00898be3a84b961938</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-08-07 00:27:20</sys_updated_on>
+        <sys_updated_on>2018-08-09 01:49:54</sys_updated_on>
     </sys_script_include>
 </record_update>

@@ -5,18 +5,21 @@
         <element label="Add to Bookmarks" max_length="40" name="add_to_bookmarks" type="boolean"/>
         <element label="Add to Menu" max_length="40" name="add_to_menu" type="boolean"/>
         <element dependent="table" dependent_on_field="table" label="Task Filter" max_length="4000" name="board_filter" type="conditions" use_dependent_field="true"/>
+        <element label="Board Members Visible" max_length="40" name="board_members_visible" type="boolean"/>
+        <element label="Board Member Lanes" max_length="40" name="board_member_lanes" type="boolean"/>
         <element default="2" label="Bookmark Order" max_length="40" name="bookmark_order" type="integer"/>
         <element label="Bookmark Template" max_length="32" name="bookmark_template" reference="sys_template" reference_qual="active=true^table=sys_ui_bookmark^EQ" reference_qual_condition="active=true^table=sys_ui_bookmark^EQ" type="reference"/>
         <element attributes="edge_encryption_enabled=true" label="Bookmark Title" max_length="100" name="bookmark_title" type="string"/>
-        <element label="Bookmark URL" max_length="1024" name="bookmark_url" type="url"/>
+        <element default="/$vtb.do?sysparm_board={0}" label="Bookmark URL" max_length="1024" name="bookmark_url" type="url"/>
         <element hint="Delete boards/members/lanes when builder/groups/users change" label="Delete Invalid" max_length="40" name="delete_invalid" read_only="true" type="boolean"/>
         <element attributes="edge_encryption_enabled=true" label="Description" max_length="4000" name="description" type="string"/>
         <element dependent="table" dependent_on_field="table" label="Lane Field" mandatory="true" max_length="80" name="field" type="field_name" use_dependent_field="true"/>
+        <element label="Group Members Visible" max_length="40" name="group_members_visible" type="boolean"/>
+        <element label="Group Member Lanes" max_length="40" name="group_member_lanes" type="boolean"/>
         <element label="Invalidated" max_length="40" name="invalidated" type="glide_date_time"/>
         <element label="Last Calculated" max_length="40" name="last_calculated" type="glide_date_time"/>
         <element label="Manager Lane" max_length="40" name="manager_lane" type="boolean"/>
         <element label="Manager Visible" max_length="40" name="manager_visible" type="boolean"/>
-        <element label="Members Visible" max_length="40" name="members_visible" type="boolean"/>
         <element attributes="staticDependent=sys_user_group" label="Member Group Filter" max_length="4000" name="member_group_filter" type="conditions"/>
         <element choice="1" default="Include" label="Member Group Manager" max_length="40" name="member_group_manager" type="choice">
             <choice>
@@ -30,14 +33,15 @@
                 <element hint="Do not include group members" label="Exclude" sequence="200" value="exclude"/>
             </choice>
         </element>
-        <element label="Member Lanes" max_length="40" name="member_lanes" type="boolean"/>
         <element label="Member Roles" max_length="4000" name="member_roles" reference="sys_user_role" type="glide_list"/>
         <element attributes="staticDependent=sys_user" label="Member User Filter" max_length="4000" name="member_user_filter" type="conditions"/>
+        <element attributes="staticDependent=sys_group_has_role" label="Module Group Roles" max_length="1000" name="module_group_roles" type="conditions"/>
         <element default="2200" label="Module Order" max_length="40" name="module_order" type="integer"/>
-        <element attributes="staticDependent=sys_group_has_role" hint="Select one group role to assign to the module's required roles." label="Module Role Filter" max_length="1000" name="module_role_filter" type="conditions"/>
+        <element attributes="staticDependent=sys_user_has_role" label="Module Owner Roles" max_length="1000" name="module_owner_roles" type="conditions"/>
+        <element hint="Roles required to see this in the navigation pane" label="Module Roles" max_length="1000" name="module_roles" reference="sys_user_role" type="glide_list"/>
         <element label="Module Template" max_length="32" name="module_template" reference="sys_template" reference_qual="active=true^table=sys_app_module^EQ" reference_qual_condition="active=true^table=sys_app_module^EQ" type="reference"/>
         <element attributes="edge_encryption_enabled=true" label="Module Title" max_length="100" name="module_title" type="string"/>
-        <element label="Module URL" max_length="1024" name="module_url" type="url"/>
+        <element default="/$vtb.do?sysparm_board={0}" label="Module URL" max_length="1024" name="module_url" type="url"/>
         <element display="true" label="Name" max_length="100" name="name" type="string"/>
         <element attributes="staticDependent=sys_user_group" label="Owner Group Filter" max_length="4000" name="owner_group_filter" type="conditions"/>
         <element choice="1" default="Include" label="Owner Group Manager" max_length="40" name="owner_group_manager" type="choice">

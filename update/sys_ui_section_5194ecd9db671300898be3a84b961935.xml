@@ -2,86 +2,100 @@
 <record_update>
     <sys_ui_section caption="Visibility" section_id="5194ecd9db671300898be3a84b961935" sys_domain="global" table="x_maog_vtbb_board_builder" version="3" view="">
         <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>members_visible</element>
+            <element>board_members_visible</element>
             <position>0</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-26 19:31:25</sys_created_on>
-            <sys_id>26dc89e9db6f1300d4b15eea4b96191c</sys_id>
+            <sys_created_on>2018-08-08 01:23:05</sys_created_on>
+            <sys_id>0760d4e9dbf3d300898be3a84b961953</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Visibility" display_value="Visibility" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">5194ecd9db671300898be3a84b961935</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-26 19:31:25</sys_updated_on>
+            <sys_updated_on>2018-08-08 01:23:05</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>group_members_visible</element>
+            <position>1</position>
+            <sys_created_by>peter.smith</sys_created_by>
+            <sys_created_on>2018-08-08 01:23:05</sys_created_on>
+            <sys_id>8760d4e9dbf3d300898be3a84b961953</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="Visibility" display_value="Visibility" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">5194ecd9db671300898be3a84b961935</sys_ui_section>
+            <sys_updated_by>peter.smith</sys_updated_by>
+            <sys_updated_on>2018-08-08 01:23:05</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>manager_visible</element>
-            <position>1</position>
+            <position>2</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-26 19:31:25</sys_created_on>
-            <sys_id>a6dc89e9db6f1300d4b15eea4b96191c</sys_id>
+            <sys_created_on>2018-08-08 01:23:05</sys_created_on>
+            <sys_id>0b60d4e9dbf3d300898be3a84b961953</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Visibility" display_value="Visibility" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">5194ecd9db671300898be3a84b961935</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-26 19:31:25</sys_updated_on>
+            <sys_updated_on>2018-08-08 01:23:05</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>owner_visible</element>
-            <position>2</position>
+            <position>3</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-26 19:31:25</sys_created_on>
-            <sys_id>2adc89e9db6f1300d4b15eea4b96191c</sys_id>
+            <sys_created_on>2018-08-08 01:23:05</sys_created_on>
+            <sys_id>8b60d4e9dbf3d300898be3a84b961953</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Visibility" display_value="Visibility" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">5194ecd9db671300898be3a84b961935</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-26 19:31:25</sys_updated_on>
+            <sys_updated_on>2018-08-08 01:23:05</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>.split</element>
-            <position>3</position>
+            <position>4</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-26 19:31:25</sys_created_on>
-            <sys_id>aadc89e9db6f1300d4b15eea4b96191c</sys_id>
+            <sys_created_on>2018-08-08 01:23:05</sys_created_on>
+            <sys_id>0f60d4e9dbf3d300898be3a84b961953</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Visibility" display_value="Visibility" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">5194ecd9db671300898be3a84b961935</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-26 19:31:25</sys_updated_on>
+            <sys_updated_on>2018-08-08 01:23:05</sys_updated_on>
             <sys_user/>
             <type>.split</type>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>user_visible</element>
-            <position>4</position>
+            <position>5</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-26 19:31:25</sys_created_on>
-            <sys_id>2edc89e9db6f1300d4b15eea4b96191c</sys_id>
+            <sys_created_on>2018-08-08 01:23:05</sys_created_on>
+            <sys_id>8f60d4e9dbf3d300898be3a84b961953</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Visibility" display_value="Visibility" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">5194ecd9db671300898be3a84b961935</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-26 19:31:25</sys_updated_on>
+            <sys_updated_on>2018-08-08 01:23:05</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>unassigned_visible</element>
-            <position>5</position>
+            <position>6</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-26 19:31:25</sys_created_on>
-            <sys_id>aedc89e9db6f1300d4b15eea4b96191c</sys_id>
+            <sys_created_on>2018-08-08 01:23:05</sys_created_on>
+            <sys_id>0360d4e9dbf3d300898be3a84b961954</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Visibility" display_value="Visibility" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">5194ecd9db671300898be3a84b961935</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-26 19:31:25</sys_updated_on>
+            <sys_updated_on>2018-08-08 01:23:05</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>

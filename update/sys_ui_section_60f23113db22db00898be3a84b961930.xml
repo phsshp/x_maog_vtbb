@@ -5,13 +5,13 @@
             <element>name</element>
             <position>0</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-06 15:36:59</sys_created_on>
-            <sys_id>a3a0c9c9dbbb9700d4b15eea4b961973</sys_id>
+            <sys_created_on>2018-08-08 22:17:49</sys_created_on>
+            <sys_id>7e9fa471db331b00d4b15eea4b96190c</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">60f23113db22db00898be3a84b961930</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-06 15:36:59</sys_updated_on>
+            <sys_updated_on>2018-08-08 22:17:49</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -19,13 +19,13 @@
             <element>state</element>
             <position>1</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-06 15:36:59</sys_created_on>
-            <sys_id>27a0c9c9dbbb9700d4b15eea4b961973</sys_id>
+            <sys_created_on>2018-08-08 22:17:49</sys_created_on>
+            <sys_id>fe9fa471db331b00d4b15eea4b96190c</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">60f23113db22db00898be3a84b961930</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-06 15:36:59</sys_updated_on>
+            <sys_updated_on>2018-08-08 22:17:49</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -33,13 +33,13 @@
             <element>.split</element>
             <position>2</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-06 15:36:59</sys_created_on>
-            <sys_id>a7a0c9c9dbbb9700d4b15eea4b961973</sys_id>
+            <sys_created_on>2018-08-08 22:17:49</sys_created_on>
+            <sys_id>729fa471db331b00d4b15eea4b96190d</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">60f23113db22db00898be3a84b961930</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-06 15:36:59</sys_updated_on>
+            <sys_updated_on>2018-08-08 22:17:49</sys_updated_on>
             <sys_user/>
             <type>.split</type>
         </sys_ui_element>
@@ -47,13 +47,13 @@
             <element>sys_scope</element>
             <position>3</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-06 15:36:59</sys_created_on>
-            <sys_id>2ba0c9c9dbbb9700d4b15eea4b961973</sys_id>
+            <sys_created_on>2018-08-08 22:17:49</sys_created_on>
+            <sys_id>f29fa471db331b00d4b15eea4b96190d</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">60f23113db22db00898be3a84b961930</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-06 15:36:59</sys_updated_on>
+            <sys_updated_on>2018-08-08 22:17:49</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -61,13 +61,13 @@
             <element>active</element>
             <position>4</position>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-06 15:36:59</sys_created_on>
-            <sys_id>aba0c9c9dbbb9700d4b15eea4b961973</sys_id>
+            <sys_created_on>2018-08-08 22:17:49</sys_created_on>
+            <sys_id>769fa471db331b00d4b15eea4b96190d</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_maog_vtbb_board_builder" sys_domain="global" view="Default view">60f23113db22db00898be3a84b961930</sys_ui_section>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-06 15:36:59</sys_updated_on>
+            <sys_updated_on>2018-08-08 22:17:49</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
