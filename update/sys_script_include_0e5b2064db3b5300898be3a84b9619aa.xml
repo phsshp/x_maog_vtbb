@@ -10,7 +10,7 @@
         <script><![CDATA[var VtbUpdater = Class.create();
 VtbUpdater.prototype = (function VtbUpdater_proto(s) {
 	var TYPE = 'VtbUpdater';
-	var log = x_spar2_log.Logger.getLogger(TYPE);
+	var log = x_maog_log.Logger.getLogger(TYPE);
 
 	var p = {};
 
@@ -126,13 +126,13 @@ VtbUpdater.prototype = (function VtbUpdater_proto(s) {
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-08-05 01:53:10</sys_created_on>
         <sys_id>0e5b2064db3b5300898be3a84b9619aa</sys_id>
-        <sys_mod_count>59</sys_mod_count>
+        <sys_mod_count>60</sys_mod_count>
         <sys_name>VtbUpdater</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_0e5b2064db3b5300898be3a84b9619aa</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-08-09 02:06:47</sys_updated_on>
+        <sys_updated_on>2018-08-13 23:58:35</sys_updated_on>
     </sys_script_include>
 </record_update>

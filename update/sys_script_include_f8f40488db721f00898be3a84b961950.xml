@@ -15,7 +15,7 @@ BoardBuilderGroup.prototype = (function BoardBuilderGroup_proto(s) {
 
 	var EXISTS = 1, MATCHED = 2;
 
-	var log = s.log = x_spar2_log.Logger.getLogger(TYPE, gs.getCurrentScopeName());
+	var log = s.log = x_maog_log.Logger.getLogger(TYPE, gs.getCurrentScopeName());
 
 	var call = Function.prototype.call;
 
@@ -154,13 +154,13 @@ BoardBuilderGroup.prototype = (function BoardBuilderGroup_proto(s) {
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-14 15:39:17</sys_created_on>
         <sys_id>f8f40488db721f00898be3a84b961950</sys_id>
-        <sys_mod_count>185</sys_mod_count>
+        <sys_mod_count>186</sys_mod_count>
         <sys_name>BoardBuilderGroup</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_f8f40488db721f00898be3a84b961950</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-08-09 05:02:02</sys_updated_on>
+        <sys_updated_on>2018-08-13 23:55:00</sys_updated_on>
     </sys_script_include>
 </record_update>
