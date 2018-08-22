@@ -2,7 +2,7 @@
 <record_update table="gsw_change_log">
     <gsw_change_log action="INSERT_OR_UPDATE">
         <change_date>2018-06-27 18:40:08</change_date>
-        <changed_by display_value="Peter Smith">4e3f4c7cdb63fa0024c9dfea5e961956</changed_by>
+        <changed_by display_value="Peter  Smith ">4e3f4c7cdb63fa0024c9dfea5e961956</changed_by>
         <content display_value="ITSM Guided Setup">01c6e55c25513200964f48ca4b89e87a</content>
         <related_change_log_entry/>
         <related_task_entry/>

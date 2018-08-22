@@ -44,10 +44,11 @@ VtbBoard.prototype = (function VtbBoard_proto(s) {
 		return new Group(this.getGr().group);
 	};
 
-	function findGroupSpecificRoleIds(bb, group) {
-		var roleGa, roleFilter, roleIds;
+	function findGroupSpecificRoleIds(bb, vtb, group) {
+		var roleGa, roleFilter, roleIds, roleNames;
 
 		roleIds = [];
+		roleNames = [];
 
 		roleFilter = bb.getModuleGroupRoles();
 		if (roleFilter) {
@@ -60,15 +61,19 @@ VtbBoard.prototype = (function VtbBoard_proto(s) {
 			roleGa.query();
 			while (roleGa.next()) {
 				roleIds.push(roleGa.getValue('role'));
+				roleNames.push(roleGa.role.name + '');
 			}
 		}
+		log.info('{0} Group {1} role is {2}', vtb.toString(),
+				 group.toString(), roleNames.join(','));
 		return roleIds;
 	}
 
-	function findOwnerSpecificRoleIds(bb, owner) {
-		var roleGa, roleFilter, roleIds;
+	function findOwnerSpecificRoleIds(bb, vtb, owner) {
+		var roleGa, roleFilter, roleIds, roleNames;
 
 		roleIds = [];
+		roleNames = []; // For debug
 
 		roleFilter = bb.getModuleOwnerRoles();
 		if (roleFilter) {
@@ -81,12 +86,15 @@ VtbBoard.prototype = (function VtbBoard_proto(s) {
 			roleGa.query();
 			while (roleGa.next()) {
 				roleIds.push(roleGa.getValue('role'));
+				roleNames.push(roleGa.role.name + '');
 			}
 		}
+		log.info('{0} Owner {1} role is {2}', vtb.toString(),
+				 owner.toString(), roleNames.join(','));
 		return roleIds;
 	}
 
-	function calculateRoleNames(bb, group, owner) {
+	function calculateRoleNames(bb, vtb, group, owner) {
 		var allRoleIds, staticRoleIds, roleNames, roleGr;
 
 		allRoleIds = [];
@@ -95,14 +103,12 @@ VtbBoard.prototype = (function VtbBoard_proto(s) {
 		if (staticRoleIds) {
 			allRoleIds.concat(staticRoleIds.split(','));
 		}
-		allRoleIds = allRoleIds.concat(findGroupSpecificRoleIds(bb, group));
-		allRoleIds = allRoleIds.concat(findOwnerSpecificRoleIds(bb, owner));
+		allRoleIds = allRoleIds.concat(findGroupSpecificRoleIds(bb, vtb, group));
+		allRoleIds = allRoleIds.concat(findOwnerSpecificRoleIds(bb, vtb, owner));
 
 		if (allRoleIds.length === 0) {
-			if (log.isDebugging()) {
-				log.debug('No roles found for group {0} and owner {1}', 
-						  group.getDisplayValue(), owner.getDisplayValue());
-			}
+			log.warn('{0} No roles found for group {1} and owner {2}', 
+					 vtb.toString(), group.toString(), owner.toString());
 			return '';
 		}
 
@@ -113,10 +119,8 @@ VtbBoard.prototype = (function VtbBoard_proto(s) {
 		while (roleGr.next()) {
 			roleNames.push(roleGr.getDisplayValue());
 		}
-		if (log.isDebugging()) {
-			log.debug('Roles for group {0} and owner {1}: {2}', group.getDisplayValue(),
-					  owner.getDisplayValue(), roleNames.join(','));
-		}
+		log.info('{0} Roles for group {1} and owner {2}: {3}', bb.toString(),
+				 group.toString(), owner.toString(), roleNames.join(','));
 		return roleNames.join(',');
 	}
 
@@ -160,7 +164,7 @@ VtbBoard.prototype = (function VtbBoard_proto(s) {
 		modGr.setValue('query', url);
 
 		modGr.setValue('link_type', 'DIRECT');
-		modGr.setValue('roles', calculateRoleNames(bb, group, owner));
+		modGr.setValue('roles', calculateRoleNames(bb, vtb, group, owner));
 
 		modGr.setValue('order', bb.getModuleOrder());
 
@@ -479,13 +483,13 @@ VtbBoard.prototype = (function VtbBoard_proto(s) {
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-06-19 18:09:15</sys_created_on>
         <sys_id>4e639261dbbe9f00898be3a84b961966</sys_id>
-        <sys_mod_count>201</sys_mod_count>
+        <sys_mod_count>206</sys_mod_count>
         <sys_name>VtbBoard</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_script_include_4e639261dbbe9f00898be3a84b961966</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-08-13 23:58:14</sys_updated_on>
+        <sys_updated_on>2018-08-22 20:36:12</sys_updated_on>
     </sys_script_include>
 </record_update>

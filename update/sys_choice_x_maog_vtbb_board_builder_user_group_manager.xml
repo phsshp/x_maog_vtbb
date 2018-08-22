@@ -10,14 +10,14 @@
             <language>en</language>
             <name>x_maog_vtbb_board_builder</name>
             <sequence>100</sequence>
-            <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-25 22:17:31</sys_created_on>
+            <sys_created_by>system</sys_created_by>
+            <sys_created_on>2018-08-19 19:49:01</sys_created_on>
             <sys_domain>global</sys_domain>
             <sys_domain_path>/</sys_domain_path>
-            <sys_id>8649289ddb671300898be3a84b961995</sys_id>
-            <sys_mod_count>3</sys_mod_count>
-            <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-25 22:17:50</sys_updated_on>
+            <sys_id>aa07f495db482b00f6dc5eea4b961967</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>system</sys_updated_by>
+            <sys_updated_on>2018-08-19 19:49:01</sys_updated_on>
             <value>include</value>
         </sys_choice>
         <sys_choice action="INSERT_OR_UPDATE">
@@ -29,31 +29,31 @@
             <language>en</language>
             <name>x_maog_vtbb_board_builder</name>
             <sequence>200</sequence>
-            <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-25 22:17:56</sys_created_on>
+            <sys_created_by>system</sys_created_by>
+            <sys_created_on>2018-08-19 19:49:01</sys_created_on>
             <sys_domain>global</sys_domain>
             <sys_domain_path>/</sys_domain_path>
-            <sys_id>fa49609ddb671300898be3a84b961998</sys_id>
-            <sys_mod_count>3</sys_mod_count>
-            <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-25 22:18:24</sys_updated_on>
+            <sys_id>ea07f495db482b00f6dc5eea4b961967</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>system</sys_updated_by>
+            <sys_updated_on>2018-08-19 19:49:01</sys_updated_on>
             <value>exclude</value>
         </sys_choice>
         <sys_choice_set action="INSERT_OR_UPDATE">
             <element>user_group_manager</element>
             <name>x_maog_vtbb_board_builder</name>
             <sys_class_name>sys_choice_set</sys_class_name>
-            <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-07-25 22:17:31</sys_created_on>
-            <sys_id>c649289ddb671300898be3a84b961996</sys_id>
+            <sys_created_by>system</sys_created_by>
+            <sys_created_on>2018-08-19 19:49:01</sys_created_on>
+            <sys_id>ee07f495db482b00f6dc5eea4b961967</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_name>user_group_manager</sys_name>
             <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
             <sys_policy/>
             <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
             <sys_update_name>sys_choice_x_maog_vtbb_board_builder_user_group_manager</sys_update_name>
-            <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-07-25 22:17:31</sys_updated_on>
+            <sys_updated_by>system</sys_updated_by>
+            <sys_updated_on>2018-08-19 19:49:01</sys_updated_on>
         </sys_choice_set>
     </sys_choice>
 </record_update>
