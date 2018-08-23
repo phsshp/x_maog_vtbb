@@ -4,107 +4,92 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>name</element>
-            <list_id display_value="x_maog_vtbb_board_builder" element="NULL" name="x_maog_vtbb_board_builder" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">4dfddb95dbb7d700d4b15eea4b961988</list_id>
+            <list_id display_value="x_maog_vtbb_board_builder" element="NULL" name="x_maog_vtbb_board_builder" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">16f3cadadb0c2300898be3a84b961974</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>0</position>
             <sum>false</sum>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-07 21:42:36</sys_created_on>
-            <sys_id>09fddb95dbb7d700d4b15eea4b961989</sys_id>
+            <sys_created_on>2018-08-23 03:59:04</sys_created_on>
+            <sys_id>9af3cadadb0c2300898be3a84b961974</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-07 21:42:36</sys_updated_on>
+            <sys_updated_on>2018-08-23 03:59:04</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
-            <element>state</element>
-            <list_id display_value="x_maog_vtbb_board_builder" element="NULL" name="x_maog_vtbb_board_builder" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">4dfddb95dbb7d700d4b15eea4b961988</list_id>
+            <element>active</element>
+            <list_id display_value="x_maog_vtbb_board_builder" element="NULL" name="x_maog_vtbb_board_builder" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">16f3cadadb0c2300898be3a84b961974</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>1</position>
             <sum>false</sum>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-07 21:42:36</sys_created_on>
-            <sys_id>cdfddb95dbb7d700d4b15eea4b961989</sys_id>
+            <sys_created_on>2018-08-23 03:59:04</sys_created_on>
+            <sys_id>1ef3cadadb0c2300898be3a84b961974</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-07 21:42:36</sys_updated_on>
+            <sys_updated_on>2018-08-23 03:59:04</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
-            <element>table</element>
-            <list_id display_value="x_maog_vtbb_board_builder" element="NULL" name="x_maog_vtbb_board_builder" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">4dfddb95dbb7d700d4b15eea4b961988</list_id>
+            <element>sys_updated_on</element>
+            <list_id display_value="x_maog_vtbb_board_builder" element="NULL" name="x_maog_vtbb_board_builder" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">16f3cadadb0c2300898be3a84b961974</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>2</position>
             <sum>false</sum>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-07 21:42:36</sys_created_on>
-            <sys_id>41fddb95dbb7d700d4b15eea4b96198a</sys_id>
+            <sys_created_on>2018-08-23 03:59:04</sys_created_on>
+            <sys_id>9ef3cadadb0c2300898be3a84b961974</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-07 21:42:36</sys_updated_on>
+            <sys_updated_on>2018-08-23 03:59:04</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
-            <element>field</element>
-            <list_id display_value="x_maog_vtbb_board_builder" element="NULL" name="x_maog_vtbb_board_builder" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">4dfddb95dbb7d700d4b15eea4b961988</list_id>
+            <element>sys_updated_by</element>
+            <list_id display_value="x_maog_vtbb_board_builder" element="NULL" name="x_maog_vtbb_board_builder" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">16f3cadadb0c2300898be3a84b961974</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>3</position>
             <sum>false</sum>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-07 21:42:36</sys_created_on>
-            <sys_id>c1fddb95dbb7d700d4b15eea4b96198a</sys_id>
+            <sys_created_on>2018-08-23 03:59:04</sys_created_on>
+            <sys_id>12f3cadadb0c2300898be3a84b961975</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-07 21:42:36</sys_updated_on>
+            <sys_updated_on>2018-08-23 03:59:04</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
-            <element>invalidated</element>
-            <list_id display_value="x_maog_vtbb_board_builder" element="NULL" name="x_maog_vtbb_board_builder" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">4dfddb95dbb7d700d4b15eea4b961988</list_id>
+            <element>sys_created_on</element>
+            <list_id display_value="x_maog_vtbb_board_builder" element="NULL" name="x_maog_vtbb_board_builder" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">16f3cadadb0c2300898be3a84b961974</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>4</position>
             <sum>false</sum>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-07 21:42:36</sys_created_on>
-            <sys_id>45fddb95dbb7d700d4b15eea4b96198a</sys_id>
+            <sys_created_on>2018-08-23 03:59:04</sys_created_on>
+            <sys_id>92f3cadadb0c2300898be3a84b961975</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-07 21:42:36</sys_updated_on>
+            <sys_updated_on>2018-08-23 03:59:04</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
-            <element>last_calculated</element>
-            <list_id display_value="x_maog_vtbb_board_builder" element="NULL" name="x_maog_vtbb_board_builder" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">4dfddb95dbb7d700d4b15eea4b961988</list_id>
+            <element>sys_created_by</element>
+            <list_id display_value="x_maog_vtbb_board_builder" element="NULL" name="x_maog_vtbb_board_builder" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">16f3cadadb0c2300898be3a84b961974</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>5</position>
             <sum>false</sum>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-07 21:42:36</sys_created_on>
-            <sys_id>c5fddb95dbb7d700d4b15eea4b96198a</sys_id>
+            <sys_created_on>2018-08-23 03:59:04</sys_created_on>
+            <sys_id>16f3cadadb0c2300898be3a84b961975</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-07 21:42:36</sys_updated_on>
-        </sys_ui_list_element>
-        <sys_ui_list_element action="INSERT_OR_UPDATE">
-            <average_value>false</average_value>
-            <element>sys_updated_on</element>
-            <list_id display_value="x_maog_vtbb_board_builder" element="NULL" name="x_maog_vtbb_board_builder" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">4dfddb95dbb7d700d4b15eea4b961988</list_id>
-            <max_value>false</max_value>
-            <min_value>false</min_value>
-            <position>6</position>
-            <sum>false</sum>
-            <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-07 21:42:36</sys_created_on>
-            <sys_id>49fddb95dbb7d700d4b15eea4b96198a</sys_id>
-            <sys_mod_count>0</sys_mod_count>
-            <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-07 21:42:36</sys_updated_on>
+            <sys_updated_on>2018-08-23 03:59:04</sys_updated_on>
         </sys_ui_list_element>
         <sys_ui_list action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
@@ -118,19 +103,19 @@
             <sum>false</sum>
             <sys_class_name>sys_ui_list</sys_class_name>
             <sys_created_by>peter.smith</sys_created_by>
-            <sys_created_on>2018-08-19 20:20:18</sys_created_on>
+            <sys_created_on>2018-08-23 03:29:13</sys_created_on>
             <sys_domain>global</sys_domain>
             <sys_domain_path>/</sys_domain_path>
-            <sys_id>783ef41ddb482b00f6dc5eea4b9619c5</sys_id>
+            <sys_id>f82db5d6db0c2300898be3a84b9619de</sys_id>
             <sys_mod_count>0</sys_mod_count>
-            <sys_name/>
-            <sys_package/>
+            <sys_name>x_maog_vtbb_board_builder</sys_name>
+            <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
             <sys_policy/>
             <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
-            <sys_update_name/>
+            <sys_update_name>sys_ui_list_x_maog_vtbb_board_builder_null</sys_update_name>
             <sys_updated_by>peter.smith</sys_updated_by>
-            <sys_updated_on>2018-08-19 20:20:18</sys_updated_on>
-            <sys_user display_value="Peter  Smith ">4e3f4c7cdb63fa0024c9dfea5e961956</sys_user>
+            <sys_updated_on>2018-08-23 03:29:13</sys_updated_on>
+            <sys_user/>
             <view display_value="Default view" name="NULL">Default view</view>
             <view_name/>
         </sys_ui_list>

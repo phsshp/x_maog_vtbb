@@ -52,15 +52,15 @@
         <sys_class_name>sys_dictionary</sys_class_name>
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-08-03 20:57:01</sys_created_on>
-        <sys_id>0a07b495db482b00f6dc5eea4b9619e8</sys_id>
+        <sys_id>c0eb55dedb002300898be3a84b9619f4</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_name>Board Builder Group</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy/>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_dictionary_vtb_board_x_maog_vtbb_board_builder_group</sys_update_name>
-        <sys_updated_by>system</sys_updated_by>
-        <sys_updated_on>2018-08-19 19:49:06</sys_updated_on>
+        <sys_updated_by>peter.smith</sys_updated_by>
+        <sys_updated_on>2018-08-23 03:24:02</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <unique>false</unique>
