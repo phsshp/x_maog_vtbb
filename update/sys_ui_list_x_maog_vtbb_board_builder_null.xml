@@ -4,7 +4,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>name</element>
-            <list_id display_value="x_maog_vtbb_board_builder" element="NULL" name="x_maog_vtbb_board_builder" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">16f3cadadb0c2300898be3a84b961974</list_id>
+            <list_id display_value="x_maog_vtbb_board_builder" element="NULL" name="x_maog_vtbb_board_builder" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">f82db5d6db0c2300898be3a84b9619de</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>0</position>
@@ -19,7 +19,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>active</element>
-            <list_id display_value="x_maog_vtbb_board_builder" element="NULL" name="x_maog_vtbb_board_builder" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">16f3cadadb0c2300898be3a84b961974</list_id>
+            <list_id display_value="x_maog_vtbb_board_builder" element="NULL" name="x_maog_vtbb_board_builder" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">f82db5d6db0c2300898be3a84b9619de</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>1</position>
@@ -34,7 +34,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>sys_updated_on</element>
-            <list_id display_value="x_maog_vtbb_board_builder" element="NULL" name="x_maog_vtbb_board_builder" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">16f3cadadb0c2300898be3a84b961974</list_id>
+            <list_id display_value="x_maog_vtbb_board_builder" element="NULL" name="x_maog_vtbb_board_builder" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">f82db5d6db0c2300898be3a84b9619de</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>2</position>
@@ -49,7 +49,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>sys_updated_by</element>
-            <list_id display_value="x_maog_vtbb_board_builder" element="NULL" name="x_maog_vtbb_board_builder" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">16f3cadadb0c2300898be3a84b961974</list_id>
+            <list_id display_value="x_maog_vtbb_board_builder" element="NULL" name="x_maog_vtbb_board_builder" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">f82db5d6db0c2300898be3a84b9619de</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>3</position>
@@ -64,7 +64,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>sys_created_on</element>
-            <list_id display_value="x_maog_vtbb_board_builder" element="NULL" name="x_maog_vtbb_board_builder" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">16f3cadadb0c2300898be3a84b961974</list_id>
+            <list_id display_value="x_maog_vtbb_board_builder" element="NULL" name="x_maog_vtbb_board_builder" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">f82db5d6db0c2300898be3a84b9619de</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>4</position>
@@ -79,7 +79,7 @@
         <sys_ui_list_element action="INSERT_OR_UPDATE">
             <average_value>false</average_value>
             <element>sys_created_by</element>
-            <list_id display_value="x_maog_vtbb_board_builder" element="NULL" name="x_maog_vtbb_board_builder" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">16f3cadadb0c2300898be3a84b961974</list_id>
+            <list_id display_value="x_maog_vtbb_board_builder" element="NULL" name="x_maog_vtbb_board_builder" parent="NULL" relationship="NULL" sys_domain="global" view="Default view">f82db5d6db0c2300898be3a84b9619de</list_id>
             <max_value>false</max_value>
             <min_value>false</min_value>
             <position>5</position>
