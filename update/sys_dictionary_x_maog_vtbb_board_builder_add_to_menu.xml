@@ -47,7 +47,7 @@
         <sys_class_name>sys_dictionary</sys_class_name>
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-07-30 16:04:26</sys_created_on>
-        <sys_id>9f2b43e6db0c2300898be3a84b9619c9</sys_id>
+        <sys_id>5a07f495db482b00f6dc5eea4b961920</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_name>Add to Menu</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
@@ -55,7 +55,7 @@
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_dictionary_x_maog_vtbb_board_builder_add_to_menu</sys_update_name>
         <sys_updated_by>system</sys_updated_by>
-        <sys_updated_on>2018-08-24 03:48:44</sys_updated_on>
+        <sys_updated_on>2018-08-25 14:20:42</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <unique>false</unique>

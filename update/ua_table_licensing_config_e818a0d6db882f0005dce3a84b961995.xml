@@ -5,22 +5,22 @@
         <license_condition/>
         <license_model>none</license_model>
         <license_roles/>
-        <name>x_maog_vtbb_board_builder_group</name>
+        <name>x_maog_vtbb_board_builder</name>
         <op_delete>true</op_delete>
         <op_insert>true</op_insert>
         <op_update>true</op_update>
         <owner_condition/>
         <sys_class_name>ua_table_licensing_config</sys_class_name>
         <sys_created_by>peter.smith</sys_created_by>
-        <sys_created_on>2018-06-14 20:27:52</sys_created_on>
-        <sys_id>432b43e6db0c2300898be3a84b961994</sys_id>
+        <sys_created_on>2018-06-12 15:01:57</sys_created_on>
+        <sys_id>e818a0d6db882f0005dce3a84b961995</sys_id>
         <sys_mod_count>0</sys_mod_count>
-        <sys_name>x_maog_vtbb_board_builder_group</sys_name>
+        <sys_name>x_maog_vtbb_board_builder</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
         <sys_policy/>
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
-        <sys_update_name>ua_table_licensing_config_432b43e6db0c2300898be3a84b961994</sys_update_name>
+        <sys_update_name>ua_table_licensing_config_e818a0d6db882f0005dce3a84b961995</sys_update_name>
         <sys_updated_by>peter.smith</sys_updated_by>
-        <sys_updated_on>2018-06-14 20:27:52</sys_updated_on>
+        <sys_updated_on>2018-06-12 15:01:57</sys_updated_on>
     </ua_table_licensing_config>
 </record_update>

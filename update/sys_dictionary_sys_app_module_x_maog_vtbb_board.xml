@@ -54,7 +54,7 @@
         <sys_class_name>sys_dictionary</sys_class_name>
         <sys_created_by>peter.smith</sys_created_by>
         <sys_created_on>2018-08-04 01:08:51</sys_created_on>
-        <sys_id>9b2b83e6db0c2300898be3a84b961909</sys_id>
+        <sys_id>de07f495db482b00f6dc5eea4b961901</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_name>Board</sys_name>
         <sys_package display_value="Visual Task Board Builder" source="x_maog_vtbb">ae48259bdbee9b00898be3a84b9619f7</sys_package>
@@ -62,7 +62,7 @@
         <sys_scope display_value="Visual Task Board Builder">ae48259bdbee9b00898be3a84b9619f7</sys_scope>
         <sys_update_name>sys_dictionary_sys_app_module_x_maog_vtbb_board</sys_update_name>
         <sys_updated_by>system</sys_updated_by>
-        <sys_updated_on>2018-08-24 03:48:43</sys_updated_on>
+        <sys_updated_on>2018-08-25 14:20:42</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <unique>false</unique>
